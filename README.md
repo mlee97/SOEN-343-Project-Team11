@@ -6,7 +6,7 @@ Develop a smart home simulator system.
 ## Description
 As smart home systems become more prevalent in modern households, new problems and challenges will arise. The
 smart home simulator will allow users to view the interactions between the household, the devices, and the IoT
-system in a graphical.  
+system in a graphical interface.  
 
 ## Team Members
 - Mickael Bou-Samra (ID: )
