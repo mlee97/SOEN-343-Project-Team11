@@ -10,10 +10,17 @@ system in a graphical interface.
 
 ## Team Members
 - Mickael Bou-Samra (ID: )
-- Kayla Charky (ID: )
+- Kayla Charky (ID: 40099475)
 - Michael Lee (ID: 40054375)
 - Niels Louis (ID: )
 - Bowen Song (ID: )
 
 
 ## Technologies
+
+- Java
+- Spring/Spring Boot
+- JSP 
+- Maven
+- Junit
+
