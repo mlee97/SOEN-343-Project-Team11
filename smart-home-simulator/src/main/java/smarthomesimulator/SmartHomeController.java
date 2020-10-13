@@ -12,4 +12,9 @@ public class SmartHomeController {
         model.addAttribute("name", name);
         return "hello";
     }
+
+    @GetMapping({"/dashboard"})
+    public void dashboard(){
+        return;
+    }
 }
