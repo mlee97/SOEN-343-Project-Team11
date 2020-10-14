@@ -17,11 +17,8 @@
                           <input type="checkbox" id="simSwitch" onclick="displaySimulator()">s
                           <span class="slider round"></span>
                         </label>
-                        <img src="/img/undefined_profile.png" alt="ProfilePic" class="profilePic">
+                        <img src="img/undefined_profile.png" alt="ProfilePic" class="profilePic">
                         <button id="editBtn">edit</button>
-                        <form target="_blank" action="http://example.com"
-                          method="post" id="mc-embedded-subscribe-form" sname="mc-embedded-subscribe-form" class="validate"
-                        >
                     </fieldset>
                 </div>
                 <div id="simulator">
