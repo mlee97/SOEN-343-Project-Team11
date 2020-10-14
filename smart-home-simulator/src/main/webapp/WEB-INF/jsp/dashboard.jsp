@@ -14,13 +14,17 @@
                     <fieldset>
                         <legend>Simulation</legend>
                         <label class="switch">
-                          <input type="checkbox">
+                          <input type="checkbox" id="simSwitch" onclick="displaySimulator()">s
                           <span class="slider round"></span>
                         </label>
-                        <img src="undefined_profile.png" alt="ProfilePic" class="profilePic">
+                        <img src="/img/undefined_profile.png" alt="ProfilePic" class="profilePic">
+                        <button id="editBtn">edit</button>
+                        <form target="_blank" action="http://example.com"
+                          method="post" id="mc-embedded-subscribe-form" sname="mc-embedded-subscribe-form" class="validate"
+                        >
                     </fieldset>
                 </div>
-                <div class="simulator">
+                <div id="simulator">
                   <div class="modules">
 
                     <button class="tab" onclick="openModule(event, 'SHS')">SHS</button>
@@ -32,8 +36,18 @@
                     <div class="params">
 
                       <div id="SHS" class="tabcontent"><br/>
-                        <h3>SHS</h3>
-                        <p>Smart Home Simulator.</p>
+                        <div id="editProfile">
+                          <h3>Add/Remove User Profiles</h3>
+                          <input type="text"></input>
+                        </div>
+                        <div id="editTime">
+                          <h3>Edit Time</h3>
+                          <input type="time" id="time" name="time"></type>
+                        </div>
+                        <div id="editDate">
+                          <h3>Edit Date</h3>
+                          <input type="date" id="time" name="time"></type>
+                        </div>
                       </div>
 
                       <div id="SHC" class="tabcontent"><br/>
@@ -64,6 +78,6 @@
             </div>
         </div>
 
-        <script src="js/dashboard.js"></script>
+        <script src="/js/dashboard.js"></script>
     </body>
 </html>

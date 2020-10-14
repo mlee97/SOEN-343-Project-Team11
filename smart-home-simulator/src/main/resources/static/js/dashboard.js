@@ -11,3 +11,15 @@ function openModule(evt, modName) {
     document.getElementById(modName).style.display = "block";
     evt.currentTarget.className += " active";
 }
+
+function displaySimulator(){
+	var checkBox = document.getElementById("simSwitch");
+	var simulator = document.getElementById("simulator");
+
+	if (checkBox.checked == true){
+		simulator.style.visibility = "visible";
+	}
+	if (checkBox.checked == false){
+		simulator.style.visibility = "hidden";
+	}
+}
