@@ -11,8 +11,9 @@
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/dashboard.js"></script>
     <script src="/js/main.js"></script>
+
 </head>
-<body>
+<body onload="getCurrentDate(), getCurrentTime()">
 <div class="container">
     <div class="profile">
         <fieldset>
@@ -22,7 +23,9 @@
                 <span class="slider round"></span>
             </label>
             <img src="img/undefined_profile.png" alt="ProfilePic" class="profilePic">
-            <button id="editBtn">edit</button>
+            <button id="editBtn" onclick="redirectEditForm()">edit</button>
+            <p>Date: <span id="displayDate"></span></p>
+            <p>Time: <span id="displayTime"></span></p>
         </fieldset>
     </div>
     <div id="simulator">
@@ -50,16 +53,16 @@
                         </div>
                         <div id="SHS" class="tabcontent"><br/>
                             <div id="editProfile">
-                                <h3>Add/Remove User Profiles</h3>
+                                <h4>Add/Remove User Profiles</h4>
                                 <input type="text"></input>
                             </div>
                             <div id="editTime">
-                                <h3>Edit Time</h3>
-                                <input type="time" id="timeTime" name="time"></type>
+                                <h4>Edit Time</h4>
+                                <input type="time" id="inTime" name="time" onchange="getNewTime()"></type>
                             </div>
                             <div id="editDate">
-                                <h3>Edit Date</h3>
-                                <input type="date" id="timeDate" name="time"></type>
+                                <h4>Edit Date</h4>
+                                <input type="date" id="inDate" name="date" onchange="getNewDate()"></type>
                             </div>
                         </div>
 

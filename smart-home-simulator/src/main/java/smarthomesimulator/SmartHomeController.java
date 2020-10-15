@@ -18,4 +18,7 @@ public class SmartHomeController {
     public void dashboard(){
         return;
     }
+
+    @GetMapping({"/editForm"})
+    public void editForm() { return; }
 }
