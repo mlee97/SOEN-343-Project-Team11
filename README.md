@@ -9,7 +9,7 @@ smart home simulator will allow users to view the interactions between the house
 system in a graphical interface.  
 
 ## Team Members
-- Mickael Bou-Samra (ID: )
+- Mickael Bou-Samra (ID: 40051348 )
 - Kayla Charky (ID: 40099475)
 - Michael Lee (ID: 40054375)
 - Niels Louis (ID: )
