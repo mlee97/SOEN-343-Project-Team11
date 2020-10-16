@@ -12,7 +12,7 @@ system in a graphical interface.
 - Mickael Bou-Samra (ID: 40051348 )
 - Kayla Charky (ID: 40099475)
 - Michael Lee (ID: 40054375)
-- Niels Louis (ID: )
+- Niels Louis (ID: 40077435)
 - Bowen Song (ID: 40092922)
 
 
