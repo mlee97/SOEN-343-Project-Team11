@@ -1,13 +1,14 @@
-package smarthomesimulator;
+package smarthomesimulator.model;
 
 public class Room {
-	 private String roomName;
+	 	private String roomName;
 	    private int doors;
 	    private int windows;
 	    private int lights;
 	    public Room() {
 	     
 	    }
+
 	    public Room(final String roomName, final int doors, final int windows, final int lights ) {
 	        this.roomName = roomName;
 	        this.doors = doors;
@@ -15,6 +16,7 @@ public class Room {
 	        this.lights = lights;
 
 	    }
+
 	    public void setRoomName(String roomName) { this.roomName=roomName; }
 	    public void setDoors(int doors) { this.doors=doors; }
 	    public void setWindows(int windows) { this.windows=windows; }

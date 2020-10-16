@@ -1,5 +1,7 @@
-package smarthomesimulator;
+package smarthomesimulator.layout;
 
+
+import smarthomesimulator.model.Room;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -64,8 +66,7 @@ public class HouseLayoutFile {
 
 		} catch (IOException e) {
 			e.printStackTrace();
-
-		}
+			}
 		}
 	}
 }

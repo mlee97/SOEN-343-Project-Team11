@@ -1,4 +1,4 @@
-package smarthomesimulator;
+package smarthomesimulator.layout;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +12,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
  
 /**
+ *
  * Servlet to handle File upload request from Client
  */
 public class FileUploadHandler extends HttpServlet {
@@ -44,9 +45,7 @@ public class FileUploadHandler extends HttpServlet {
             request.setAttribute("message",
                                  "Sorry this Servlet only handles file upload request");
         }
-     
         request.getRequestDispatcher("/result.jsp").forward(request, response);
-      
     }
    
 }
