@@ -1,6 +1,6 @@
 function openModule(evt, modName) {
     var i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tabcontent");
+    tabcontent = document.getElementsByClassName("tabContent");
     for (i = 0; i < tabcontent.length; i++) {
         tabcontent[i].style.display = "none";
     }
@@ -50,12 +50,15 @@ function redirectDashboard(){
     window.location.href = "/dashboard";
 }
 
-function getNewTime(){
+function setNewTime(){
     var dt = document.getElementById("inTime").value;
-    document.getElementById("displayTime").innerHTML = dt;
+    if(dt !=null && dt != '')
+        document.getElementById("displayTime").innerHTML = dt;
 }
 
-function getNewDate(){
+function setNewDate(){
     var dt = document.getElementById("inDate").value;
-    document.getElementById("displayDate").innerHTML = dt;
+    if(dt !=null && dt!=''){
+        document.getElementById("displayDate").innerHTML = dt;
+    }
 }
