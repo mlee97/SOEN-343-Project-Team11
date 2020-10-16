@@ -1,0 +1,5 @@
+RoomName:Kitchen,Doors:30,Windows:20,Lights:10;
+RoomName:Bathroom,Doors:40,Windows:10,Lights:60;
+RoomName:DiningRoom,Doors:10,Windows:60,Lights:15;
+RoomName:Bedroom,Doors:30,Windows:70,Lights:10;
+RoomName:Balcony,Doors:50,Windows:60,Lights:8;
