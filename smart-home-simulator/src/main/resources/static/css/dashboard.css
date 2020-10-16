@@ -1,7 +1,10 @@
+.border{
+  border-width: 2px !important
+}
+
 .dashboard{
-  position: fixed;
-  height: 500px;
-  width: 1200px;
+  margin:auto;
+  max-width: 1350px;
 }
 
 .profile{
@@ -16,13 +19,16 @@
   display:block;
   margin-left: auto;
   margin-right: auto;
+  padding-top: 20px;
   width:80%
 }
+
 .switch {
   position: relative;
   display: inline-block;
-  margin-left: auto;
+  margin-left: 25%;
   margin-right: auto;
+
   width: 60px;
   height: 34px;
 }
@@ -80,6 +86,11 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
+#editBtn{
+  margin-top: 10px;
+  margin-left: 35%;
+}
+
 .modules {
   float: left;
   width: 100%;
@@ -87,30 +98,16 @@ input:checked + .slider:before {
 
 }
 
-.tab{
-  background-color: #f1f1f1;
-  float: left;
-  border: groove;
-  outline: yes;
-  cursor: pointer;
-  padding: 14px 16px;
-  transition: 0.3s;
-  font-size: 17px;
-}
+/*.modules button:hover {*/
+/*  background-color: #ddd;*/
+/*}*/
 
-.modules button:hover {
-  background-color: #ddd;
-}
+/*.modules button.active {*/
+/*  background-color: #ccc;*/
+/*}*/
 
-.modules button.active {
-  background-color: #ccc;
-}
-
-.tabcontent {
+.tabContent {
   display: none;
-  padding: 6px 12px;
-  border: 1px solid #ccc;
-  border-top: none;
 }
 
 .houseLayout{
@@ -118,36 +115,43 @@ input:checked + .slider:before {
 }
 
 .consoleOutput{
-  position: relative;
-  clear: both;
   padding-top: 45px;
 }
 
 .consoleOutput textarea{
   width: 95%;
+  resize:none;
+
 }
 
-.simulator{
-  float: left;
-  width: 70%;
-  height: 100%;
-  border-style: solid;
+#simulator{
+  visibility: hidden;
 }
 
 .params{
-  position: absolute;
-  float: left;
-  margin-top: 60px;
-  width: 40%;
-  height: 200px;
-  border-style: solid;
+  margin-top: 10px;
+  width: 100%;
+  height: 400px;
 }
 
 .houseLayout{
-  float: left;
   margin-top: 60px;
-  margin-left: 200px;
-  width: 30%;
-  height: 200px;
-  border-style: solid;
+  width: 100%;
+  height: 350px;
+}
+
+#editProfile{
+  float: left;
+  padding-left: 10px;
+}
+
+#editTime{
+  float: left;
+  padding-left: 10px;
+}
+
+#editDate{
+  float: left;
+  padding-left: 10px;
+
 }
