@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Edit Simulation - Smart Home Simulator</title>
-        <link href="/css/main.css" rel="stylesheet">
-    </head>
-    <body>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<t:wrapper>
 
         <script src="/js/dashboard.js"></script>
 
@@ -42,5 +37,4 @@
 
             <input type="submit" onclick="redirectDashboard()" value="Submit">
         </form>
-    </body>
-</html>
+</t:wrapper>
