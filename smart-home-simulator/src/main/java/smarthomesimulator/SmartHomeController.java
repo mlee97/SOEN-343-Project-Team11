@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class SmartHomeController {
-    @GetMapping({"/", "/hello"})
+    @GetMapping({"/", "/Form"})
     public String hello(Model model, @RequestParam(value="name", required=false, defaultValue="World") String name) {
         model.addAttribute("name", name);
-        return "hello";
+        return "Form";
     }
 }

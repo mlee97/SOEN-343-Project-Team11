@@ -1,3 +1,5 @@
+package smarthomesimulator;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -11,7 +13,6 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  
 /**
  * Servlet to handle File upload request from Client
- * @author Javin Paul
  */
 public class FileUploadHandler extends HttpServlet {
     private final String UPLOAD_DIRECTORY = "C:/uploads";
