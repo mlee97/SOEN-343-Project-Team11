@@ -40,8 +40,10 @@ public class SmartHomeController {
     }
 
     @GetMapping({"/dashboard"})
-    public void dashboard(){}
+    public void dashboard() {
+    }
 
     @GetMapping({"/editForm"})
-    public void editForm() {}
+    public void editForm() {
+    }
 }

@@ -12,53 +12,54 @@ function openModule(evt, modName) {
     evt.currentTarget.className += " active";
 }
 
-function displaySimulator(){
-	var checkBox = document.getElementById("simSwitch");
-	var simulator = document.getElementById("simulator");
+function displaySimulator() {
+    var checkBox = document.getElementById("simSwitch");
+    var simulator = document.getElementById("simulator");
 
-	if (checkBox.checked == true){
-		simulator.style.visibility = "visible";
-	}
-	if (checkBox.checked == false){
-		simulator.style.visibility = "hidden";
-	}
+    if (checkBox.checked == true) {
+        simulator.style.visibility = "visible";
+    }
+    if (checkBox.checked == false) {
+        simulator.style.visibility = "hidden";
+    }
 }
 
-function getCurrentDate(){
+function getCurrentDate() {
     var dt = new Date();
-        month = '' + (dt.getMonth() + 1),
+    month = '' + (dt.getMonth() + 1),
         day = '' + dt.getDate(),
         year = dt.getFullYear();
 
-        if (month.length < 2)
-            month = '0' + month;
-        if (day.length < 2)
-            day = '0' + day;
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
 
     document.getElementById("displayDate").innerHTML = [year, month, day].join('-');
 }
 
-function getCurrentTime(){
+function getCurrentTime() {
     var dt = new Date();
-    document.getElementById("displayTime").innerHTML = (("0"+dt.getHours()).slice(-2)) +":"+ (("0"+dt.getMinutes()).slice(-2));
+    document.getElementById("displayTime").innerHTML = (("0" + dt.getHours()).slice(-2)) + ":" + (("0" + dt.getMinutes()).slice(-2));
 }
 
-function redirectEditForm(){
+function redirectEditForm() {
     window.location.href = "/editForm";
 }
-function redirectDashboard(){
+
+function redirectDashboard() {
     window.location.href = "/dashboard";
 }
 
-function setNewTime(){
+function setNewTime() {
     var dt = document.getElementById("inTime").value;
-    if(dt !=null && dt != '')
+    if (dt != null && dt != '')
         document.getElementById("displayTime").innerHTML = dt;
 }
 
-function setNewDate(){
+function setNewDate() {
     var dt = document.getElementById("inDate").value;
-    if(dt !=null && dt!=''){
+    if (dt != null && dt != '') {
         document.getElementById("displayDate").innerHTML = dt;
     }
 }
