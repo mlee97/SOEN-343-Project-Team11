@@ -40,7 +40,8 @@ public class SmartHomeController {
     }
 
     @GetMapping({"/dashboard"})
-    public void dashboard() {
+    public ModelAndView dashboard() {
+        return new ModelAndView("dashboard", "Simulator", new Simulator());
     }
 
     @GetMapping({"/editForm"})

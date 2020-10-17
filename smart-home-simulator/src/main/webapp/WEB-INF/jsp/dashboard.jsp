@@ -1,4 +1,5 @@
-<%@page contentType="text/html" pageEncoding="UTF-8" %>
+<%@page language="java" contentType="text/html" pageEncoding="UTF-8" %>
+<%@page import="smarthomesimulator.model.Simulator" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <t:wrapper>
     <div class="container-flex p-3 dashboard">
@@ -12,8 +13,8 @@
                     </label>
                     <img src="img/undefined_profile.png" alt="ProfilePic" class="profilePic">
                     <button id="editBtn" onclick="redirectEditForm()">edit</button>
-                    <p>Date: <span id="displayDate"></span></p>
-                    <p>Time: <span id="displayTime"></span></p>
+                    <p>Date: ${Simulator.getDate()}</p>
+                    <p>Time: ${Simulator.getTime()}</p>
                     <p>Location: location</p>
                     <p>TEMPERATURE IS QUITE COLD</p>
                 </fieldset>
@@ -48,11 +49,12 @@
                                         </div>
 
                                         <div class="m-1"><label for="inTime">Edit Time</label>
-                                            <input type="time" id="inTime" name="time"></div>
+                                            <input type="time" id="inTime" name="time"></input>
+                                        </div>
 
                                         <div class="m-1">
                                             <label for="inTime">Edit Date</label>
-                                            <input type="date" id="inDate" name="date"></type>
+                                            <input type="date" id="inDate" name="date"></input>
                                         </div>
 
                                         <input class="btn btn-primary m-1" type="submit" value="Save"
