@@ -52,8 +52,15 @@ public class Simulator {
         LocalTime time = LocalTime.now();
         int hour  = time.getHour();
         int minute = time.getMinute();
-        String curTime = hour + ":" + minute;
-
+        String newMin = "";
+        String curTime = "";
+        if(String.valueOf(minute).length() < 2){
+            newMin = "0" + minute;
+            curTime = hour + ":" + newMin;
+        }
+        else {
+            curTime = hour + ":" + minute;
+        }
         return curTime;
     }
 }
