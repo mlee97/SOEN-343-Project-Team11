@@ -6,10 +6,10 @@
 		<link href="/css/main.css" rel="stylesheet">
 	</head>
 	<body>
-		<%@ page import="smarthomesimulator.layout.HouseLayoutFile" %>
-		<form action=<%HouseLayoutFile.LoadLayout(request.getParameter("file")); %>>
+
+		<form action="/" method="post">
 			<input type="file" name="file" />
-			<input type="submit" value="upload" />
+			<input type="submit" value="render" />
 		</form>
 	</body>
 </html>
