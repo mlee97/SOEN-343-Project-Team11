@@ -10,7 +10,6 @@ import org.springframework.web.servlet.ModelAndView;
 import smarthomesimulator.layout.RenderLayout;
 import smarthomesimulator.model.Room;
 import smarthomesimulator.model.Simulator;
-import smarthomesimulator.model.Rooms;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -72,7 +71,7 @@ public class SmartHomeController {
                             room.setLights((Integer.parseInt(matcherLights.group(1))));
 
                         }
-                        Rooms.roomsOfHouse.add(room);
+                        Simulator.roomsOfHouse.add(room);
 
                     }
 

@@ -60,6 +60,11 @@
             <artifactId>spring-webmvc</artifactId>
             <version>5.2.9.RELEASE</version>
         </dependency>
+        <dependency>
+    		<groupId>org.openjfx</groupId>
+    		<artifactId>javafx-controls</artifactId>
+    		<version>14</version>
+  		</dependency>
     </dependencies>
 
     <build>

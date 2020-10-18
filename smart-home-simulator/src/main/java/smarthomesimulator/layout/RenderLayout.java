@@ -4,7 +4,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
-import smarthomesimulator.model.Rooms;
+import smarthomesimulator.model.Simulator;
 public class RenderLayout extends Application {
     
    
@@ -16,13 +16,13 @@ public class RenderLayout extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Title of the Window");
+        primaryStage.setTitle("House Layout");
         FlowPane layout = new FlowPane();
-        for (int i = 0; i < Rooms.roomsOfHouse.size(); i++) {
+        for (int i = 0; i < Simulator.roomsOfHouse.size(); i++) {
         Button button=new Button();	
         button.setPrefWidth(100);
         button.setPrefHeight(50);
-        button.setText(Rooms.roomsOfHouse.get(i).getRoomName());
+        button.setText(Simulator.roomsOfHouse.get(i).getRoomName());
         layout.getChildren().add(button);
         }
         

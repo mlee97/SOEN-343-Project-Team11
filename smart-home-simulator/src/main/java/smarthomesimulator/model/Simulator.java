@@ -1,5 +1,7 @@
 package smarthomesimulator.model;
 
+import java.util.ArrayList;
+
 /**
  *
  */
@@ -7,6 +9,8 @@ public class Simulator {
 
     private int date;
     private int time;
+    
+    public static ArrayList<Room> roomsOfHouse = new ArrayList<Room>();
 
     public Simulator() {
         super();
