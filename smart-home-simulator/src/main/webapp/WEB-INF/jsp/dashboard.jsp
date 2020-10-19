@@ -1,6 +1,11 @@
-<%@page contentType="text/html" pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@page import="smarthomesimulator.model.Simulator" %>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <t:wrapper>
+
     <div class="container-flex p-3 dashboard">
         <div class="row">
             <div class="profile col-2">
@@ -12,12 +17,13 @@
                     </label>
                     <img src="img/undefined_profile.png" alt="ProfilePic" class="profilePic">
                     <button id="editBtn" onclick="redirectEditForm()">edit</button>
-                    <p>Date: <span id="displayDate"></span></p>
-                    <p>Time: <span id="displayTime"></span></p>
+                    <p>Date: ${simulator.getDate()}</p>
+                    <p>Time: ${simulator.getTime()}</p>
                     <p>Location: location</p>
                     <p>TEMPERATURE IS QUITE COLD</p>
                 </fieldset>
             </div>
+
             <div id="simulator" class="col-10 border border-dark">
                 <div class="modules">
                     <div class="row justify-content-start">
@@ -36,28 +42,29 @@
                     <div class="row justify-content-center">
                         <div class="col-5">
                             <div class="params p-1 border border-dark">
+                                <div id="SHS" class="tabContent"><br/>
+                                <table>
+                                    <form:form method="POST" action="/dashboard" modelAttribute="simulator">
+                                        <tr>
+                                            <td>
+                                        <tr>
+                                            <td><form:label path="date">Edit Date (YYYY-MM-DD): </form:label></td>
+                                            <td><form:input path="date"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><form:label path="time">Edit Time:</form:label></td>
+                                            <td><form:input path="time"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="submit" value="Submit"/></td>
+                                        </tr>
+                                        </form:form>
+                                    </table>
+
+                                </div>
                                 <div id="SHC" class="tabContent"><br/>
                                     <h3>SHC</h3>
                                     <p>Smart Home Core Functionality.</p>
-                                </div>
-                                <div id="SHS" class="tabContent">
-                                    <fieldset>
-                                        <div class="m-1">
-                                            <label for="addUser">Add/Remove User Profiles</label>
-                                            <input id="addUser" type="text"></input>
-                                        </div>
-
-                                        <div class="m-1"><label for="inTime">Edit Time</label>
-                                            <input type="time" id="inTime" name="time"></div>
-
-                                        <div class="m-1">
-                                            <label for="inTime">Edit Date</label>
-                                            <input type="date" id="inDate" name="date"></type>
-                                        </div>
-
-                                        <input class="btn btn-primary m-1" type="submit" value="Save"
-                                               onclick="setNewDate();setNewTime()"/>
-                                    </fieldset>
                                 </div>
                                 <div id="SHH" class="tabContent"><br/>
                                     <h3>SHH</h3>
