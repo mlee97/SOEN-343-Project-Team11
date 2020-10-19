@@ -19,7 +19,7 @@
                     <button id="editBtn" onclick="redirectEditForm()">edit</button>                              
                     <p>Date: ${simulator.getDate()}</p>
                     <p>Time: ${simulator.getTime()}</p>
-                    <p>House Layout: ${simulator.getFileName()}</p>
+                    <p>House Layout: ${filename}</p>
                     <p>Location: location</p>
                     <p>TEMPERATURE IS QUITE COLD</p>
                 </fieldset>

@@ -80,7 +80,7 @@ public class Simulator {
     }
     
     public void setFileName(String fileName) {
-    	fileName=this.fileName;
+    	this.fileName=fileName;
     }
     public String getFileName() {
     	return fileName;

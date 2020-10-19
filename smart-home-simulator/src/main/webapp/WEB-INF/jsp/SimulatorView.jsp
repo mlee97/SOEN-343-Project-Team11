@@ -23,6 +23,10 @@
             <td>Default Indoor Room Temperature :</td>
             <td>${defaultTempIn}</td>
         </tr>
+        <tr>
+            <td>House Layout :</td>
+            <td>${fileName}</td>
+        </tr>
     </table>
 </body>
 </html>
