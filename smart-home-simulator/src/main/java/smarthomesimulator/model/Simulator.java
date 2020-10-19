@@ -12,7 +12,6 @@ public class Simulator {
     private String date;
     private String time;
     private int tempOut;
-    private int tempIn;
 
     public static ArrayList<Room> roomsOfHouse = new ArrayList<Room>();
 
@@ -20,7 +19,6 @@ public class Simulator {
         super();
         this.date = this.getCurrentDate();
         this.time = this.getCurrentTime();
-        this.tempIn = this.getTempIn();
         this.tempOut = this.getTempOut();
     }
 
@@ -43,10 +41,6 @@ public class Simulator {
     public int getTempOut() { return tempOut; }
 
     public void setTempOut(int tempOut) { this.tempOut = tempOut; }
-
-    public int getTempIn() { return tempIn; }
-
-    public void setTempIn(int tempIn) { this.tempIn = tempIn; }
 
     public String getCurrentDate(){
 

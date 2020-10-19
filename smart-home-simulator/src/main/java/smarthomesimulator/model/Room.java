@@ -1,31 +1,41 @@
 package smarthomesimulator.model;
 
+import java.util.*;
+
 public class Room {
 	 	private String roomName;
-	    private int doors;
-	    private int windows;
-	    private int lights;
+	    private ArrayList<Door> doors = new ArrayList<>();
+	    private ArrayList<Window> windows = new ArrayList<>();
+	    private int numOfLights;
 	    public Room() {
 	     
 	    }
 
-	    public Room(final String roomName, final int doors, final int windows, final int lights ) {
+	    public Room(final String roomName, final int numOfDoors, final int numOfWindows, final int numOfLights ) {
 	        this.roomName = roomName;
-	        this.doors = doors;
-	        this.windows = windows;
-	        this.lights = lights;
+	        initDoors(numOfDoors);
+	        initWindows(numOfWindows);
+	        this.numOfLights = numOfLights;
 
 	    }
 
+	    public void initDoors(int numOfDoors) {
+	    	for(int i = 0; i < numOfDoors ; i++){
+	    		doors.add(i, new Door());
+			}
+		}
+
+		public void initWindows(int numOfWindows) {
+			for(int i = 0; i < numOfWindows ; i++){
+				windows.add(i, new Window());
+			}
+		}
+
 	    public void setRoomName(String roomName) { this.roomName=roomName; }
-	    public void setDoors(int doors) { this.doors=doors; }
-	    public void setWindows(int windows) { this.windows=windows; }
-	    public void setLights(int lights) { this.lights=lights; }
+	    public void setLights(int lights) { this.numOfLights=lights; }
 	    
 	    public String getRoomName() { return this.roomName; }
-	    public int getDoors() { return this.doors; }
-	    public int getWindows() { return this.windows; }
-	    public int getLights() { return this.lights; }
+	    public int getLights() { return this.numOfLights; }
 	    
 	}
 
