@@ -12,14 +12,17 @@ public class Simulator {
     private String date;
     private String time;
     private int tempOut;
+    private int defaultTempIn;
 
     public static ArrayList<Room> roomsOfHouse = new ArrayList<Room>();
+    public static ArrayList<Profile> profilesOfHouse = new ArrayList<>();
 
     public Simulator() {
         super();
         this.date = this.getCurrentDate();
         this.time = this.getCurrentTime();
         this.tempOut = this.getTempOut();
+        this.defaultTempIn = this.getDefaultTempIn();
     }
 
     public void setDate(String date) {
@@ -41,6 +44,10 @@ public class Simulator {
     public int getTempOut() { return tempOut; }
 
     public void setTempOut(int tempOut) { this.tempOut = tempOut; }
+
+    public int getDefaultTempIn() { return defaultTempIn; }
+
+    public void setDefaultTempIn(int defaultTempIn) { this.defaultTempIn = defaultTempIn; }
 
     public String getCurrentDate(){
 

@@ -9,12 +9,20 @@
         <form:form method="POST" action="${pageContext.request.contextPath}/simulator" modelAttribute="simulator">
             <table>
                 <tr>
-                    <td><form:label path="date">Name</form:label></td>
+                    <td><form:label path="date">Date</form:label></td>
                     <td><form:input path="date"/></td>
                 </tr>
                 <tr>
-                    <td><form:label path="time">Id</form:label></td>
+                    <td><form:label path="time">Time</form:label></td>
                     <td><form:input path="time"/></td>
+                </tr>
+                <tr>
+                    <td><form:label path="tempOut">Outside Temperature</form:label></td>
+                    <td><form:input path="tempOut"/></td>
+                </tr>
+                <tr>
+                    <td><form:label path="defaultTempIn">Default Indoor Room Temperature</form:label></td>
+                    <td><form:input path="defaultTempIn"/></td>
                 </tr>
                 <tr>
                     <td><input type="submit" value="Submit"/></td>

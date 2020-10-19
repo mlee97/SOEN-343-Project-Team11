@@ -15,6 +15,14 @@
             <td>Time :</td>
             <td>${time}</td>
         </tr>
+        <tr>
+            <td>Outside Temperature:</td>
+            <td>${tempOut}</td>
+        </tr>
+        <tr>
+            <td>Default Indoor Room Temperature :</td>
+            <td>${defaultTempIn}</td>
+        </tr>
     </table>
 </body>
 </html>
