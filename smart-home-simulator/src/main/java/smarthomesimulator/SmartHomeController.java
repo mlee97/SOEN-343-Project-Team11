@@ -52,6 +52,8 @@ public class SmartHomeController {
         }
         model.addAttribute("date", simulator.getDate());
         model.addAttribute("time", simulator.getTime());
+        model.addAttribute("tempOut", simulator.getTempOut());
+        model.addAttribute("defaultTempIn", simulator.getDefaultTempIn());
         simulatorMap.put((long) 0, simulator);
         return "SimulatorView";
     }
