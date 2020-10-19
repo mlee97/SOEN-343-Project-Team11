@@ -26,8 +26,8 @@ public class SmartHomeController {
         return "Form";
     }
  
-    @RequestMapping(method = RequestMethod.POST)
-    public void render(@RequestParam("file") String fileName) {
+ 
+    public void render(String fileName) {
     	if (fileName == null) {
             System.out.println("No file found");
         } else {
@@ -46,10 +46,11 @@ public class SmartHomeController {
 
     @RequestMapping(value = "/simulator", method = {RequestMethod.GET, RequestMethod.POST})
     public String submit(@Validated @ModelAttribute("simulator") final Simulator simulator,
-                         final BindingResult result, final ModelMap model) {
+                         final BindingResult result, final ModelMap model,@RequestParam("file") String fileName) {
         if (result.hasErrors()) {
             return "error";
         }
+        simulator.setFileName(fileName);
         model.addAttribute("date", simulator.getDate());
         model.addAttribute("time", simulator.getTime());
         model.addAttribute("tempOut", simulator.getTempOut());
@@ -65,7 +66,7 @@ public class SmartHomeController {
 
     @PostMapping({"/dashboard"})
     public ModelAndView submitDashboard(@Validated @ModelAttribute("simulator") Simulator simulator, ModelMap model) {
-
+    	 model.addAttribute("fileName",simulator.getFileName());
         model.addAttribute("date", simulator.getDate());
         model.addAttribute("time", simulator.getTime());
 

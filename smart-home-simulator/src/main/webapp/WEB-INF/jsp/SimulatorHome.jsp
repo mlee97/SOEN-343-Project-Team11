@@ -25,9 +25,16 @@
                     <td><form:input path="defaultTempIn"/></td>
                 </tr>
                 <tr>
+		       <td>
+		       <form action="${pageContext.request.contextPath}/simulator" method="POST" >
+		       <input type="file" value="Choose file" name="file">
+		      </form></td>
+               </tr>      
+                <tr>
                     <td><input type="submit" value="Submit"/></td>
                 </tr>
             </table>
         </form:form>
+      
     </body>
 </html>
