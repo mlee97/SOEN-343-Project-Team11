@@ -10,7 +10,6 @@ import org.springframework.web.servlet.ModelAndView;
 import smarthomesimulator.layout.ParseLayout;
 import smarthomesimulator.model.Simulator;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,19 +23,6 @@ public class SmartHomeController {
     @RequestMapping(value = {"/", "/init"}, method = RequestMethod.GET)
     public String createForm() {
         return "Form";
-    }
- 
- 
-    public void render(String fileName) {
-    	if (fileName == null) {
-            System.out.println("No file found");
-        } else {
-            try {
-                ParseLayout.parse(fileName);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
     
     @RequestMapping(value = "/addSimulator", method = {RequestMethod.GET, RequestMethod.POST})
@@ -69,6 +55,7 @@ public class SmartHomeController {
     public ModelAndView submitDashboard(@Validated @ModelAttribute("simulator") Simulator simulator, ModelMap model) {
     	 model.addAttribute("date", simulator.getDate());
     	 model.addAttribute("time", simulator.getTime());
+    	 model.addAttribute("fileName", simulator.getFileName());
 
         return new ModelAndView("dashboard", "simulator", simulator);
     }

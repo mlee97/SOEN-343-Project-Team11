@@ -1,4 +1,5 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ page import="smarthomesimulator.layout.ParseLayout" %>
 <html>
     <head>
         <title>Current Simulator</title>
@@ -25,8 +26,17 @@
         </tr>
         <tr>
             <td>House Layout :</td>
-            <td>${fileName}</td>
+            <td> ${fileName}</td>
         </tr>
     </table>
+    <form action=<%	
+        		try {ParseLayout.parse(request.getParameter("fileName"));
+            		} catch (Exception e) {
+                        out.println("An exception occurred: " + e.getMessage());
+            			}
+            			%> >
+            			
+            	<input type="submit" value="Render"/>
+            </form>
 </body>
 </html>
