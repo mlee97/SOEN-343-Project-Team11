@@ -51,7 +51,7 @@ public class SmartHomeController {
         model.addAttribute("fileName", simulator.getFileName());
         model.addAttribute("RoomList", Simulator.roomsOfHouse);
         simulatorMap.put((long) 0, simulator);
-        return "SimulatorView";
+        return "dashboard";
     }
 
     @GetMapping({"/dashboard"})

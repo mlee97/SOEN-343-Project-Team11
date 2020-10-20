@@ -4,8 +4,9 @@
 <%@page import="smarthomesimulator.model.Simulator" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <t:wrapper>
-
+	<style><%@include file="./Simulator.css"%></style> 
     <div class="container-flex p-3 dashboard">
         <div class="row">
             <div class="profile col-2">
@@ -77,6 +78,13 @@
                         </div>
                         <div class="col-7" style="text-align:center">
                             <div class="houseLayout border border-dark">
+                            	<div class="house">
+        							<c:forEach items="${RoomList}" var="room">
+    									<button class="rooms" >
+    										<c:out value="${room.getRoomName()}"/> 
+    									</button>
+									</c:forEach>
+    							</div>
                             </div>
                             <span>House Layout</span>
                         </div>
