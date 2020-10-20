@@ -16,9 +16,10 @@
                         <span class="slider round"></span>
                     </label>
                     <img src="img/undefined_profile.png" alt="ProfilePic" class="profilePic">
-                    <button id="editBtn" onclick="redirectEditForm()">edit</button>
+                    <button id="editBtn" onclick="redirectEditForm()">edit</button>                              
                     <p>Date: ${simulator.getDate()}</p>
                     <p>Time: ${simulator.getTime()}</p>
+                    <p>House Layout: ${simulator.getFileName()}</p>
                     <p>Location: location</p>
                     <p>Temperature: ${simulator.getTempOut()} &#176;C</p>
                 </fieldset>

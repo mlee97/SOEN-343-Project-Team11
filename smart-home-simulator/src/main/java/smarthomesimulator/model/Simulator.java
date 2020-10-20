@@ -13,7 +13,8 @@ public class Simulator {
     private String time;
     private double tempOut;
     private int defaultTempIn;
-
+    private String fileName;
+    
     public static ArrayList<Room> roomsOfHouse = new ArrayList<Room>();
     public static ArrayList<Profile> profilesOfHouse = new ArrayList<>();
 
@@ -23,6 +24,7 @@ public class Simulator {
         this.time = this.getCurrentTime();
         this.tempOut = this.getTempOut();
         this.defaultTempIn = this.getDefaultTempIn();
+        this.fileName=this.getFileName();
     }
 
     public void setDate(String date) {
@@ -76,4 +78,13 @@ public class Simulator {
         }
         return curTime;
     }
+    
+    public void setFileName(String fileName) {
+    	this.fileName=fileName;
+    }
+    public String getFileName() {
+    	return fileName;
+    }
+    
+    
 }

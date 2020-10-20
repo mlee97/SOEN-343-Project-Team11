@@ -48,7 +48,6 @@ public class ParseLayout {
                 Simulator.roomsOfHouse.add(room);
             }
         }
-        RenderLayout.main(null);
         br.close();
     }
 

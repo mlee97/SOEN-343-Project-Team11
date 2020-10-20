@@ -66,7 +66,12 @@
     		<artifactId>javafx-controls</artifactId>
     		<version>14</version>
   		</dependency>
-
+		<dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version><!--$NO-MVN-MAN-VER$-->
+        </dependency>
+		
     </dependencies>
 
     <build>

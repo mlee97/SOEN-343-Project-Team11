@@ -25,19 +25,6 @@ public class SmartHomeController {
     public String createForm() {
         return "Form";
     }
- 
-    @RequestMapping(method = RequestMethod.POST)
-    public void render(@RequestParam("file") String fileName) {
-    	if (fileName == null) {
-            System.out.println("No file found");
-        } else {
-            try {
-                ParseLayout.parse(fileName);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
     
     @RequestMapping(value = "/addSimulator", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView showForm() {
@@ -46,14 +33,23 @@ public class SmartHomeController {
 
     @RequestMapping(value = "/simulator", method = {RequestMethod.GET, RequestMethod.POST})
     public String submit(@Validated @ModelAttribute("simulator") final Simulator simulator,
-                         final BindingResult result, final ModelMap model) {
+                         final BindingResult result, final ModelMap model,@RequestParam("file") String fileName) {
         if (result.hasErrors()) {
             return "error";
         }
+        simulator.setFileName(fileName);
+        try {
+			ParseLayout.parse(fileName);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         model.addAttribute("date", simulator.getDate());
         model.addAttribute("time", simulator.getTime());
         model.addAttribute("tempOut", simulator.getTempOut());
         model.addAttribute("defaultTempIn", simulator.getDefaultTempIn());
+        model.addAttribute("fileName", simulator.getFileName());
+        model.addAttribute("RoomList", Simulator.roomsOfHouse);
         simulatorMap.put((long) 0, simulator);
         return "SimulatorView";
     }
@@ -66,10 +62,12 @@ public class SmartHomeController {
     @PostMapping({"/dashboard"})
     public ModelAndView submitDashboard(@Validated @ModelAttribute("simulator") Simulator simulator, ModelMap model) {
 
-        model.addAttribute("date", simulator.getDate());
-        model.addAttribute("time", simulator.getTime());
-        model.addAttribute("tempOut", simulator.getTempOut());
-        return new ModelAndView("dashboard", "simulator", simulator);
+    	 model.addAttribute("date", simulator.getDate());
+    	 model.addAttribute("time", simulator.getTime());
+    	 model.addAttribute("fileName", simulator.getFileName());
+       model.addAttribute("tempOut", simulator.getTempOut());
+
+       return new ModelAndView("dashboard", "simulator", simulator);
     }
 
     @GetMapping({"/editForm"})
