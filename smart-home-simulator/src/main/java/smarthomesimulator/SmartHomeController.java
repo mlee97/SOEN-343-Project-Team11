@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import smarthomesimulator.layout.ParseLayout;
 import smarthomesimulator.model.Simulator;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,11 +38,18 @@ public class SmartHomeController {
             return "error";
         }
         simulator.setFileName(fileName);
+        try {
+			ParseLayout.parse(fileName);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         model.addAttribute("date", simulator.getDate());
         model.addAttribute("time", simulator.getTime());
         model.addAttribute("tempOut", simulator.getTempOut());
         model.addAttribute("defaultTempIn", simulator.getDefaultTempIn());
         model.addAttribute("fileName", simulator.getFileName());
+        model.addAttribute("RoomList", Simulator.roomsOfHouse);
         simulatorMap.put((long) 0, simulator);
         return "SimulatorView";
     }
