@@ -68,7 +68,7 @@ public class SmartHomeController {
 
         model.addAttribute("date", simulator.getDate());
         model.addAttribute("time", simulator.getTime());
-
+        model.addAttribute("tempOut", simulator.getTempOut());
         return new ModelAndView("dashboard", "simulator", simulator);
     }
 
