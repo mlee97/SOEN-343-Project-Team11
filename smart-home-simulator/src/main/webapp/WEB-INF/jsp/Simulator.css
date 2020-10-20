@@ -1,0 +1,10 @@
+.house{
+    display: table;
+    max-width: 450;
+    max-height: 350;
+}
+.rooms{
+    width: 150;
+    height: 100;
+
+}
