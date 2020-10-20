@@ -51,7 +51,7 @@ public class SmartHomeController {
         model.addAttribute("fileName", simulator.getFileName());
         model.addAttribute("RoomList", Simulator.roomsOfHouse);
         simulatorMap.put((long) 0, simulator);
-        return "SimulatorView";
+        return "dashboard";
     }
 
     @GetMapping({"/dashboard"})
@@ -65,12 +65,13 @@ public class SmartHomeController {
     	 model.addAttribute("date", simulator.getDate());
     	 model.addAttribute("time", simulator.getTime());
     	 model.addAttribute("fileName", simulator.getFileName());
-       model.addAttribute("tempOut", simulator.getTempOut());
+    	 model.addAttribute("tempOut", simulator.getTempOut());
 
        return new ModelAndView("dashboard", "simulator", simulator);
     }
 
     @GetMapping({"/editForm"})
-    public void editForm() {
+    public void editForm(@ModelAttribute("simulator") Simulator simulator, ModelMap model) {
+    	model.addAttribute("RoomList", Simulator.roomsOfHouse);
     }
 }

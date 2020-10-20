@@ -32,17 +32,5 @@
     	</table>
       List of Rooms:
     <br />
-    <div class="house">
-    	
-    	<c:forEach items="${pageScope.myList}" var="item" varStatus="status">
-<option value='${item}'></option>
-</c:forEach >
-    	
-        <c:forEach items="${RoomList}" var="room">
-    		<button class="rooms" >
-    			<c:out value="${room.getRoomName()}"/> 
-    		</button>
-		</c:forEach>
-    </div>
 </body>
 </html>
