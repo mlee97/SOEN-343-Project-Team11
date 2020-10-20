@@ -11,7 +11,7 @@ public class Simulator {
 
     private String date;
     private String time;
-    private int tempOut;
+    private double tempOut;
     private int defaultTempIn;
     private String fileName;
     
@@ -43,9 +43,9 @@ public class Simulator {
         return time;
     }
 
-    public int getTempOut() { return tempOut; }
+    public double getTempOut() { return tempOut; }
 
-    public void setTempOut(int tempOut) { this.tempOut = tempOut; }
+    public void setTempOut(double tempOut) { this.tempOut = tempOut; }
 
     public int getDefaultTempIn() { return defaultTempIn; }
 

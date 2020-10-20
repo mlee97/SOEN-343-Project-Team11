@@ -21,7 +21,7 @@
                     <p>Time: ${simulator.getTime()}</p>
                     <p>House Layout: ${simulator.getFileName()}</p>
                     <p>Location: location</p>
-                    <p>TEMPERATURE IS QUITE COLD</p>
+                    <p>Temperature: ${simulator.getTempOut()} &#176;C</p>
                 </fieldset>
             </div>
 
@@ -47,8 +47,6 @@
                                 <table>
                                     <form:form method="POST" action="/dashboard" modelAttribute="simulator">
                                         <tr>
-                                            <td>
-                                        <tr>
                                             <td><form:label path="date">Edit Date (YYYY-MM-DD): </form:label></td>
                                             <td><form:input path="date"/></td>
                                         </tr>
@@ -57,7 +55,11 @@
                                             <td><form:input path="time"/></td>
                                         </tr>
                                         <tr>
-                                            <td><input type="submit" value="Submit"/></td>
+                                            <td><form:label path="tempOut">Edit Temperature:</form:label></td>
+                                            <td><form:input path="tempOut" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input class="btn btn-outline-dark" type="submit" value="Submit"/></td>
                                         </tr>
                                         </form:form>
                                     </table>

@@ -12,7 +12,7 @@ function openModule(evt, modName) {
     evt.currentTarget.className += " active";
 }
 
-function displaySimulator() {
+/*function displaySimulator() {
     var checkBox = document.getElementById("simSwitch");
     var simulator = document.getElementById("simulator");
 
@@ -22,7 +22,7 @@ function displaySimulator() {
     if (checkBox.checked == false) {
         simulator.style.visibility = "hidden";
     }
-}
+}*/
 
 function redirectEditForm() {
     window.location.href = "/editForm";

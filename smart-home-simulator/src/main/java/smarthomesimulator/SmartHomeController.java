@@ -61,11 +61,13 @@ public class SmartHomeController {
 
     @PostMapping({"/dashboard"})
     public ModelAndView submitDashboard(@Validated @ModelAttribute("simulator") Simulator simulator, ModelMap model) {
+
     	 model.addAttribute("date", simulator.getDate());
     	 model.addAttribute("time", simulator.getTime());
     	 model.addAttribute("fileName", simulator.getFileName());
+       model.addAttribute("tempOut", simulator.getTempOut());
 
-        return new ModelAndView("dashboard", "simulator", simulator);
+       return new ModelAndView("dashboard", "simulator", simulator);
     }
 
     @GetMapping({"/editForm"})
