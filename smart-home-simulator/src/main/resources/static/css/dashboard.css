@@ -124,10 +124,6 @@ input:checked + .slider:before {
 
 }
 
-#simulator {
-    visibility: hidden;
-}
-
 .params {
     margin-top: 10px;
     width: 100%;
