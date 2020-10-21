@@ -7,7 +7,7 @@
 	<style><%@include file="./Simulator.css"%></style> 
     </head>
 	<body>
-    	<h2>Submitted Simulation Information</h2>
+    	<h2>Submitted Simulation Information, Used For Debugging</h2>
     	<table>
         	<tr>
             	<td>Date :</td>
@@ -30,7 +30,6 @@
             	<td> ${fileName}</td>
         	</tr>
     	</table>
-      List of Rooms:
     <br />
 </body>
 </html>
