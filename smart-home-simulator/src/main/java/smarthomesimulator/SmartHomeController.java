@@ -64,24 +64,24 @@ public class SmartHomeController {
        return new ModelAndView("dashboard", "simulator", simulator);
     }
 
-    @RequestMapping(value = {"/addProfileDashboard"}, method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView submitNewProfileDashboard() {
-        return new ModelAndView("dashboard", "profile", new Profile());
-    }
-
-    @RequestMapping(value = "/dashboard", method = {RequestMethod.GET, RequestMethod.POST})
-    public String submitProfile(@Validated @ModelAttribute("profile") final Profile profile,
-                         final BindingResult result, final ModelMap model) {
-        if (result.hasErrors()) {
-            return "error";
-        }
-
-        Simulator sim = simulatorMap.get(0);
-        sim.addProfile(profile);
-        simulatorMap.put((long) 0, sim);
-
-        return "dashboard";
-    }
+//    @RequestMapping(value = {"/addProfileDashboard"}, method = {RequestMethod.GET, RequestMethod.POST})
+//    public ModelAndView submitNewProfileDashboard() {
+//        return new ModelAndView("dashboard", "profile", new Profile());
+//    }
+//
+//    @RequestMapping(value = "/dashboard", method = {RequestMethod.GET, RequestMethod.POST})
+//    public String submitProfile(@Validated @ModelAttribute("profile") final Profile profile,
+//                         final BindingResult result, final ModelMap model) {
+//        if (result.hasErrors()) {
+//            return "error";
+//        }
+//
+//        Simulator sim = simulatorMap.get(0);
+//        sim.addProfile(profile);
+//        simulatorMap.put((long) 0, sim);
+//
+//        return "dashboard";
+//    }
 
     @GetMapping({"/editForm"})
     public void editForm(@ModelAttribute("simulator") Simulator simulator, ModelMap model) {
