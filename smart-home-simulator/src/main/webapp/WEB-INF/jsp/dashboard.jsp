@@ -2,8 +2,8 @@
     pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@page import="smarthomesimulator.model.Simulator" %>
-<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@page import="smarthomesimulator.model.Profile" %>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <t:wrapper>
 	<style><%@include file="./Simulator.css"%></style> 
@@ -21,7 +21,7 @@
                     <p>Date: ${simulator.getDate()}</p>
                     <p>Time: ${simulator.getTime()}</p>
                     <p>House Layout: ${simulator.getFileName()}</p>
-                    <p>Location: location</p>
+                    <p>Location: Outside</p>
                     <p>Temperature: ${simulator.getTempOut()} &#176;C</p>
                 </fieldset>
             </div>
@@ -64,6 +64,26 @@
                                         </tr>
                                         </form:form>
                                     </table>
+                                    <div>
+                                        <h4>Enter new profile: </h4>
+                                    <form:form method="POST" action="/dashboard" modelAttribute="profile">
+                                        <tr>
+                                            <td><form:label path="name">Person's Name: </form:label></td>
+                                            <td><form:input path="name"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><form:label path="role">Role</form:label></td>
+                                            <td><form:input path="role"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><form:label path="location">Edit Temperature:</form:label></td>
+                                            <td><form:input path="location" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input class="btn btn-outline-dark" type="submit" value="Submit"/></td>
+                                        </tr>
+                                    </form:form>
+                                    </div>
 
                                 </div>
                                 <div id="SHC" class="tabContent"><br/>

@@ -8,25 +8,19 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import smarthomesimulator.layout.ParseLayout;
+import smarthomesimulator.model.Profile;
 import smarthomesimulator.model.Simulator;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-
-
 @Controller
 public class SmartHomeController {
 
     Map<Long, Simulator> simulatorMap = new HashMap<>();
-
-    @RequestMapping(value = {"/", "/init"}, method = RequestMethod.GET)
-    public String createForm() {
-        return "Form";
-    }
     
-    @RequestMapping(value = "/addSimulator", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = {"/addSimulator", "/", "/init"}, method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView showForm() {
         return new ModelAndView("SimulatorHome", "simulator", new Simulator());
     }
@@ -56,7 +50,7 @@ public class SmartHomeController {
 
     @GetMapping({"/dashboard"})
     public ModelAndView dashboard() {
-        return new ModelAndView("dashboard", "simulator", new Simulator());
+        return new ModelAndView("dashboard", "simulator", simulatorMap.get(0));
     }
 
     @PostMapping({"/dashboard"})
@@ -68,6 +62,25 @@ public class SmartHomeController {
     	 model.addAttribute("tempOut", simulator.getTempOut());
 
        return new ModelAndView("dashboard", "simulator", simulator);
+    }
+
+    @RequestMapping(value = {"/addProfileDashboard"}, method = {RequestMethod.GET, RequestMethod.POST})
+    public ModelAndView submitNewProfileDashboard() {
+        return new ModelAndView("dashboard", "profile", new Profile());
+    }
+
+    @RequestMapping(value = "/dashboard", method = {RequestMethod.GET, RequestMethod.POST})
+    public String submitProfile(@Validated @ModelAttribute("profile") final Profile profile,
+                         final BindingResult result, final ModelMap model) {
+        if (result.hasErrors()) {
+            return "error";
+        }
+
+        Simulator sim = simulatorMap.get(0);
+        sim.addProfile(profile);
+        simulatorMap.put((long) 0, sim);
+
+        return "dashboard";
     }
 
     @GetMapping({"/editForm"})

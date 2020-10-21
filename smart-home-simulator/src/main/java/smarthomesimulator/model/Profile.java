@@ -9,19 +9,25 @@ enum Role {
 
 public class Profile {
 
-    private Role role;
+    private String name;
+    private String role;
     private String location;
 
-    public Profile(Role role) {
+    public Profile() {
         this.role = this.getRole();
-        this.location = "";
+        this.location = this.getLocation();
+        this.name = this.getName();
     }
+    public String getName() { return name; }
 
-    public Role getRole() {
+    public void setName(String name) { this.name = name; }
+
+
+    public String getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
@@ -32,4 +38,5 @@ public class Profile {
     public void setLocation(String location) {
         this.location = location;
     }
+
 }

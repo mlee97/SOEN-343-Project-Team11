@@ -85,6 +85,9 @@ public class Simulator {
     public String getFileName() {
     	return fileName;
     }
-    
-    
+
+
+    public void addProfile(Profile profile) {
+        profilesOfHouse.add(profile);
+    }
 }
