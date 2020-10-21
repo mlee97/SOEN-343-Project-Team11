@@ -66,23 +66,23 @@
                                     </table>
                                     <div>
                                         <h4>Enter new profile: </h4>
-                                    <form:form method="POST" action="/dashboard" modelAttribute="profile">
-                                        <tr>
-                                            <td><form:label path="name">Person's Name: </form:label></td>
-                                            <td><form:input path="name"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td><form:label path="role">Role</form:label></td>
-                                            <td><form:input path="role"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td><form:label path="location">Edit Temperature:</form:label></td>
-                                            <td><form:input path="location" /></td>
-                                        </tr>
-                                        <tr>
-                                            <td><input class="btn btn-outline-dark" type="submit" value="Submit"/></td>
-                                        </tr>
-                                    </form:form>
+<%--                                    <form:form method="POST" action="/dashboard" modelAttribute="profile">--%>
+<%--                                        <tr>--%>
+<%--                                            <td><form:label path="name">Person's Name: </form:label></td>--%>
+<%--                                            <td><form:input path="name"/></td>--%>
+<%--                                        </tr>--%>
+<%--                                        <tr>--%>
+<%--                                            <td><form:label path="role">Role</form:label></td>--%>
+<%--                                            <td><form:input path="role"/></td>--%>
+<%--                                        </tr>--%>
+<%--                                        <tr>--%>
+<%--                                            <td><form:label path="location">Edit Temperature:</form:label></td>--%>
+<%--                                            <td><form:input path="location" /></td>--%>
+<%--                                        </tr>--%>
+<%--                                        <tr>--%>
+<%--                                            <td><input class="btn btn-outline-dark" type="submit" value="Submit"/></td>--%>
+<%--                                        </tr>--%>
+<%--                                    </form:form>--%>
                                     </div>
 
                                 </div>
