@@ -1,4 +1,4 @@
-# SOEN-343 Project
+# SOEN-343 Project (Team 11)
 
 ## Objective
 Develop a smart home simulator system.
