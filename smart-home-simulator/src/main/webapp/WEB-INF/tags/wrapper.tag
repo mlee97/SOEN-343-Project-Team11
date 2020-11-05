@@ -14,6 +14,6 @@
     <script src="/js/dashboard.js"></script>
     <script src="/js/main.js"></script>
 
-</head><body onload="getCurrentDate(), getCurrentTime()">
+</head><body>
 <jsp:doBody/>
 </body></html>
