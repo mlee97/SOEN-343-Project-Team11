@@ -29,6 +29,7 @@ public class ParseLayout {
             if (matcherRoomName.find()) {
                 int numOfDoors = 0;
                 int numOfWindows = 0;
+                int numOfLights = 0;
 
                 String roomName = matcherRoomName.group(1);
 
@@ -40,11 +41,12 @@ public class ParseLayout {
                     numOfWindows = (Integer.parseInt(matcherWindows.group(1)));
                 }
 
-                Room room = new Room(roomName, numOfDoors, numOfWindows, 0);
-
                 if (matcherLights.find()) {
-                    room.setLights((Integer.parseInt(matcherLights.group(1))));
+                	numOfLights = ((Integer.parseInt(matcherLights.group(1))));
                 }
+                
+                Room room = new Room(roomName, numOfDoors, numOfWindows,numOfLights);
+
                 Simulator.roomsOfHouse.add(room);
             }
         }

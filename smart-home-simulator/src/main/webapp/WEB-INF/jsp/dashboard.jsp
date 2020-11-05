@@ -101,6 +101,9 @@
                             	<div class="house">
         							<c:forEach items="${RoomList}" var="room">
     									<button class="rooms" >
+    									<img src="${room.canEnter() ? 'img/doorOpen.jpg': 'img/doorClosed.jpg'}" class="${ room.findDoors() ? 'doors' : 'display:none' }"/>
+    									<img src="${room.isBright() ? 'img/lightsOn.png': 'img/lightsOff.png'}" class="${ room.findLights() ? 'lights' : 'display:none' }"/>
+    									<img src="${room.isWindy() ? 'img/windowsOpen.jpg': 'img/windowsClosed.jpg'}" class="${ room.findWindows() ? 'windows' : 'display:none' }"/>
     										<c:out value="${room.getRoomName()}"/> 
     									</button>
 									</c:forEach>
