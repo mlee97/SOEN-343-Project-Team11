@@ -6,7 +6,6 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <t:wrapper>
-	<style><%@include file="./Simulator.css"%></style> 
     <div class="container-flex p-3 dashboard">
         <div class="row">
             <div class="profile col-2">
@@ -16,7 +15,7 @@
                         <input type="checkbox" id="simSwitch" onclick="displaySimulator()">s
                         <span class="slider round"></span>
                     </label>
-                    <img src="img/undefined_profile.png" alt="ProfilePic" class="profilePic">
+                    <img src="/img/undefined_profile.png" alt="ProfilePic" class="profilePic">
                     <button id="editBtn" onclick="redirectEditForm()">edit</button>                              
                     <p>Date: ${simulator.getDate()}</p>
                     <p>Time: ${simulator.getTime()}</p>
@@ -46,7 +45,7 @@
                             <div class="params p-1 border border-dark">
                                 <div id="SHS" class="tabContent"><br/>
                                 <table>
-                                    <form:form method="POST" action="/dashboard" modelAttribute="simulator">
+                                    <form:form method="POST" action="/dashboard/context" modelAttribute="simulator">
                                         <tr>
                                             <td><form:label path="date">Edit Date (YYYY-MM-DD): </form:label></td>
                                             <td><form:input path="date"/></td>
@@ -66,23 +65,27 @@
                                     </table>
                                     <div>
                                         <h4>Enter new profile: </h4>
-<%--                                    <form:form method="POST" action="/dashboard" modelAttribute="profile">--%>
-<%--                                        <tr>--%>
-<%--                                            <td><form:label path="name">Person's Name: </form:label></td>--%>
-<%--                                            <td><form:input path="name"/></td>--%>
-<%--                                        </tr>--%>
-<%--                                        <tr>--%>
-<%--                                            <td><form:label path="role">Role</form:label></td>--%>
-<%--                                            <td><form:input path="role"/></td>--%>
-<%--                                        </tr>--%>
-<%--                                        <tr>--%>
-<%--                                            <td><form:label path="location">Edit Temperature:</form:label></td>--%>
-<%--                                            <td><form:input path="location" /></td>--%>
-<%--                                        </tr>--%>
-<%--                                        <tr>--%>
-<%--                                            <td><input class="btn btn-outline-dark" type="submit" value="Submit"/></td>--%>
-<%--                                        </tr>--%>
-<%--                                    </form:form>--%>
+                                        <table>
+                                            <form:form method="POST" action="/dashboard/addProfileDashboard" modelAttribute="profile">
+                                                <tr>
+                                                    <td><form:label path="name">Person's Name: </form:label></td>
+                                                    <td><form:input path="name"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><form:label path="role">Role</form:label></td>
+                                                    <td><form:select path="role" >
+                                                        <form:options/>
+                                                    </form:select></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><form:label path="location">Location:</form:label></td>
+                                                    <td><form:input path="location" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input href="/dashboard" class="btn btn-outline-dark" type="submit" value="Submit"/></td>
+                                                </tr>
+                                            </form:form>
+                                        </table>
                                     </div>
 
                                 </div>

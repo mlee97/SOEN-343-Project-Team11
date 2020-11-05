@@ -1,12 +1,11 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page import="smarthomesimulator.layout.ParseLayout,java.util.ArrayList,smarthomesimulator.model.Room" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<t:wrapper>
 
-<html>
-    <head>
-        <title>Current Simulator</title>
-	<style><%@include file="./Simulator.css"%></style> 
-    </head>
-	<body>
     	<h2>Submitted Simulation Information, Used For Debugging</h2>
     	<table>
         	<tr>
@@ -31,5 +30,4 @@
         	</tr>
     	</table>
     <br />
-</body>
-</html>
+</t:wrapper>

@@ -15,7 +15,7 @@ public class Simulator {
     private int defaultTempIn;
     private String fileName;
     
-    public static ArrayList<Room> roomsOfHouse = new ArrayList<Room>();
+    public static ArrayList<Room> roomsOfHouse = new ArrayList<>();
     public static ArrayList<Profile> profilesOfHouse = new ArrayList<>();
 
     public Simulator() {

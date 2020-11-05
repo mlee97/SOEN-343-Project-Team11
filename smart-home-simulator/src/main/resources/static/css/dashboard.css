@@ -151,3 +151,28 @@ input:checked + .slider:before {
     padding-left: 10px;
 
 }
+.house{
+    display: table;
+    max-width: 450px;
+    max-height: 350px;
+}
+.rooms{
+    width: 150px;
+    height: 100px;
+
+}
+.doors{
+    width: 30px;
+    height: 30px;
+
+}
+.windows{
+    width: 30px;
+    height: 30px;
+
+}
+.lights{
+    width: 30px;
+    height: 30px;
+
+}

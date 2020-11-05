@@ -18,7 +18,7 @@ import java.util.Map;
 @Controller
 public class SmartHomeController {
 
-    Map<Long, Simulator> simulatorMap = new HashMap<>();
+    static Map<Integer, Simulator> simulatorMap = new HashMap<>();
     
     @RequestMapping(value = {"/addSimulator", "/", "/init"}, method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView showForm() {
@@ -26,8 +26,8 @@ public class SmartHomeController {
     }
 
     @RequestMapping(value = "/simulator", method = {RequestMethod.GET, RequestMethod.POST})
-    public String submit(@Validated @ModelAttribute("simulator") final Simulator simulator,
-                         final BindingResult result, final ModelMap model,@RequestParam("file") String fileName) {
+    public String submit(@Validated @ModelAttribute("simulator") Simulator simulator, @Validated  @ModelAttribute("profile") Profile profile,
+                         BindingResult result, ModelMap model, @RequestParam("file") String fileName) {
         if (result.hasErrors()) {
             return "error";
         }
@@ -35,7 +35,6 @@ public class SmartHomeController {
         try {
 			ParseLayout.parse(fileName);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         model.addAttribute("date", simulator.getDate());
@@ -43,32 +42,16 @@ public class SmartHomeController {
         model.addAttribute("tempOut", simulator.getTempOut());
         model.addAttribute("defaultTempIn", simulator.getDefaultTempIn());
         model.addAttribute("fileName", simulator.getFileName());
-        model.addAttribute("RoomList", Simulator.roomsOfHouse);
-        simulatorMap.put((long) 0, simulator);
+        model.addAttribute("RoomList", simulator.roomsOfHouse);
+        model.addAttribute("name",profile.getName());
+        model.addAttribute("role", Profile.Role.values());
+        model.addAttribute("location",profile.getLocation());
+
+        simulatorMap.put(0, simulator);
         return "dashboard";
     }
 
-    @GetMapping({"/dashboard"})
-    public ModelAndView dashboard() {
-        return new ModelAndView("dashboard", "simulator", simulatorMap.get(0));
-    }
 
-    @PostMapping({"/dashboard"})
-    public ModelAndView submitDashboard(@Validated @ModelAttribute("simulator") Simulator simulator, ModelMap model) {
-
-    	 model.addAttribute("date", simulator.getDate());
-    	 model.addAttribute("time", simulator.getTime());
-    	 model.addAttribute("fileName", simulator.getFileName());
-    	 model.addAttribute("tempOut", simulator.getTempOut());
-
-       return new ModelAndView("dashboard", "simulator", simulator);
-    }
-
-//    @RequestMapping(value = {"/addProfileDashboard"}, method = {RequestMethod.GET, RequestMethod.POST})
-//    public ModelAndView submitNewProfileDashboard() {
-//        return new ModelAndView("dashboard", "profile", new Profile());
-//    }
-//
 //    @RequestMapping(value = "/dashboard", method = {RequestMethod.GET, RequestMethod.POST})
 //    public String submitProfile(@Validated @ModelAttribute("profile") final Profile profile,
 //                         final BindingResult result, final ModelMap model) {
@@ -83,8 +66,5 @@ public class SmartHomeController {
 //        return "dashboard";
 //    }
 
-    @GetMapping({"/editForm"})
-    public void editForm(@ModelAttribute("simulator") Simulator simulator, ModelMap model) {
-    	model.addAttribute("RoomList", Simulator.roomsOfHouse);
-    }
+
 }

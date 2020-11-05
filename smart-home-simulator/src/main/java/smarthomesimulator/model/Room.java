@@ -7,9 +7,6 @@ public class Room {
 	    private ArrayList<Door> doors = new ArrayList<>();
 	    private ArrayList<Window> windows = new ArrayList<>();
 	    private ArrayList<Light> lights = new ArrayList<>();
-	    public Room() {
-	     
-	    }
 
 	    public Room(final String roomName, final int numOfDoors, final int numOfWindows, final int numOfLights ) {
 	        this.roomName = roomName;
