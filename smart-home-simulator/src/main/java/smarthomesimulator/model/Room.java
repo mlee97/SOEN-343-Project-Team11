@@ -6,7 +6,7 @@ public class Room {
 	 	private String roomName;
 	    private ArrayList<Door> doors = new ArrayList<>();
 	    private ArrayList<Window> windows = new ArrayList<>();
-	    private int numOfLights;
+	    private ArrayList<Light> lights = new ArrayList<>();
 	    public Room() {
 	     
 	    }
@@ -15,7 +15,7 @@ public class Room {
 	        this.roomName = roomName;
 	        initDoors(numOfDoors);
 	        initWindows(numOfWindows);
-	        this.numOfLights = numOfLights;
+	        initLights(numOfLights);
 
 	    }
 
