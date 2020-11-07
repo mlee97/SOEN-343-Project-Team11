@@ -6,6 +6,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.io.File;  // Import the File class
+import java.io.FileNotFoundException;  // Import this class to handle errors
+import java.util.Scanner; // Import the Scanner class to read text files
 
 public class Simulator {
 
@@ -90,4 +93,5 @@ public class Simulator {
     public void addProfile(Profile profile) {
         profilesOfHouse.add(profile);
     }
+
 }

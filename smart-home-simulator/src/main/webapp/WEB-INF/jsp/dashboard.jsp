@@ -61,8 +61,8 @@
                                         <tr>
                                             <td><input class="btn btn-outline-dark" type="submit" value="Submit"/></td>
                                         </tr>
-                                        </form:form>
-                                    </table>
+                                    </form:form>
+                                </table>
                                     <div>
                                         <h4>Enter new profile: </h4>
                                         <table>
@@ -92,6 +92,49 @@
                                 <div id="SHC" class="tabContent"><br/>
                                     <h3>SHC</h3>
                                     <p>Smart Home Core Functionality.</p>
+                                </div>
+                                <div id="SHP" class="tabContent"><br/>
+                                    <table>
+                                        <form:form method="POST" action="/dashboard/shp" modelAttribute="shp">
+                                             <tr>
+                                                <td>Set away:</td>
+                                                <td>
+                                                    <label class="switch">
+                                                      <input type="checkbox">
+                                                      <span class="slider"></span>
+                                                    </label>
+                                                </td>
+                                             <tr>
+                                                <td>Select Room:</td>
+                                                <td>
+                                                     <form:select path="shpRoom">
+                                                        <c:forEach var="room" items="${RoomList}">
+                                                            <form:option value="${room.getRoomName()}"/>
+                                                        </c:forEach>
+                                                     </form:select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><form:label path="startTime">Start Time:</form:label></td>
+                                                <td><form:input path="startTime"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><form:label path="endTime">End Time:</form:label></td>
+                                                <td><form:input path="endTime" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td><form:label path="alertTime">Alert Time (in minutes):</form:label></td>
+                                                <td><form:input path="alertTime" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td><form:label path="lightsSHP">Set lights:</form:label></td>
+                                                <td><form:checkbox path="lightsSHP" value="Set Lights:"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><input href="/dashboard" class="btn btn-outline-dark" type="submit" value="Submit"/></td>
+                                            </tr>
+                                        </form:form>
+                                    </table>
                                 </div>
                                 <div id="SHH" class="tabContent"><br/>
                                     <h3>SHH</h3>
