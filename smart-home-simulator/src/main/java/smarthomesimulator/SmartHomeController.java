@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import smarthomesimulator.layout.ParseLayout;
 import smarthomesimulator.model.Profile;
 import smarthomesimulator.model.Simulator;
+import smarthomesimulator.model.SHP;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -26,7 +27,7 @@ public class SmartHomeController {
     }
 
     @RequestMapping(value = "/simulator", method = {RequestMethod.GET, RequestMethod.POST})
-    public String submit(@Validated @ModelAttribute("simulator") Simulator simulator, @Validated  @ModelAttribute("profile") Profile profile,
+    public String submit(@Validated @ModelAttribute("simulator") Simulator simulator, @Validated  @ModelAttribute("profile") Profile profile, @Validated  @ModelAttribute("shp") SHP shp,
                          BindingResult result, ModelMap model, @RequestParam("file") String fileName) {
         if (result.hasErrors()) {
             return "error";
@@ -46,6 +47,7 @@ public class SmartHomeController {
         model.addAttribute("name",profile.getName());
         model.addAttribute("role", Profile.Role.values());
         model.addAttribute("location",profile.getLocation());
+        //model.addAttribute("selectRoom",shp.getCurrentRoom());
 
         simulatorMap.put(0, simulator);
         return "dashboard";
