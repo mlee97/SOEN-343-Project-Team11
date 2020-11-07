@@ -14,6 +14,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import smarthomesimulator.model.SHP;
 import smarthomesimulator.model.Simulator;
 import smarthomesimulator.model.Profile;
 
@@ -26,7 +27,8 @@ public class DashboardController extends SmartHomeController{
     }
 
     @PostMapping(value="/context")
-    public String submitDashboard(@Validated @ModelAttribute("simulator") final Simulator simulator, @Validated @ModelAttribute("profile") final Profile profile, ModelMap model) {
+    public String submitDashboard(@Validated @ModelAttribute("simulator") final Simulator simulator, @Validated @ModelAttribute("profile") final Profile profile,
+                                  @Validated @ModelAttribute("shp") final SHP shp, ModelMap model) {
 
         Simulator sim = simulatorMap.get(0);
         model.addAttribute("date", simulator.getDate());
@@ -41,13 +43,30 @@ public class DashboardController extends SmartHomeController{
         return "dashboard";
     }
 
+    @PostMapping(value="/shp")
+    public String submitSHP(@Validated @ModelAttribute("simulator") final Simulator simulator, @Validated @ModelAttribute("profile") final Profile profile,
+                            @Validated @ModelAttribute("shp") final SHP shp, ModelMap model) {
+
+        Simulator sim = simulatorMap.get(0);
+
+        model.addAttribute("selectRoom",shp.getShpRoom());
+        model.addAttribute("startTime",shp.getStartTime());
+        model.addAttribute("endTime",shp.getEndTime());
+        model.addAttribute("alertTime",shp.getAlertTime());
+        model.addAttribute("lightsSHP",shp.getLightsSHP());
+        simulatorMap.put(0,sim);
+
+        return "dashboard";
+    }
+
 //    @GetMapping(value = {"/addProfileDashboard"})
 //    public ModelAndView newProfileDashboard() {
 //        return new ModelAndView("dashboard", "profile", new Profile());
 //    }
 
     @PostMapping(value={"/addProfileDashboard"})
-    public String submitProfile(@Validated @ModelAttribute("profile") final Profile profile, @Validated @ModelAttribute("simulator") final Simulator simulator) {
+    public String submitProfile(@Validated @ModelAttribute("profile") final Profile profile, @Validated @ModelAttribute("simulator") final Simulator simulator,
+                                @Validated @ModelAttribute("shp") final SHP shp) {
 
         Simulator sim = simulatorMap.get(0);
         String name = profile.getName();

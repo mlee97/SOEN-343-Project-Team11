@@ -104,6 +104,7 @@
                                                       <span class="slider"></span>
                                                     </label>
                                                 </td>
+                                             <tr/>
                                              <tr>
                                                 <td>Select Room:</td>
                                                 <td>
@@ -131,7 +132,7 @@
                                                 <td><form:checkbox path="lightsSHP" value="Set Lights:"/></td>
                                             </tr>
                                             <tr>
-                                                <td><input href="/dashboard" class="btn btn-outline-dark" type="submit" value="Submit"/></td>
+                                                <td><input class="btn btn-outline-dark" type="submit" value="Submit"/></td>
                                             </tr>
                                         </form:form>
                                     </table>
