@@ -106,6 +106,16 @@ public class Room {
 	    		return true;
 	    }
 	    
+	    public ArrayList<Window> getWindows() {
+	    	return this.windows;
+	    }
+	    public ArrayList<Door> getDoors() {
+	    	return this.doors;
+	    }
+	    public ArrayList<Light> getLights() {
+	    	return this.lights;
+	    }
+	    
 	    
 	}
 

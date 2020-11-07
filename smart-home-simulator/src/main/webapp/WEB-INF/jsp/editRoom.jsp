@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@page import="smarthomesimulator.model.Simulator,java.util.regex.*,smarthomesimulator.model.Room,smarthomesimulator.model.Door,java.util.ArrayList" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
@@ -11,14 +10,15 @@
         
     </head>
     <body>
-        <h3>Room is ${currentRoom} </h3>
-      	<form>
-      		<label for="doors">How many doors to open</label>
-      		<select>
-      		<c:forEach items="${currentDoors}" var="door">
-        		<option> ${currentDoors.indexOf(door)} </option>
-    		</c:forEach>
-      		</select>
-      	</form>
+        <h3>${currentRoom.getRoomName()} </h3>
+      	<form:form  method="POST" modelAttribute="currentRoom">
+      		<form:label path="doors">How many doors to open</form:label>
+      		<form:select path="doorsToOpen" items="${currentDoors}"/><br/>
+      		<form:label path="windows">How many windows to open</form:label>
+      		<form:select path="windowsToOpen" items="${currentWindows}"/><br/>
+      		<form:label path="lights">How many lights to open</form:label>
+      		<form:select path="lightsToTurnOn" items="${currentLights}"/><br/>
+      		<input type="submit" value="Submit">
+      	</form:form>
     </body>
 </html>
