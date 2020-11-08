@@ -25,27 +25,51 @@ import smarthomesimulator.model.Simulator;
 @Controller
 public class RoomController {
 	
+	
 	@RequestMapping(value = {"/{.*}/editRoom"})
     public ModelAndView showRoom(ModelMap model, HttpServletRequest request) {
     	
     	String selectedRoomName =  request.getRequestURL().toString() + "?" + request.getQueryString(); 
-		Pattern roomPattern = Pattern.compile("(/.*?/)");
+		Pattern roomPattern = Pattern.compile("8080/(.*?)/");
 		Matcher roomMatch = roomPattern.matcher(selectedRoomName);
 		roomMatch.find();
-		selectedRoomName = roomMatch.group(1).replaceAll("\\/", "");
-		model.addAttribute("currentRoom",Simulator.getRoom(selectedRoomName,Simulator.roomsOfHouse));
-		model.addAttribute("currentLights",Simulator.getRoom(selectedRoomName,Simulator.roomsOfHouse).getLights());
-		model.addAttribute("currentWindows",Simulator.getRoom(selectedRoomName,Simulator.roomsOfHouse).getWindows());
-		model.addAttribute("currentDoors",Simulator.getRoom(selectedRoomName,Simulator.roomsOfHouse).getDoors());
+		selectedRoomName = roomMatch.group(1);
+		model.addAttribute("currentRoom",Simulator.getRoom(selectedRoomName));
+		model.addAttribute("currentLights",Simulator.getRoom(selectedRoomName).getLights());
+		model.addAttribute("currentWindows",Simulator.getRoom(selectedRoomName).getWindows());
+		model.addAttribute("currentDoors",Simulator.getRoom(selectedRoomName).getDoors());
+		model.addAttribute("roomStatus", Simulator.getRoom(selectedRoomName).Status());
 		return new ModelAndView("editRoom");
     }
 	
 	@RequestMapping(value = {"/confirmEdit"}, method= {RequestMethod.GET,RequestMethod.POST})
-	public void confirmEdit(ModelMap model, @RequestParam("selectedLights")String lights, 
-			@RequestParam("selectedWindows")String windows, @RequestParam("selectedDoors")String doors, @Validated @ModelAttribute("simulator") Simulator simulator, @Validated  @ModelAttribute("profile") Profile profile ) {
+	public  ModelAndView confirmEdit(ModelMap model, HttpServletRequest request, 
+			@RequestParam("selectedLights")String lights, @RequestParam("selectedWindows")String windows, 
+			@RequestParam("selectedDoors")String doors, @RequestParam(name="blockedDoors", required=false)String blockedDoors, 
+			@RequestParam(name="blockedWindows", required=false)String blockedWindows, @RequestParam(name="closedLights", required=false)String closedLights, 
+			@RequestParam(name="closedWindows", required=false)String closedWindows, @RequestParam(name="closedDoors", required=false)String closedDoors) {
+			
 		
-		System.out.println("You selected to open "+lights+" lights, "+windows+" windows, and "+doors+" doors ");
-		
+			String selectedRoomName =  request.getRequestURL().toString() + "?" + request.getQueryString(); 
+			Pattern roomPattern = Pattern.compile("(/.*?/)");
+			Matcher roomMatch = roomPattern.matcher(selectedRoomName);
+			roomMatch.find();
+			selectedRoomName = roomMatch.group(1).replaceAll("\\/", "");
+			
+			try {
+				
+			Simulator.getRoom(selectedRoomName).setOpenLights(Integer.parseInt(lights));
+			Simulator.getRoom(selectedRoomName).setOpenDoors(Integer.parseInt(doors));
+			Simulator.getRoom(selectedRoomName).setOpenWindows(Integer.parseInt(windows));
+
+			}catch(Exception E) {
+				System.out.println("Null Values");
+			}
+			
+			model.addAttribute("currentRoom",Simulator.getRoom(selectedRoomName));
+			return new ModelAndView("confirmEdit");
+			
 		
 	}
+	
 }

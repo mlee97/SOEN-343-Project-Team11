@@ -31,7 +31,7 @@ public class Door {
     }
 
     public void unblock() {
-        isBlocked = true;
+        isBlocked = false;
     }
 
     public void open() {
@@ -39,6 +39,6 @@ public class Door {
     }
 
     public void close() {
-        isOpen = true;
+        isOpen = false;
     }
 }
