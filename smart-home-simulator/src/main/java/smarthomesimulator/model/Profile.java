@@ -1,40 +1,46 @@
 package smarthomesimulator.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Profile {
 
-public enum Role {
-    CHILD(0, "Child"),
-    GUEST(0, "Guest"),
-    PARENT(1, "Parent"),
-    STRANGER(0, "Stranger");
+    public enum Role {
+        CHILD(0, "Child"),
+        GUEST(0, "Guest"),
+        PARENT(1, "Parent"),
+        STRANGER(0, "Stranger");
 
-    private int accessibility;
-    private String key;
+        @JsonProperty()
+        private int accessibility;
+        @JsonProperty()
+        private String key;
 
-    Role(int accessibility, String key) {
-        this.accessibility = accessibility;
-        this.key = key;
+        Role(int accessibility, String key) {
+            this.accessibility = accessibility;
+            this.key = key;
+        }
+
+        public int getAccessibility() {
+            return accessibility;
+        }
+
+        public void setAccessibility(int accessibility) {
+            this.accessibility = accessibility;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public void setKey(String key) {
+            this.key = key;
+        }
     }
-
-    public int getAccessibility() {
-        return accessibility;
-    }
-
-    public void setAccessibility(int accessibility) {
-        this.accessibility = accessibility;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
-}
-
+    @JsonProperty()
     private String name;
+    @JsonProperty()
     private Role role;
+    @JsonProperty()
     private String location;
 
     public Profile() {

@@ -1,172 +1,158 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+         pageEncoding="ISO-8859-1" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@page import="smarthomesimulator.model.Simulator" %>
 <%@page import="smarthomesimulator.model.Profile" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <t:wrapper>
     <div class="container-flex p-3 dashboard">
         <div class="row">
-            <div class="profile col-2">
-                <fieldset>
-                    <legend>Simulation</legend>
-                    <label class="switch">
+            <div class="profile col-1 pt-1 pb-1 rounded">
+                    <h4 class="mb-2 text-center">Simulation</h4>
+                    <label class="switch d-block m-auto">
                         <input type="checkbox" id="simSwitch" onclick="displaySimulator()">s
                         <span class="slider round"></span>
                     </label>
-                    <img src="/img/undefined_profile.png" alt="ProfilePic" class="profilePic">
-                    <button id="editBtn" onclick="redirectEditForm()">edit</button>                              
-                    <p>Date: ${simulator.getDate()}</p>
-                    <p>Time: ${simulator.getTime()}</p>
-                    <p>House Layout: ${simulator.getFileName()}</p>
-                    <p>Location: Outside</p>
-                    <p>Temperature: ${simulator.getTempOut()} &#176;C</p>
-                </fieldset>
+                    <img src="/img/undefined_profile.png" alt="ProfilePic" class="profilePic d-block m-auto">
+                    <button class="btn btn-primary d-block ml-auto mr-auto mt-2 mb-1" id="editBtn" onclick="redirectEditForm()">edit</button>
+                    <p class="d-block">Date: ${simulator.getDate()}</p>
+                    <p class="d-block">Time: ${simulator.getTime()}</p>
+                    <p class="d-block">House Layout: ${simulator.getFileName()}</p>
+                    <p class="d-block">Location:</p>
+                    <p class="d-block">Temperature: ${simulator.getTempOut()} &#176;C</p>
             </div>
 
-            <div id="simulator" class="col-10 border border-dark">
-                <div class="modules">
-                    <div class="row justify-content-start">
-                        <div class="col-12">
-                            <button class="tab btn btn-outline-dark" onclick="openModule(event, 'SHS')">SHS</button>
-                            &nbsp;
-                            <button class="tab btn btn-outline-dark" onclick="openModule(event, 'SHC')">SHC</button>
-                            &nbsp;
-                            <button class="tab btn btn-outline-dark" onclick="openModule(event, 'SHP')">SHP</button>
-                            &nbsp;
-                            <button class="tab btn btn-outline-dark" onclick="openModule(event, 'SHH')">SHH</button>
-                            &nbsp;
-                            <button class="tab btn btn-outline-dark" onclick="openModule(event, '+')">+</button>
+            <div class="col-4 justify-content-center pl-4 pr-4">
+                <div class="border rounded">
+                    <div class="row justify-content-center mt-1 ml-5 mr-5">
+                        <div class="btn-group" role="group">
+                            <button class="tab btn btn-outline-primary" onclick="openModule(event, 'SHS')">SHS</button>
+                            <button class="tab btn btn-outline-primary" onclick="openModule(event, 'SHC')">SHC</button>
+                            <button class="tab btn btn-outline-primary" onclick="openModule(event, 'SHP')">SHP</button>
+                            <button class="tab btn btn-outline-primary" onclick="openModule(event, 'SHH')">SHH</button>
+                            <button class="tab btn btn-outline-primary" onclick="openModule(event, '+')">+</button>
                         </div>
                     </div>
-                    <div class="row justify-content-center">
-                        <div class="col-5">
-                            <div class="params p-1 border border-dark">
-                                <div id="SHS" class="tabContent"><br/>
-                                <table>
-                                    <form:form method="POST" action="/dashboard/context" modelAttribute="simulator">
-                                        <tr>
-                                            <td><form:label path="date">Edit Date (YYYY-MM-DD): </form:label></td>
-                                            <td><form:input path="date"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td><form:label path="time">Edit Time:</form:label></td>
-                                            <td><form:input path="time"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td><form:label path="tempOut">Edit Temperature:</form:label></td>
-                                            <td><form:input path="tempOut" /></td>
-                                        </tr>
-                                        <tr>
-                                            <td><input class="btn btn-outline-dark" type="submit" value="Submit"/></td>
-                                        </tr>
-                                    </form:form>
-                                </table>
-                                    <div>
-                                        <h4>Enter new profile: </h4>
-                                        <table>
-                                            <form:form method="POST" action="/dashboard/addProfileDashboard" modelAttribute="profile">
-                                                <tr>
-                                                    <td><form:label path="name">Person's Name: </form:label></td>
-                                                    <td><form:input path="name"/></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><form:label path="role">Role</form:label></td>
-                                                    <td><form:select path="role" >
-                                                        <form:options/>
-                                                    </form:select></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><form:label path="location">Location:</form:label></td>
-                                                    <td><form:input path="location" /></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><input href="/dashboard" class="btn btn-outline-dark" type="submit" value="Submit"/></td>
-                                                </tr>
-                                            </form:form>
-                                        </table>
+                    <div class="row params p-1 overflow-auto mt-1">
+                        <div id="SHS" class="w-100 tabContent ml-4 mr-4">
+                            <form onsubmit="editContext(event)">
+                                <h5>Parameters</h5>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label for="date">Edit Date: </label>
+                                        <input class="form-control" type="date" id="date" name="date"/>
                                     </div>
+                                    <div class="col">
+                                        <label for="time">Edit Time:</label>
+                                        <input class="form-control" type="time" id="time" name="time"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tempOut">Edit Temperature:</label>
+                                    <input class="form-control" type="number" step="0.01" id="tempOut" name="tempOut"/>
+                                </div>
+                                <button class="btn btn-outline-dark" type="submit">Submit</button>
+                            </form>
+                            <form onsubmit="editProfile(event)">
+                                <h5>Profile: </h5>
+                                <div class="form-group">
+                                    <label for="name">Person's Name: </label>
+                                    <input class="form-control" type="text" id="name" name="name"/>
+                                </div>
 
+                                <div class="form-group">
+                                    <label for="role">Role</label>
+                                    <select class="form-control" id="role" name="role">
+                                        <option value="CHILD">Child</option>
+                                        <option value="GUEST">Guest</option>
+                                        <option value="PARENT">Parent</option>
+                                        <option value="STRANGER">Stranger</option>
+                                    </select>
                                 </div>
-                                <div id="SHC" class="tabContent"><br/>
-                                    <h3>SHC</h3>
-                                    <p>Smart Home Core Functionality.</p>
+
+                                <div class="form-group">
+                                    <label for="location">Location:</label>
+                                    <input class="form-control" id="location" name="location"/>
                                 </div>
-                                <div id="SHP" class="tabContent"><br/>
-                                    <table>
-                                        <form:form method="POST" action="/dashboard/shp" modelAttribute="shp">
-                                             <tr>
-                                                <td>Set away:</td>
-                                                <td>
-                                                    <label class="switch">
-                                                      <input type="checkbox">
-                                                      <span class="slider"></span>
-                                                    </label>
-                                                </td>
-                                             <tr/>
-                                             <tr>
-                                                <td>Select Room:</td>
-                                                <td>
-                                                     <form:select path="shpRoom">
-                                                        <c:forEach var="room" items="${RoomList}">
-                                                            <form:option value="${room.getRoomName()}"/>
-                                                        </c:forEach>
-                                                     </form:select>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><form:label path="startTime">Start Time:</form:label></td>
-                                                <td><form:input path="startTime"/></td>
-                                            </tr>
-                                            <tr>
-                                                <td><form:label path="endTime">End Time:</form:label></td>
-                                                <td><form:input path="endTime" /></td>
-                                            </tr>
-                                            <tr>
-                                                <td><form:label path="alertTime">Alert Time (in minutes):</form:label></td>
-                                                <td><form:input path="alertTime" /></td>
-                                            </tr>
-                                            <tr>
-                                                <td><form:label path="lightsSHP">Set lights:</form:label></td>
-                                                <td><form:checkbox path="lightsSHP" value="Set Lights:"/></td>
-                                            </tr>
-                                            <tr>
-                                                <td><input class="btn btn-outline-dark" type="submit" value="Submit"/></td>
-                                            </tr>
-                                        </form:form>
-                                    </table>
-                                </div>
-                                <div id="SHH" class="tabContent"><br/>
-                                    <h3>SHH</h3>
-                                    <p>Smart Home Heating.</p>
-                                </div>
-                            </div>
+
+                                <button class="btn btn-outline-dark" type="submit">Submit</button>
+                            </form>
                         </div>
-                        <div class="col-7" style="text-align:center">
-                            <div class="houseLayout border border-dark">
-                            	<div class="house">
-        							<c:forEach items="${RoomList}" var="room">
-    									<button class="rooms" >
-    									<img src="${room.canEnter() ? 'img/doorOpen.jpg': 'img/doorClosed.jpg'}" class="${ room.findDoors() ? 'doors' : 'display:none' }"/>
-    									<img src="${room.isBright() ? 'img/lightsOn.png': 'img/lightsOff.png'}" class="${ room.findLights() ? 'lights' : 'display:none' }"/>
-    									<img src="${room.isWindy() ? 'img/windowsOpen.jpg': 'img/windowsClosed.jpg'}" class="${ room.findWindows() ? 'windows' : 'display:none' }"/>
-    										<c:out value="${room.getRoomName()}"/> 
-    									</button>
-									</c:forEach>
-    							</div>
-                            </div>
-                            <span>House Layout</span>
+                        <div id="SHC" class="w-100 tabContent ml-4 mr-4"><br/>
+                            <p>Smart Home Core Functionality.</p>
+                        </div>
+                        <div id="SHP" class="w-100 tabContent ml-4 mr-4">
+                            <form onsubmit="changePrivacySettings(event)">
+                                Set away:
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                                <div class="form-group">
+                                    <label for="shpRoom">Select Room:</label>
+                                    <select class="form-control" id="shpRoom" name="shpRoom">
+                                        <c:forEach var="room" items="${RoomList}">
+                                            <option value="${room.getRoomName()}">${room.getRoomName()}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="startTime">Start Time:</label>
+                                    <input class="form-control" id="startTime" name="startTime" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="endTime">End Time:</label>
+                                    <input class="form-control" id="endTime" name="endTime" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="alertTime">Alert Time (in minutes):</label>
+                                    <input class="form-control" id="alertTime" name="alertTime" />
+                                </div>
+
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="lightsSHP" name="lightsSHP" value=""/>
+                                    <label class="form-check-label" for="lightsSHP">Set lights</label>
+                                </div>
+
+                                <button class="btn btn-outline-dark" type="submit">Submit</button>
+                            </form>
+                        </div>
+                        <div id="SHH" class="w-100 tabContent ml-4 mr-4"><br/>
+                            <p>Smart Home Heating.</p>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="consoleOutput col-12 overflow-auto">
-                        <textarea id="consoleOutput" rows=5 placeholder="Console output will appear here"
-                                  readonly></textarea>
-                        </div>
-                    </div>
-
                 </div>
+            </div>
+            <div class="col-7 justify-content-center ">
+                <div style="text-align:center">
+                    <div class="houseLayout border rounded p-1">
+                        <div class="w-100 h-100 overflow-hidden">
+                            <c:forEach items="${RoomList}" var="room">
+                                <button class="rooms">
+                                    <img src="${room.canEnter() ? 'img/doorOpen.jpg': 'img/doorClosed.jpg'}"
+                                         class="${ room.findDoors() ? 'doors' : 'display:none' }"/>
+                                    <img src="${room.isBright() ? 'img/lightsOn.png': 'img/lightsOff.png'}"
+                                         class="${ room.findLights() ? 'lights' : 'display:none' }"/>
+                                    <img src="${room.isWindy() ? 'img/windowsOpen.jpg': 'img/windowsClosed.jpg'}"
+                                         class="${ room.findWindows() ? 'windows' : 'display:none' }"/>
+                                    <c:out value="${room.getRoomName()}"/>
+                                </button>
+                            </c:forEach>
+                        </div>
+                    </div>
+                    <span>House Layout</span>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="row justify-content-center">
+            <div class="consoleOutput overflow-auto w-75 p-3">
+                        <textarea class="p-1 border rounded" id="consoleOutput" rows="7" placeholder="Console output will appear here"
+                                  readonly></textarea>
             </div>
         </div>
     </div>

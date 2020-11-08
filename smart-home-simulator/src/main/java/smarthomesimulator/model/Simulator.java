@@ -1,19 +1,21 @@
 package smarthomesimulator.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Date;
-import java.io.File;  // Import the File class
-import java.io.FileNotFoundException;  // Import this class to handle errors
-import java.util.Scanner; // Import the Scanner class to read text files
 
 public class Simulator {
 
+    @JsonProperty()
     private String date;
+    @JsonProperty()
     private String time;
+    @JsonProperty()
     private double tempOut;
     private int defaultTempIn;
     private String fileName;
