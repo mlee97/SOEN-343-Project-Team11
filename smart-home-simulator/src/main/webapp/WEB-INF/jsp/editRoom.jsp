@@ -11,14 +11,29 @@
     </head>
     <body>
         <h3>${currentRoom.getRoomName()} </h3>
-      	<form:form  method="POST" modelAttribute="currentRoom">
-      		<form:label path="doors">How many doors to open</form:label>
-      		<form:select path="doorsToOpen" items="${currentDoors}"/><br/>
-      		<form:label path="windows">How many windows to open</form:label>
-      		<form:select path="windowsToOpen" items="${currentWindows}"/><br/>
-      		<form:label path="lights">How many lights to open</form:label>
-      		<form:select path="lightsToTurnOn" items="${currentLights}"/><br/>
+      	<form  method="POST" action="/confirmEdit">
+      		<label >How many doors to open</label>
+      		<select name="selectedDoors">
+      			<c:forEach items="${currentDoors}" var="door">
+      				<option><c:out value="${currentDoors.indexOf(door)}" /></option>
+      			</c:forEach>
+      		</select>
+      		<br/>
+      		<label >How many windows to open</label>
+      		<select name="selectedWindows">
+      			<c:forEach items="${currentWindows}" var="window">
+      				<option><c:out value="${currentWindows.indexOf(window)}" /></option>
+      			</c:forEach>
+      		</select>
+      		<br/>
+      		<label >How many lights to open</label>
+      		<select name="selectedLights">
+      			<c:forEach items="${currentLights}" var="light">
+      				<option><c:out value="${currentLights.indexOf(light)}" /></option>
+      			</c:forEach>
+      		</select>
+      		<br/>
       		<input type="submit" value="Submit">
-      	</form:form>
+      	</form>
     </body>
 </html>

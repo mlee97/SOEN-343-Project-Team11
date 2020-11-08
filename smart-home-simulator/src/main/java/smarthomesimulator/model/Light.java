@@ -13,7 +13,7 @@ public class Light {
         return isOn;
     }
 
-    public void turnOn(boolean open) {
+    public void turnOn() {
         isOn = true;
     }
 
