@@ -1,12 +1,17 @@
 package smarthomesimulator.model;
 
+import smarthomesimulator.interfaces.Observable;
+import smarthomesimulator.interfaces.Observer;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 
-public class SHP {
+public class SHP implements Observable {
 
+    private ArrayList<Observer> observers = new ArrayList<>();
     private boolean away;
     private String startTime;
     private String endTime;
@@ -78,5 +83,19 @@ public class SHP {
             curTime = hour + ":" + minute;
         }
         return curTime;
+    }
+
+    @Override
+    public void attachObserver(Observer o){
+        observers.add(o);
+    }
+    @Override
+    public void detachObserver(Observer o){
+        observers.remove(o);
+    }
+    @Override
+    public void notifyObserver(Observable observable){
+        System.out.println("New Observer added");
+
     }
 }
