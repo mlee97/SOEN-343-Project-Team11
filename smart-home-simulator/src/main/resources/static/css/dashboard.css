@@ -4,7 +4,6 @@
 
 .dashboard {
     margin: auto;
-    max-width: 1350px;
 }
 
 .profile {
@@ -128,6 +127,7 @@ input:checked + .slider:before {
     margin-top: 10px;
     width: 100%;
     height: 400px;
+    overflow: auto;
 }
 
 .houseLayout {

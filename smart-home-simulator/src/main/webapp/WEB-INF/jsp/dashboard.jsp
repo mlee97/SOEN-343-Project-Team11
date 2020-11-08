@@ -6,7 +6,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <t:wrapper>
-    <div class="container-flex p-3 dashboard">
+    <div class="container-fluid p-3 dashboard">
         <div class="row">
             <div class="profile col-2">
                 <fieldset>
@@ -90,8 +90,71 @@
 
                                 </div>
                                 <div id="SHC" class="tabContent"><br/>
-                                    <h3>SHC</h3>
-                                    <p>Smart Home Core Functionality.</p>
+                                    <h4>Controls</h4>
+                                    <div class="btn-group" role="group" id="shcGroup">
+                                        <button class="shcTab btn btn-outline-dark" id="windowsTab" onclick="shcModule(event, 'windowContent')">Windows</button>
+                                        <button class="shcTab btn btn-outline-dark" id="doorsTab" onclick="shcModule(event, 'doorsContent')">Doors</button>
+                                        <button class="shcTab btn btn-outline-dark" id="lightsTab" onclick="shcModule(event, 'lightsContent')">Lights</button>
+                                    </div>
+                                    <table class="table shcTabContent" id="windowContent" style="display: none">
+                                        <tr>
+                                            <th scope="col">Room</th>
+                                            <th scope="col"></th>
+                                        </tr>
+                                        <c:forEach items="${RoomList}" var="room">
+                                            <tr>
+                                                <th scope="row">
+                                                        ${room.getRoomName()}
+                                                </th>
+                                                <td>
+                                                    <button type="button" class="btn btn-dark" onclick="openWindow(event, '${room.getRoomName()}')">Open</button>
+                                                    <button type="button" class="btn btn-outline-dark" onclick="closeWindow(event, '${room.getRoomName()}')">Close</button>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                    </table>
+                                    <table class="table shcTabContent" id="doorsContent" style="display: none">
+                                        <tr>
+                                            <th scope="col">Room</th>
+                                            <th scope="col"></th>
+                                        </tr>
+                                            <form:form >
+                                                <c:forEach items="${RoomList}" var="room">
+                                        <tr>
+                                                        <th scope="row">
+                                                                ${room.getRoomName()}
+                                                        </th>
+                                                        <td >
+                                                            <button type="button" class="btn btn-dark" onclick="openDoors(event, '${room.getRoomName()}')">Open</button>
+                                                            <button type="button" class="btn btn-outline-dark" onclick="closeDoors(event, '${room.getRoomName()}')">Close</button>
+                                                        </td> </tr>
+                                                </c:forEach>
+                                            </form:form>
+                                    </table>
+                                    <table class="table shcTabContent" id="lightsContent" style="display: none">
+                                        <tr>
+                                            <th scope="col">Room</th>
+                                            <th scope="col"></th>
+                                        </tr>
+                                            <form:form >
+                                                <c:forEach items="${RoomList}" var="room">
+                                                <tr>
+                                                <th scope="row">
+                                                        ${room.getRoomName()}
+                                                </th>
+                                                <td >
+                                                    <button type="button" class="btn btn-light" onclick="onLights(event, '${room.getRoomName()}')">On</button>
+                                                    <button type="button" class="btn btn-outline-dark" onclick="offLights(event, '${room.getRoomName()}')">Off</button>
+                                                </td>
+                                                </tr>
+                                                </c:forEach>
+                                            </form:form>
+                                    </table>
+                                    <h4>Lights AUTO MODE</h4>
+                                    <label class="switch">
+                                        <input type="checkbox" onclick="activateAwayMode()" value="${awayMode}">
+                                        <span class="slider round"></span>
+                                    </label>
                                 </div>
                                 <div id="SHP" class="tabContent"><br/>
                                     <table>
