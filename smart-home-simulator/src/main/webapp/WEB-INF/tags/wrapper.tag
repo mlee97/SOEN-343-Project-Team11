@@ -14,6 +14,6 @@
     <script src="/js/dashboard.js"></script>
     <script src="/js/main.js"></script>
 
-</head><body>
+</head><body class="m-3">
 <jsp:doBody/>
 </body></html>
