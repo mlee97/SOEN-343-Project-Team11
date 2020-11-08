@@ -47,7 +47,6 @@ public class SmartHomeController {
         model.addAttribute("name",profile.getName());
         model.addAttribute("role", Profile.Role.values());
         model.addAttribute("location",profile.getLocation());
-        model.addAttribute("selectRoom",shp.getShpRoom());
         model.addAttribute("startTime",shp.getStartTime());
         model.addAttribute("endTime",shp.getEndTime());
         model.addAttribute("alertTime",shp.getAlertTime());
