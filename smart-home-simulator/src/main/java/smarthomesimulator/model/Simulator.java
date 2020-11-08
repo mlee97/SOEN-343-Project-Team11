@@ -17,6 +17,7 @@ public class Simulator {
     private double tempOut;
     private int defaultTempIn;
     private String fileName;
+    private static int roomNumber = 0;
     
     public static ArrayList<Room> roomsOfHouse = new ArrayList<>();
     public static ArrayList<Profile> profilesOfHouse = new ArrayList<>();
@@ -89,7 +90,18 @@ public class Simulator {
     	return fileName;
     }
 
-
+    public static Room getRoom(String name) {
+    	
+    	
+    	for(int i=0; i<roomsOfHouse.size();i++) {
+    		if(name.equals(roomsOfHouse.get(i).getRoomName())) {
+    			 roomNumber = i;
+    			 break;
+    		}
+    	}
+    	
+    	return roomsOfHouse.get(roomNumber);
+    }
     public void addProfile(Profile profile) {
         profilesOfHouse.add(profile);
     }

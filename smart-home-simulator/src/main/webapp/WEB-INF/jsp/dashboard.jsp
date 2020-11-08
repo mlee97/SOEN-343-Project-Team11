@@ -145,9 +145,14 @@
                         </div>
                         <div class="col-7" style="text-align:center">
                             <div class="houseLayout border border-dark">
+                            	<script>
+                            	function redirectPage(pageName){
+                            	    window.location.href=pageName;
+                            	}
+                            	</script>
                             	<div class="house">
         							<c:forEach items="${RoomList}" var="room">
-    									<button class="rooms" >
+    									<button class="rooms" onclick=redirectPage("${room.getRoomName()}/editRoom")>
     									<img src="${room.canEnter() ? 'img/doorOpen.jpg': 'img/doorClosed.jpg'}" class="${ room.findDoors() ? 'doors' : 'display:none' }"/>
     									<img src="${room.isBright() ? 'img/lightsOn.png': 'img/lightsOff.png'}" class="${ room.findLights() ? 'lights' : 'display:none' }"/>
     									<img src="${room.isWindy() ? 'img/windowsOpen.jpg': 'img/windowsClosed.jpg'}" class="${ room.findWindows() ? 'windows' : 'display:none' }"/>

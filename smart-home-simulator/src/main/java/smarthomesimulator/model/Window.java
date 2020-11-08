@@ -30,7 +30,7 @@ public class Window {
     }
 
     public void unblock() {
-        isBlocked = true;
+        isBlocked = false;
     }
 
     public void open() {
@@ -38,6 +38,6 @@ public class Window {
     }
 
     public void close() {
-        isOpen = true;
+        isOpen = false;
     }
 }
