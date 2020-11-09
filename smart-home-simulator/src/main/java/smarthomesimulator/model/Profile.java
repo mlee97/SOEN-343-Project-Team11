@@ -1,6 +1,9 @@
 package smarthomesimulator.model;
 
-public class Profile {
+import smarthomesimulator.interfaces.Observable;
+import smarthomesimulator.interfaces.Observer;
+
+public class Profile implements Observer {
 
 public enum Role {
     CHILD(0, "Child"),
@@ -36,6 +39,7 @@ public enum Role {
     private String name;
     private Role role;
     private String location;
+    private SHP observable;
 
     public Profile() {
         this.role = this.getRole();
@@ -69,4 +73,9 @@ public enum Role {
         this.location = location;
     }
 
+    @Override
+    public void update(Observable o){
+        this.observable = (SHP) o;
+
+    }
 }
