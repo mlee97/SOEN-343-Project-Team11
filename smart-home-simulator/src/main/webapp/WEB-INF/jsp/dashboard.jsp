@@ -88,6 +88,18 @@
                                         </table>
                                     </div>
 
+                                    <div>
+                                        <form:form method = "GET" action = "/printProfiles">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <input type = "submit" value = "printProfiles"/>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </form:form>
+                                    </div>
+
                                 </div>
                                 <div id="SHC" class="tabContent"><br/>
                                     <h4>Controls</h4>
