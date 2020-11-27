@@ -19,7 +19,9 @@ public class Simulator {
     private double tempOut;
     private int defaultTempIn;
     private String fileName;
-    
+    private static int roomNumber = 0;
+    private boolean awayMode;
+
     public static ArrayList<Room> roomsOfHouse = new ArrayList<>();
     public static ArrayList<Profile> profilesOfHouse = new ArrayList<>();
 
@@ -30,6 +32,7 @@ public class Simulator {
         this.tempOut = this.getTempOut();
         this.defaultTempIn = this.getDefaultTempIn();
         this.fileName=this.getFileName();
+        awayMode = isAwayMode();
     }
 
     public void setDate(String date) {
@@ -91,6 +94,25 @@ public class Simulator {
     	return fileName;
     }
 
+    public static Room getRoom(String name) {
+    	
+    	
+    	for(int i=0; i<roomsOfHouse.size();i++) {
+    		if(name.equals(roomsOfHouse.get(i).getRoomName())) {
+    			 roomNumber = i;
+    			 break;
+    		}
+    	}
+    	
+    	return roomsOfHouse.get(roomNumber);
+    }
+    public boolean isAwayMode() {
+        return awayMode;
+    }
+
+    public void setAwayMode(boolean awayMode) {
+        this.awayMode = awayMode;
+    }
 
     public void addProfile(Profile profile) {
         profilesOfHouse.add(profile);
