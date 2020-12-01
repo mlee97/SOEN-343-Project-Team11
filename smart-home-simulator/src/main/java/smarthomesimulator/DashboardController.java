@@ -13,17 +13,18 @@ import smarthomesimulator.model.Simulator;
 import smarthomesimulator.model.Profile;
 
 
-@Controller
+@RestController
 @RequestMapping(value="/dashboard")
 public class DashboardController extends SmartHomeController{
     @GetMapping()
-    public ModelAndView dashboard(@Validated @ModelAttribute("simulator") final Simulator simulator, ModelMap model) {
+    public Simulator dashboard(@Validated @ModelAttribute("simulator") final Simulator simulator, ModelMap model) {
+        Simulator sim = simulatorMap.get(0);
         model.addAttribute("RoomList", Simulator.roomsOfHouse);
-        return new ModelAndView("dashboard", "simulator", simulator);
+        return sim;
     }
 
     @PostMapping(value="/context")
-    public ResponseEntity<Simulator> submitDashboard(@Validated @RequestBody Simulator simulator){
+    public Simulator submitDashboard(@Validated @RequestBody Simulator simulator){
 
         Simulator sim = simulatorMap.get(0);
 
@@ -32,11 +33,11 @@ public class DashboardController extends SmartHomeController{
         sim.setTempOut(simulator.getTempOut());
         simulatorMap.put(0,sim);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return sim;
     }
 
     @PostMapping(value="/shp")
-    public ResponseEntity<Simulator> submitSHP(@Validated @RequestBody final SHP shp, ModelMap model) {
+    public Simulator submitSHP(@Validated @RequestBody final SHP shp, ModelMap model) {
 
         Simulator sim = simulatorMap.get(0);
         model.addAttribute("selectRoom",shp.getShpRoom());
@@ -45,11 +46,11 @@ public class DashboardController extends SmartHomeController{
         model.addAttribute("alertTime",shp.getAlertTime());
         model.addAttribute("lightsSHP",shp.getLightsSHP());
         simulatorMap.put(0,sim);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return sim;
     }
 
     @PostMapping(value={"/addProfileDashboard"})
-    public ResponseEntity<Simulator> submitProfile(@Validated @RequestBody Profile profile) {
+    public Simulator submitProfile(@Validated @RequestBody Profile profile) {
 
         Simulator sim = simulatorMap.get(0);
         String name = profile.getName();
@@ -59,29 +60,29 @@ public class DashboardController extends SmartHomeController{
         sim.addProfile(prof);
         simulatorMap.put(0,sim);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return sim;
     }
 
     @RequestMapping(value={"/awayMode"}, method = {RequestMethod.GET, RequestMethod.POST})
-    public String setAwayMode(@Validated @ModelAttribute("simulator") final Simulator simulator, @Validated @ModelAttribute("profile") final Profile profile, @Validated @ModelAttribute("shp") final SHP shp,
+    public Simulator setAwayMode(@Validated @ModelAttribute("simulator") final Simulator simulator, @Validated @ModelAttribute("profile") final Profile profile, @Validated @ModelAttribute("shp") final SHP shp,
                               ModelMap model){
 
         Simulator sim = simulatorMap.get(0);
         sim.setAwayMode(!sim.isAwayMode());
         model.addAttribute("awayMode", sim.isAwayMode());
         simulatorMap.put(0,sim);
-        return "dashboard";
+        return sim;
     }
 
     @PostMapping(value="/openWindows")
-    public String openAllWindows(@Validated @ModelAttribute("profile") final Profile profile, @Validated @ModelAttribute("simulator") final Simulator simulator,
+    public Simulator openAllWindows(@Validated @ModelAttribute("profile") final Profile profile, @Validated @ModelAttribute("simulator") final Simulator simulator,
                                  @Validated @ModelAttribute("shp") final SHP shp,ModelMap model, @RequestBody String roomName){
         try{
             Simulator.getRoom(roomName).setOpenWindows(Simulator.getRoom(roomName).getClosedWindows());
         }catch(Exception E) {
             System.out.println("Null Values");
         }
-        return "dashboard";
+        return simulator;
     }
 
     @PostMapping(value="/closeWindows")

@@ -1,3 +1,14 @@
+var app;
+window.onload = async function () {
+    const response = await fetch("/dashboard", {method: "GET"});
+    let responseData = await response.json();
+    console.log(responseData);
+    app = new Vue({
+        el: "#dashboardContextContent",
+        data: {date: responseData.date, time: responseData.time, layout: responseData.fileName, tempOut: responseData.tempOut, location: 'Placeholder'}
+    })
+}
+
 function openModule(evt, modName) {
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabContent");
@@ -47,21 +58,27 @@ function redirectDashboard() {
 }
 
 async function getDashboard(e){
-    const reponse = await fetch("/dashboard", {method: "GET"});
-    console.log(reponse);
+
+
+    console.log(responseData);
 }
+
 
 async function editContext(e){
     e.preventDefault();
     let object = {};
     const json = new FormData(e.target);
     json.forEach((value, key) => object[key] = value);
-    let data = JSON.stringify(object);
-
-    const reponse = await fetch("/dashboard/context", {method: "POST", body: data, headers: {
+    const data = JSON.stringify(object)
+    const response = await fetch("/dashboard/context", {method: "POST", body: data, headers: {
             "Content-Type": "application/json",
         }});
-    console.log(reponse);
+    let responseData = await response.json();
+    app.date = responseData.date;
+    app.time= responseData.time;
+    app.layout= responseData.fileName;
+    app.tempOut= responseData.tempOut;
+    console.log(responseData);
 }
 
 async function editProfile(e){
@@ -71,10 +88,11 @@ async function editProfile(e){
     json.forEach((value, key) => object[key] = value);
     let data = JSON.stringify(object);
 
-    const reponse = await fetch("/dashboard/addProfileDashboard", {method: "POST", body: data, headers: {
+    const response = await fetch("/dashboard/addProfileDashboard", {method: "POST", body: data, headers: {
         "Content-Type": "application/json",
     }});
-    console.log(reponse);
+    let responseData = await response.json();
+    console.log(responseData);
 }
 
 async function changePrivacySettings(e){
@@ -84,10 +102,11 @@ async function changePrivacySettings(e){
     json.forEach((value, key) => object[key] = value);
     let data = JSON.stringify(object);
 
-    const reponse = await fetch("/dashboard/shp", {method: "POST", body: data, headers: {
+    const response = await fetch("/dashboard/shp", {method: "POST", body: data, headers: {
             "Content-Type": "application/json",
         }});
-    console.log(reponse);
+    let responseData = await response.json();
+    console.log(responseData);
     }
 function activateAwayMode(){
     console.log('/dashboard');
@@ -98,11 +117,14 @@ async function openWindow(e, room){
     e.preventDefault();
 
     const response = await fetch("/dashboard/openWindows", {method:'POST', body: room});
-
+    let responseData = await response.json();
+    console.log(responseData);
 }
 async function closeWindow(e, room){
     e.preventDefault();
     const response = await fetch("/dashboard/closeWindows", {method:'POST', body: room});
+    let responseData = await response.json();
+    console.log(responseData);
 }
 
 async function openDoors(e, room){
@@ -110,27 +132,30 @@ async function openDoors(e, room){
 
     const response = await fetch("/dashboard/openDoors", {method:'POST', body: room});
 
-    console.log(response);
-
+    let responseData = await response.json();
+    console.log(responseData);
 }
 async function closeDoors(e, room){
     e.preventDefault();
     const response = await fetch("/dashboard/closeDoors", {method:'POST', body: room});
 
-    console.log(response);
-}
+    let responseData = await response.json();
+    console.log(responseData);}
 
 async function onLights(e, room){
     e.preventDefault();
 
     const response = await fetch("/dashboard/onLights", {method:'POST', body: room});
 
-    console.log(response);
-
+    let responseData = await response.json();
+    console.log(responseData);
 }
 async function offLights(e, room){
     e.preventDefault();
     const response = await fetch("/dashboard/offLights", {method:'POST', body: room});
 
-    console.log(response);
+    let responseData = await response.json();
+    console.log(responseData);
 }
+
+

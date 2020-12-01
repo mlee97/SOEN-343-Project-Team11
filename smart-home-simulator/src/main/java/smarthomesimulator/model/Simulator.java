@@ -35,6 +35,18 @@ public class Simulator {
         awayMode = isAwayMode();
     }
 
+    public static int getRoomNumber() {
+        return roomNumber;
+    }
+
+    public static ArrayList<Room> getRoomsOfHouse() {
+        return roomsOfHouse;
+    }
+
+    public static ArrayList<Profile> getProfilesOfHouse() {
+        return profilesOfHouse;
+    }
+
     public void setDate(String date) {
         this.date = date;
     }

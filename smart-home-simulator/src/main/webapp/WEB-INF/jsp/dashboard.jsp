@@ -6,9 +6,11 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <t:wrapper>
+    <script src="/js/dashboard.js"></script>
+
     <div class="container-fluid p-3 dashboard">
         <div class="row">
-            <div class="profile col-1 pt-1 pb-1 rounded">
+            <div class="profile col-1 pt-1 pb-1 rounded" id="dashboardContextContent">
                     <h4 class="mb-2 text-center">Simulation</h4>
                     <label class="switch d-block m-auto">
                         <input type="checkbox" id="simSwitch" onclick="displaySimulator()">s
@@ -16,11 +18,11 @@
                     </label>
                     <img src="/img/undefined_profile.png" alt="ProfilePic" class="profilePic d-block m-auto">
                     <button class="btn btn-primary d-block ml-auto mr-auto mt-2 mb-1" id="editBtn" onclick="redirectEditForm()">edit</button>
-                    <p class="d-block">Date: ${simulator.getDate()}</p>
-                    <p class="d-block">Time: ${simulator.getTime()}</p>
-                    <p class="d-block">House Layout: ${simulator.getFileName()}</p>
-                    <p class="d-block">Location:</p>
-                    <p class="d-block">Temperature: ${simulator.getTempOut()} &#176;C</p>
+                    <p class="d-block">Date: {{ date }}</p>
+                    <p class="d-block">Time: {{ time }}</p>
+                    <p class="d-block">House Layout: {{ layout }}</p>
+                    <p class="d-block">Location: {{ location }}</p>
+                    <p class="d-block">Temperature: {{ tempOut }} &#176;C</p>
             </div>
 
             <div class="col-4 justify-content-center pl-4 pr-4">
@@ -232,6 +234,7 @@
             </div>
         </div>
     </div>
+
 </t:wrapper>
 
 
