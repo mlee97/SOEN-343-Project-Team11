@@ -6,6 +6,7 @@ import smarthomesimulator.interfaces.Observer;
 
 public class Profile implements Observer {
 
+
     public enum Role {
         CHILD(0, "Child"),
         GUEST(0, "Guest"),
@@ -76,6 +77,10 @@ public class Profile implements Observer {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public SHP getObservable() {
+        return observable;
     }
 
     @Override

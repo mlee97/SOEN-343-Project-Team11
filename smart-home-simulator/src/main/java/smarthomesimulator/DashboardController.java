@@ -1,16 +1,10 @@
 package smarthomesimulator;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import org.springframework.stereotype.Controller;
-import smarthomesimulator.model.SHP;
-import smarthomesimulator.model.Simulator;
-import smarthomesimulator.model.Profile;
+import smarthomesimulator.model.*;
 
 
 @RestController
@@ -75,69 +69,69 @@ public class DashboardController extends SmartHomeController{
     }
 
     @PostMapping(value="/openWindows")
-    public Simulator openAllWindows(@Validated @ModelAttribute("profile") final Profile profile, @Validated @ModelAttribute("simulator") final Simulator simulator,
-                                 @Validated @ModelAttribute("shp") final SHP shp,ModelMap model, @RequestBody String roomName){
+    public Room openAllWindows(@Validated @ModelAttribute("profile") final Profile profile, @Validated @ModelAttribute("simulator") final Simulator simulator,
+                               @Validated @ModelAttribute("shp") final SHP shp, ModelMap model, @RequestBody String roomName){
         try{
-            Simulator.getRoom(roomName).setOpenWindows(Simulator.getRoom(roomName).getClosedWindows());
+            simulator.getRoom(roomName).setOpenWindows(Simulator.getRoom(roomName).getClosedWindows());
         }catch(Exception E) {
             System.out.println("Null Values");
         }
-        return simulator;
+        return simulator.getRoom(roomName);
     }
 
     @PostMapping(value="/closeWindows")
-    public String closeAllWindows(@Validated @ModelAttribute("profile") final Profile profile, @Validated @ModelAttribute("simulator") final Simulator simulator,
+    public Room closeAllWindows(@Validated @ModelAttribute("profile") final Profile profile, @Validated @ModelAttribute("simulator") final Simulator simulator,
                                   @Validated @ModelAttribute("shp") final SHP shp,ModelMap model, @RequestBody String roomName){
         try{
             Simulator.getRoom(roomName).setClosedWindows(Simulator.getRoom(roomName).getOpenWindows());
         }catch(Exception E) {
             System.out.println("Null Values");
         }
-        return "dashboard";
+        return Simulator.getRoom(roomName);
     }
 
     @PostMapping(value="/openDoors")
-    public String openAllDoors(@Validated @ModelAttribute("profile") final Profile profile, @Validated @ModelAttribute("simulator") final Simulator simulator,
+    public Room openAllDoors(@Validated @ModelAttribute("profile") final Profile profile, @Validated @ModelAttribute("simulator") final Simulator simulator,
                                  @Validated @ModelAttribute("shp") final SHP shp,ModelMap model, @RequestBody String roomName){
         try{
             Simulator.getRoom(roomName).setOpenDoors(Simulator.getRoom(roomName).getClosedDoors());
         }catch(Exception E) {
             System.out.println("Null Values");
         }
-        return "dashboard";
+        return simulator.getRoom(roomName);
     }
 
     @PostMapping(value="/closeDoors")
-    public String closeAllDoors(@Validated @ModelAttribute("profile") final Profile profile, @Validated @ModelAttribute("simulator") final Simulator simulator,
+    public Room closeAllDoors(@Validated @ModelAttribute("profile") final Profile profile, @Validated @ModelAttribute("simulator") final Simulator simulator,
                                   @Validated @ModelAttribute("shp") final SHP shp,ModelMap model, @RequestBody String roomName){
         try{
             Simulator.getRoom(roomName).setClosedDoors(Simulator.getRoom(roomName).getOpenDoors());
         }catch(Exception E) {
             System.out.println("Null Values");
         }
-        return "dashboard";
+        return simulator.getRoom(roomName);
     }
 
     @PostMapping(value="/onLights")
-    public String turnOnLights(@Validated @ModelAttribute("profile") final Profile profile, @Validated @ModelAttribute("simulator") final Simulator simulator,
+    public Room turnOnLights(@Validated @ModelAttribute("profile") final Profile profile, @Validated @ModelAttribute("simulator") final Simulator simulator,
                                  @Validated @ModelAttribute("shp") final SHP shp, @RequestBody String roomName){
         try{
             Simulator.getRoom(roomName).setOpenLights(Simulator.getRoom(roomName).getClosedLights());
         }catch(Exception E) {
             System.out.println("Null Values");
         }
-        return "dashboard";
+        return simulator.getRoom(roomName);
     }
 
     @PostMapping(value="/offLights")
-    public String turnOffLights(@Validated @ModelAttribute("profile") final Profile profile, @Validated @ModelAttribute("simulator") final Simulator simulator,
+    public Room turnOffLights(@Validated @ModelAttribute("profile") final Profile profile, @Validated @ModelAttribute("simulator") final Simulator simulator,
                                   @Validated @ModelAttribute("shp") final SHP shp, @RequestBody String roomName){
         try{
             Simulator.getRoom(roomName).setClosedLights(Simulator.getRoom(roomName).getOpenLights());
         }catch(Exception E) {
             System.out.println("Null Values");
         }
-        return "dashboard";
+        return simulator.getRoom(roomName);
     }
 
 }

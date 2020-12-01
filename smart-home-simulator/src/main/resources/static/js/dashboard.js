@@ -1,9 +1,9 @@
-var app;
+var dashboardContext;
 window.onload = async function () {
     const response = await fetch("/dashboard", {method: "GET"});
     let responseData = await response.json();
     console.log(responseData);
-    app = new Vue({
+    dashboardContext = new Vue({
         el: "#dashboardContextContent",
         data: {date: responseData.date, time: responseData.time, layout: responseData.fileName, tempOut: responseData.tempOut, location: 'Placeholder'}
     })
@@ -57,13 +57,6 @@ function redirectDashboard() {
     window.location.href = "/dashboard";
 }
 
-async function getDashboard(e){
-
-
-    console.log(responseData);
-}
-
-
 async function editContext(e){
     e.preventDefault();
     let object = {};
@@ -74,11 +67,10 @@ async function editContext(e){
             "Content-Type": "application/json",
         }});
     let responseData = await response.json();
-    app.date = responseData.date;
-    app.time= responseData.time;
-    app.layout= responseData.fileName;
-    app.tempOut= responseData.tempOut;
-    console.log(responseData);
+    dashboardContext.date = responseData.date;
+    dashboardContext.time= responseData.time;
+    dashboardContext.layout= responseData.fileName;
+    dashboardContext.tempOut= responseData.tempOut;
 }
 
 async function editProfile(e){
@@ -108,6 +100,7 @@ async function changePrivacySettings(e){
     let responseData = await response.json();
     console.log(responseData);
     }
+
 function activateAwayMode(){
     console.log('/dashboard');
     window.location = '/dashboard/awayMode';
