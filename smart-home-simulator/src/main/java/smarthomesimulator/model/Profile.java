@@ -1,43 +1,49 @@
 package smarthomesimulator.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import smarthomesimulator.interfaces.Observable;
 import smarthomesimulator.interfaces.Observer;
 
 public class Profile implements Observer {
 
-public enum Role {
-    CHILD(0, "Child"),
-    GUEST(0, "Guest"),
-    PARENT(1, "Parent"),
-    STRANGER(0, "Stranger");
 
-    private int accessibility;
-    private String key;
+    public enum Role {
+        CHILD(0, "Child"),
+        GUEST(0, "Guest"),
+        PARENT(1, "Parent"),
+        STRANGER(0, "Stranger");
 
-    Role(int accessibility, String key) {
-        this.accessibility = accessibility;
-        this.key = key;
+        @JsonProperty()
+        private int accessibility;
+        @JsonProperty()
+        private String key;
+
+        Role(int accessibility, String key) {
+            this.accessibility = accessibility;
+            this.key = key;
+        }
+
+        public int getAccessibility() {
+            return accessibility;
+        }
+
+        public void setAccessibility(int accessibility) {
+            this.accessibility = accessibility;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public void setKey(String key) {
+            this.key = key;
+        }
     }
-
-    public int getAccessibility() {
-        return accessibility;
-    }
-
-    public void setAccessibility(int accessibility) {
-        this.accessibility = accessibility;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
-}
-
+    @JsonProperty()
     private String name;
+    @JsonProperty()
     private Role role;
+    @JsonProperty()
     private String location;
     private SHP observable;
 
@@ -71,6 +77,10 @@ public enum Role {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public SHP getObservable() {
+        return observable;
     }
 
     @Override

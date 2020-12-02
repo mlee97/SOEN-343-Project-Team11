@@ -4,15 +4,9 @@ import java.util.*;
 
 public class Room {
 	 	private String roomName;
-	    private ArrayList<Door> doors = new ArrayList<>();
-	    private ArrayList<Window> windows = new ArrayList<>();
-	    private ArrayList<Light> lights = new ArrayList<>();
-	    private int closedDoors;
-	    private int closedWindows;
-	    private int closedLights;
-	    private int openedDoors = 0;
-	    private int openedWindows = 0;
-	    private int openedLights = 0;
+	    private List<Door> doors = new ArrayList<>();
+	    private List<Window> windows = new ArrayList<>();
+	    private List<Light> lights = new ArrayList<>();
 		private int blockedWindows;
 		private int blockedDoors;
 	    
@@ -21,13 +15,11 @@ public class Room {
 	    	int count = 0;
 	    	
 	    	for(int i = 0; i < lights.size() ; i++){
-	    		if(lights.get(i).OnOff()) {
+	    		if(lights.get(i).isOn()) {
 	    			count++;
 	    	}
 	    }
-	    	this.openedLights = count;
-	    	
-	    	return this.openedLights;
+	    	return count;
 	    }
 	    
 	    public int getOpenDoors() {
@@ -39,8 +31,7 @@ public class Room {
 	    			count++;
 	    	}
 	    }
-	    	this.openedDoors = count;
-	    	return this.openedDoors;
+	    	return count;
 	    }
 	    
 	    public int getOpenWindows() {
@@ -52,8 +43,7 @@ public class Room {
 	    			count++;
 	    	}
 	    }
-	    	this.openedWindows = count;
-	    	return this.openedWindows;
+	    	return count;
 	    }
 	    
 	    public void setOpenLights(int lightsToOpen) {
@@ -78,12 +68,12 @@ public class Room {
 	    	int count = 0;
 	    	
 	    	for(int i = 0; i < lights.size() ; i++){
-	    		if(!lights.get(i).OnOff()) {
+	    		if(!lights.get(i).isOn()) {
 	    			count++;
 	    	}
 	    }
-	    	this.closedLights = count;
-	    	return this.closedLights;
+
+	    	return count;
 	    }
 	    
 	    public int getClosedDoors() {
@@ -94,8 +84,7 @@ public class Room {
 	    			count++;
 	    	}
 	    }
-	    	this.closedDoors = count;
-	    	return this.closedDoors;
+	    	return count;
 	    }
 	    
 	    public int getClosedWindows() {
@@ -106,8 +95,7 @@ public class Room {
 	    			count++;
 	    	}
 	    }
-	    	this.closedWindows = count;
-	    	return this.closedWindows;
+	    	return count;
 	    }
 	    
 	    public void setClosedLights(int lightsToClose) {
@@ -139,15 +127,12 @@ public class Room {
 
 
 		public void initDoors(int numOfDoors) {
-			this.closedDoors = numOfDoors;
-			
 	    	for(int i = 0; i < numOfDoors ; i++){
 	    		doors.add(i, new Door());
 			}
 		}
 
 		public void initWindows(int numOfWindows) {
-			this.closedWindows = numOfWindows;
 			
 			for(int i = 0; i < numOfWindows ; i++){
 				windows.add(i, new Window());
@@ -155,8 +140,7 @@ public class Room {
 		}
 		
 		public void initLights(int numOfLights) {
-			this.closedLights = numOfLights;
-			
+
 			for(int i = 0; i < numOfLights ; i++){
 				lights.add(i, new Light());
 			}
@@ -205,7 +189,7 @@ public class Room {
 	    		if(bright == true) {
 	    			break;
 	    		}
-	    		if(lights.get(i).OnOff()) {
+	    		if(lights.get(i).isOn()) {
 	    			bright = true;
 	    		}
 	    	}
@@ -234,13 +218,13 @@ public class Room {
 	    		return true;
 	    }
 	    
-	    public ArrayList<Window> getWindows() {
+	    public List<Window> getWindows() {
 	    	return this.windows;
 	    }
-	    public ArrayList<Door> getDoors() {
+	    public List<Door> getDoors() {
 	    	return this.doors;
 	    }
-	    public ArrayList<Light> getLights() {
+	    public List<Light> getLights() {
 	    	return this.lights;
 	    }
 
@@ -293,9 +277,5 @@ public class Room {
 			
 			return status+blockStatus+closeStatus;
 		}
-
-
-	    
-	    
-	}
+}
 

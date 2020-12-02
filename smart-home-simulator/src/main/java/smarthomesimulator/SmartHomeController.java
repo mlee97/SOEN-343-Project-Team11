@@ -56,20 +56,4 @@ public class SmartHomeController {
         return "dashboard";
     }
 
-
-//    @RequestMapping(value = "/dashboard", method = {RequestMethod.GET, RequestMethod.POST})
-//    public String submitProfile(@Validated @ModelAttribute("profile") final Profile profile,
-//                         final BindingResult result, final ModelMap model) {
-//        if (result.hasErrors()) {
-//            return "error";
-//        }
-//
-//        Simulator sim = simulatorMap.get(0);
-//        sim.addProfile(profile);
-//        simulatorMap.put((long) 0, sim);
-//
-//        return "dashboard";
-//    }
-
-
 }

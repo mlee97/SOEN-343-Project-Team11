@@ -1,19 +1,21 @@
 package smarthomesimulator.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Date;
-import java.io.File;  // Import the File class
-import java.io.FileNotFoundException;  // Import this class to handle errors
-import java.util.Scanner; // Import the Scanner class to read text files
 
 public class Simulator {
 
+    @JsonProperty()
     private String date;
+    @JsonProperty()
     private String time;
+    @JsonProperty()
     private double tempOut;
     private int defaultTempIn;
     private String fileName;
@@ -31,6 +33,18 @@ public class Simulator {
         this.defaultTempIn = this.getDefaultTempIn();
         this.fileName=this.getFileName();
         awayMode = isAwayMode();
+    }
+
+    public static int getRoomNumber() {
+        return roomNumber;
+    }
+
+    public static ArrayList<Room> getRoomsOfHouse() {
+        return roomsOfHouse;
+    }
+
+    public static ArrayList<Profile> getProfilesOfHouse() {
+        return profilesOfHouse;
     }
 
     public void setDate(String date) {
@@ -88,6 +102,7 @@ public class Simulator {
     public void setFileName(String fileName) {
     	this.fileName=fileName;
     }
+
     public String getFileName() {
     	return fileName;
     }

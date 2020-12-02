@@ -8,10 +8,6 @@ public class Light {
     public Light() {
     	this.isOn = false;
     }
-    
-    public boolean OnOff() {
-        return isOn;
-    }
 
     public void turnOn() {
         isOn = true;
@@ -21,5 +17,8 @@ public class Light {
         isOn = false;
     }
 
-  
+
+    public boolean isOn() {
+        return isOn;
+    }
 }
