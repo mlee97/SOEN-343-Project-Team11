@@ -3,3 +3,6 @@ RoomName:Bathroom,Doors:40,Windows:10,Lights:60;
 RoomName:DiningRoom,Doors:10,Windows:60,Lights:15;
 RoomName:Bedroom,Doors:30,Windows:70,Lights:10;
 RoomName:Balcony,Doors:50,Windows:60,Lights:8;
+RoomName:Backyard,Doors:10,Windows:1,Lights:7;
+RoomName:Garage,Doors:1,Windows:1,Lights:3;
+RoomName:BuildingEntrance,Doors:3,Windows:1,Lights:2;
