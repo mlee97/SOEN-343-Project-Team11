@@ -1,10 +1,15 @@
 package smarthomesimulator;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import smarthomesimulator.model.*;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.List;
 
 
 @RestController
@@ -41,6 +46,60 @@ public class DashboardController extends SmartHomeController{
         model.addAttribute("lightsSHP",shp.getLightsSHP());
         simulatorMap.put(0,sim);
         return sim;
+    }
+
+    @PostMapping(value="/shhChangeZone")
+    public String changeSHHZone(@Validated @RequestBody Zone zone) throws IOException{
+        Simulator sim = simulatorMap.get(0);
+        // Temp while I figure out a better way
+        for(Zone z :sim.getZonesOfHouse()){
+            if(z.getName() == zone.getName()){
+                z.setSetting(zone.isSetting());
+                z.setTemperature(zone.getTemperature());
+                z.setRooms(z.getRooms());
+                simulatorMap.put(0,sim);
+                break;
+            }
+        }
+        List<Zone> listZones = sim.getZonesOfHouse();
+        final ByteArrayOutputStream o = new ByteArrayOutputStream();
+        final ObjectMapper mapper = new ObjectMapper();
+
+        mapper.writeValue(o, listZones);
+        final byte[] data = o.toByteArray();
+        return new String(data);
+    }
+
+    @PostMapping(value="/shhAddZone")
+    public String addSHHZone(@Validated @RequestBody Zone zone) throws IOException {
+        Simulator sim = simulatorMap.get(0);
+        List<Zone> listZones = sim.getZonesOfHouse();
+        if(!listZones.stream().anyMatch(o -> o.getName().equals(zone.name))){
+            //Console log but no console yet
+            sim.zonesOfHouse.add(zone);
+            simulatorMap.put(0,sim);
+        }else{
+            System.out.println("Zone name already exists");
+        }
+        listZones = sim.getZonesOfHouse();
+        final ByteArrayOutputStream o = new ByteArrayOutputStream();
+        final ObjectMapper mapper = new ObjectMapper();
+
+        mapper.writeValue(o, listZones);
+        final byte[] data = o.toByteArray();
+        return new String(data);
+    }
+
+    @GetMapping(value="/shh")
+    public String getSHHZones() throws IOException {
+        Simulator sim = simulatorMap.get(0);
+        List<Zone> listZones = sim.getZonesOfHouse();
+        final ByteArrayOutputStream o = new ByteArrayOutputStream();
+        final ObjectMapper mapper = new ObjectMapper();
+
+        mapper.writeValue(o, listZones);
+        final byte[] data = o.toByteArray();
+        return new String(data);
     }
 
     @PostMapping(value={"/addProfileDashboard"})

@@ -9,7 +9,9 @@ public class Room {
 	    private List<Light> lights = new ArrayList<>();
 		private int blockedWindows;
 		private int blockedDoors;
-	    
+
+		private double temperature;
+		private int zone;
 	    
 	    public int getOpenLights() {
 	    	int count = 0;
@@ -122,7 +124,7 @@ public class Room {
 	        initDoors(numOfDoors);
 	        initWindows(numOfWindows);
 	        initLights(numOfLights);
-
+			temperature = 0;
 	    }
 
 
@@ -277,5 +279,21 @@ public class Room {
 			
 			return status+blockStatus+closeStatus;
 		}
+
+	public int getZone() {
+		return zone;
+	}
+
+	public void setZone(int zone) {
+		this.zone = zone;
+	}
+
+	public double getTemperature() {
+		return temperature;
+	}
+
+	public void setTemperature(double temperature) {
+		this.temperature = temperature;
+	}
 }
 

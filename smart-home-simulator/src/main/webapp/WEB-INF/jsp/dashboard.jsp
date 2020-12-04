@@ -7,6 +7,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <t:wrapper>
     <script src="/js/dashboard.js"></script>
+    <script src="/js/shhTab.js"></script>
 
     <div class="container-fluid p-3 dashboard">
         <div class="row">
@@ -22,7 +23,7 @@
                     <p class="d-block">Time: {{ time }}</p>
                     <p class="d-block">House Layout: {{ layout }}</p>
                     <p class="d-block">Location: {{ location }}</p>
-                    <p class="d-block">Temperature: {{ tempOut }} &#176;C</p>
+                    <p class="d-block">Temp: {{ tempOut }} &#176;C</p>
             </div>
 
             <div class="col-4 justify-content-center pl-4 pr-4">
@@ -157,7 +158,7 @@
                                 </label>
                                 <div class="form-group">
                                     <label for="shpRoom">Select Room:</label>
-                                    <select class="form-control" id="shpRoom" name="shpRoom">
+                                    <select class="form-control" id="shpRoom" name="nameRoom">
                                         <c:forEach var="room" items="${RoomList}">
                                             <option value="${room.getRoomName()}">${room.getRoomName()}</option>
                                         </c:forEach>
@@ -168,22 +169,22 @@
                                     <input class="form-control" id="startTime" name="startTime" />
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="endTime">End Time:</label>
-                                    <input class="form-control" id="endTime" name="endTime" />
-                                    <div>
-                                        <form:form method = "GET" action = "/printProfiles">
-                                            <table>
-                                                <tr>
-                                                    <td>
-                                                        <input type = "submit" value = "printProfiles"/>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </form:form>
-                                    </div>
+<%--                                <div class="form-group">--%>
+<%--                                    <label for="endTime">End Time:</label>--%>
+<%--                                    <input class="form-control" id="endTime" name="endTime" />--%>
+<%--                                    <div>--%>
+<%--                                        <form:form method = "GET" action = "/printProfiles">--%>
+<%--                                            <table>--%>
+<%--                                                <tr>--%>
+<%--                                                    <td>--%>
+<%--                                                        <input type = "submit" value = "printProfiles"/>--%>
+<%--                                                    </td>--%>
+<%--                                                </tr>--%>
+<%--                                            </table>--%>
+<%--                                        </form:form>--%>
+<%--                                    </div>--%>
 
-                                </div>
+<%--                                </div>--%>
 
                                 <div class="form-group">
                                     <label for="alertTime">Alert Time (in minutes):</label>
@@ -199,7 +200,57 @@
                             </form>
                         </div>
                         <div id="SHH" class="w-100 tabContent ml-4 mr-4"><br/>
-                            <p>Smart Home Heating.</p>
+                            <form id="shhZone" onsubmit="addZone(event)">
+                                <h5>Add Zone</h5>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label for="zoneName">Zone Name: </label>
+                                        <input class="form-control" type="text" id="zoneName" v-model="name" />
+                                    </div>
+                                    <div class="col">
+                                        <label for="zoneSetting">Zone Setting:</label>
+                                        <select class="form-control" id="zoneSetting" type="boolean" v-model="setting">
+                                            <option :value="false">Cooling</option>
+                                            <option :value="true">Heating</option>
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <label for="tempOut">Zone Temperature:</label>
+                                        <input class="form-control" type="number" step="0.01" id="zoneTemp" v-model="temperature"/>
+                                    </div>
+                                </div>
+                                <div class="p-1"></div>
+                                <button class="btn btn-outline-dark" type="submit">Add</button>
+                            </form>
+
+
+
+                            <form id="shhVariables" @submit="changeZone($event)" >
+                                <label>Zones:</label>
+                                <select selected="selected" @change="onSelected($event)" class="form-control">
+                                    <option disabled :value="null">-- Select Zone --</option>
+                                    <option v-for="(item, index) in zones" :value="index">
+                                        {{ item.name }}
+                                    </option>
+                                </select>
+
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label for="zoneSetting">Zone Setting:</label>
+                                        <select class="form-control" id="selectedZoneSetting" type="boolean" v-model="selectedZone.setting">
+                                            <option :value="false">Cooling</option>
+                                            <option :value="true">Heating</option>
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <label for="tempOut">Zone Temperature:</label>
+                                        <input class="form-control" type="number" step="0.01" id="selectedZoneTemp" v-model="selectedZone.temperature"/>
+                                    </div>
+                                </div>
+
+                                <div class="p-1"></div>
+                                <button class="btn btn-outline-dark" type="submit">Change</button>
+                            </form>
                         </div>
                     </div>
                 </div>

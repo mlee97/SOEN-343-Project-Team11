@@ -94,7 +94,7 @@ async function changePrivacySettings(e){
     const json = new FormData(e.target);
     json.forEach((value, key) => object[key] = value);
     let data = JSON.stringify(object);
-
+    console.log(data);
     const response = await fetch("/dashboard/shp", {method: "POST", body: data, headers: {
             "Content-Type": "application/json",
         }});
