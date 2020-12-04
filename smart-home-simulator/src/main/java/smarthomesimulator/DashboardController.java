@@ -56,7 +56,6 @@ public class DashboardController extends SmartHomeController{
             if(z.getName() == zone.getName()){
                 z.setSetting(zone.isSetting());
                 z.setTemperature(zone.getTemperature());
-                z.setRooms(z.getRooms());
                 simulatorMap.put(0,sim);
                 break;
             }
@@ -100,6 +99,12 @@ public class DashboardController extends SmartHomeController{
         mapper.writeValue(o, listZones);
         final byte[] data = o.toByteArray();
         return new String(data);
+    }
+
+    @GetMapping(value="/shhRooms")
+    public List<Room> getSHHRooms(){
+        Simulator sim = simulatorMap.get(0);
+        return sim.roomsOfHouse;
     }
 
     @PostMapping(value={"/addProfileDashboard"})

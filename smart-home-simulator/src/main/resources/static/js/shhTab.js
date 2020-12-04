@@ -1,26 +1,23 @@
 
 var shhTab;
+var shhRoom;
 var shhZone;
+
+
 window.onload = function() {
-    getSHHZones()
-    shhZone = new Vue({
-        el: '#shhZone',
-        data:{
-            name: '',
-            setting: false,
-            temperature: 0
-        }
-    });
+    loadSHHTab();
 }
 
-async function getSHHZones(){
-    const response = await fetch("/dashboard/shh", {method: "GET"});
-    console.log(response);
-    let responseData = await response.json();
-    console.log(responseData);
+async function loadSHHTab(){
+    const response1 = await fetch("/dashboard/shh", {method: "GET"});
+    let shhTabResponseData = await response1.json();
+
+    const response2 = await fetch("/dashboard/shhRooms", {method: "GET"});
+    let shhRoomResponseData = await response2.json();
+
     shhTab = new Vue({
         el: "#shhVariables",
-        data: {selected: "null", zones: responseData, selectedZone:{}},
+        data: {selected: "null", zones: shhTabResponseData, selectedZone:{}},
         methods:{
             onSelected(event) {
                 let selectedIndex = event.target.value
@@ -38,6 +35,29 @@ async function getSHHZones(){
             }
         }
     });
+    shhRoom = new Vue({
+        el: '#shhRoomTemperatures',
+        data: {
+            rooms: shhRoomResponseData,
+            zones: shhTabResponseData,
+            selectedZone: {}
+        },
+        methods:{
+            onRoomSelected(event) {
+                let selectedIndex = event.target.value
+                this.selectedZone =  this.zones[selectedIndex]
+            },
+        }
+    });
+
+    shhZone = new Vue({
+        el: '#shhZone',
+        data:{
+            name: '',
+            setting: false,
+            temperature: 0
+        }
+    });
 }
 
 async function addZone(e){
@@ -51,4 +71,5 @@ async function addZone(e){
     }});
     let responseData = await response.json();
     shhTab.zones = responseData;
+    shhRoom.zones = responseData;
 }

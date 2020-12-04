@@ -13,8 +13,6 @@ public class Zone {
     public boolean setting;
     @JsonProperty()
     public double temperature;
-    @JsonProperty()
-    public List<Room> rooms = new ArrayList<>();
 
     public Zone(String name, boolean setting, double temperature) {
         this.name = name;
@@ -46,11 +44,4 @@ public class Zone {
         this.temperature = temperature;
     }
 
-    public List<Room> getRooms() {
-        return rooms;
-    }
-
-    public void setRooms(List<Room> rooms) {
-        this.rooms = rooms;
-    }
 }

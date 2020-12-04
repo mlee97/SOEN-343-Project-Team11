@@ -40,7 +40,7 @@ function shcModule(evt, id){
 
 function displayLayout() {
     var checkBox = document.getElementById("simSwitch");
-    let layout = document.getElementsByClassName("houseLayout")[0];
+    let layout = document.getElementsByClassName("houseSimulatorOnOff")[0];
 
     if (checkBox.checked == true) {
         layout.style.display = "block";

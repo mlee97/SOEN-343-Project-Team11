@@ -27,7 +27,7 @@
             </div>
 
             <div class="col-4 justify-content-center pl-4 pr-4">
-                <div class="border rounded">
+                <div class="border rounded" style="padding-right:15px">
                     <div class="row justify-content-center mt-1 ml-5 mr-5">
                         <div class="btn-group" role="group">
                             <button class="tab btn btn-outline-primary" onclick="openModule(event, 'SHS')">SHS</button>
@@ -226,6 +226,7 @@
 
 
                             <form id="shhVariables" @submit="changeZone($event)" >
+                                <h5>Edit Zones</h5>
                                 <label>Zones:</label>
                                 <select selected="selected" @change="onSelected($event)" class="form-control">
                                     <option disabled :value="null">-- Select Zone --</option>
@@ -251,6 +252,43 @@
                                 <div class="p-1"></div>
                                 <button class="btn btn-outline-dark" type="submit">Change</button>
                             </form>
+
+                            <form id="shhRoomTemperatures">
+                                <h5>Edit Room Temperatures</h5>
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Room</th>
+                                        <th scope="col">Temperature</th>
+                                        <th scope="col">Zone</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr v-for="room in rooms" var="room.roomName">
+                                        <th scope="row">
+                                            {{ room.roomName }}
+                                        </th>
+                                        <td>
+                                            <div class="input-group">
+                                                <input class="form-control" type="number" step="0.01" id="roomTemperature" v-model="room.temperature"/>
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-secondary" type="button" id="coolButton" disabled="!room.overriden">Reset</button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <select selected="selected" @change="onRoomSelected($event)" class="form-control">
+                                                <option disabled :value="null">-- Select Zone --</option>
+                                                <option v-for="(item, index) in zones" :value="index">
+                                                    {{ item.name }}
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+
                         </div>
                     </div>
                 </div>
@@ -259,17 +297,19 @@
                 <div style="text-align:center">
                     <div class="houseLayout border rounded p-1">
                         <div class="w-100 h-100 overflow-hidden">
-                            <c:forEach items="${RoomList}" var="room">
-                                <button class="rooms">
-                                    <img src="${room.canEnter() ? 'img/doorOpen.jpg': 'img/doorClosed.jpg'}"
-                                         class="${ room.findDoors() ? 'doors' : 'display:none' }"/>
-                                    <img src="${room.isBright() ? 'img/lightsOn.png': 'img/lightsOff.png'}"
-                                         class="${ room.findLights() ? 'lights' : 'display:none' }"/>
-                                    <img src="${room.isWindy() ? 'img/windowsOpen.jpg': 'img/windowsClosed.jpg'}"
-                                         class="${ room.findWindows() ? 'windows' : 'display:none' }"/>
-                                    <c:out value="${room.getRoomName()}"/>
-                                </button>
-                            </c:forEach>
+                            <div class="houseSimulatorOnOff">
+                                <c:forEach items="${RoomList}" var="room">
+                                    <button class="rooms">
+                                        <img src="${room.canEnter() ? 'img/doorOpen.jpg': 'img/doorClosed.jpg'}"
+                                             class="${ room.findDoors() ? 'doors' : 'display:none' }"/>
+                                        <img src="${room.isBright() ? 'img/lightsOn.png': 'img/lightsOff.png'}"
+                                             class="${ room.findLights() ? 'lights' : 'display:none' }"/>
+                                        <img src="${room.isWindy() ? 'img/windowsOpen.jpg': 'img/windowsClosed.jpg'}"
+                                             class="${ room.findWindows() ? 'windows' : 'display:none' }"/>
+                                        <c:out value="${room.getRoomName()}"/>
+                                    </button>
+                                </c:forEach>
+                            </div>
                         </div>
                     </div>
                     <span>House Layout</span>

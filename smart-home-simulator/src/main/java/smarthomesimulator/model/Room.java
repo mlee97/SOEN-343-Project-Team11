@@ -11,8 +11,11 @@ public class Room {
 		private int blockedDoors;
 
 		private double temperature;
-		private int zone;
-	    
+
+		private boolean overriden;
+
+		private Zone zone;
+
 	    public int getOpenLights() {
 	    	int count = 0;
 	    	
@@ -124,6 +127,7 @@ public class Room {
 	        initDoors(numOfDoors);
 	        initWindows(numOfWindows);
 	        initLights(numOfLights);
+	        overriden = false;
 			temperature = 0;
 	    }
 
@@ -280,20 +284,28 @@ public class Room {
 			return status+blockStatus+closeStatus;
 		}
 
-	public int getZone() {
-		return zone;
-	}
-
-	public void setZone(int zone) {
-		this.zone = zone;
-	}
-
 	public double getTemperature() {
 		return temperature;
 	}
 
 	public void setTemperature(double temperature) {
 		this.temperature = temperature;
+	}
+
+	public Zone getZone() {
+		return zone;
+	}
+
+	public void setZone(Zone zone) {
+		this.zone = zone;
+	}
+
+	public boolean isOverriden() {
+		return overriden;
+	}
+
+	public void setOverriden(boolean overriden) {
+		this.overriden = overriden;
 	}
 }
 
