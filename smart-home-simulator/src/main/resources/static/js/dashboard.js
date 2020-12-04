@@ -38,17 +38,18 @@ function shcModule(evt, id){
     evt.currentTarget.className += " active";
 }
 
-/*function displaySimulator() {
+function displayLayout() {
     var checkBox = document.getElementById("simSwitch");
-    var simulator = document.getElementById("simulator");
+    let layout = document.getElementsByClassName("houseLayout")[0];
 
     if (checkBox.checked == true) {
-        simulator.style.visibility = "visible";
+        layout.style.display = "block";
     }
     if (checkBox.checked == false) {
-        simulator.style.visibility = "hidden";
+        layout.style.display = "none";
     }
-}*/
+}
+
 function redirectEditForm() {
     window.location.href = "/editForm";
 }

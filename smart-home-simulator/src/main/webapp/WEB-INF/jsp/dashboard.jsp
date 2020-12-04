@@ -13,7 +13,7 @@
             <div class="profile col-1 pt-1 pb-1 rounded" id="dashboardContextContent">
                     <h4 class="mb-2 text-center">Simulation</h4>
                     <label class="switch d-block m-auto">
-                        <input type="checkbox" id="simSwitch" onclick="displaySimulator()">s
+                        <input type="checkbox" id="simSwitch" onclick="displayLayout()">s
                         <span class="slider round"></span>
                     </label>
                     <img src="/img/undefined_profile.png" alt="ProfilePic" class="profilePic d-block m-auto">
