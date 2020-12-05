@@ -23,6 +23,7 @@
                     <p class="d-block">House Layout: {{ layout }}</p>
                     <p class="d-block">Location: {{ location }}</p>
                     <p class="d-block">Temperature: {{ tempOut }} &#176;C</p>
+                    <p class="d-block">cout: {{ cOut }} &#176;C</p>
             </div>
 
             <div class="col-4 justify-content-center pl-4 pr-4">
@@ -228,9 +229,9 @@
 
         </div>
         <div class="row justify-content-center">
-            <div class="consoleOutput overflow-auto w-75 p-3">
+            <div class="consoleOutput overflow-auto w-75 p-3" id="consoleOut">
                         <textarea class="p-1 border rounded" id="consoleOutput" rows="7" placeholder="Console output will appear here"
-                                  readonly></textarea>
+                                  readonly>Date: {{ cOut }}</textarea>
             </div>
         </div>
     </div>
