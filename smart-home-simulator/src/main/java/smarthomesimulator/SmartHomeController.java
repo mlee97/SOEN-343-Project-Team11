@@ -9,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import smarthomesimulator.layout.ParseLayout;
 import smarthomesimulator.model.Profile;
+import smarthomesimulator.model.Room;
 import smarthomesimulator.model.Simulator;
 import smarthomesimulator.model.SHP;
 
@@ -42,6 +43,9 @@ public class SmartHomeController {
         model.addAttribute("time", simulator.getTime());
         model.addAttribute("tempOut", simulator.getTempOut());
         model.addAttribute("defaultTempIn", simulator.getDefaultTempIn());
+        for (Room room : simulator.roomsOfHouse) {
+            room.setTemperature(simulator.getDefaultTempIn());
+        }
         model.addAttribute("fileName", simulator.getFileName());
         model.addAttribute("RoomList", simulator.roomsOfHouse);
         model.addAttribute("name",profile.getName());

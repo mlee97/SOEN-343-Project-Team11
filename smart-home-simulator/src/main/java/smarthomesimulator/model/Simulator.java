@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 
 public class Simulator {
 
@@ -26,6 +27,7 @@ public class Simulator {
 
     public static ArrayList<Room> roomsOfHouse = new ArrayList<>();
     public static ArrayList<Profile> profilesOfHouse = new ArrayList<>();
+    public static List<Zone> zonesOfHouse = new ArrayList<>();
 
     public Simulator() {
         super();
@@ -40,6 +42,10 @@ public class Simulator {
 
     public static int getRoomNumber() {
         return roomNumber;
+    }
+
+    public static List<Zone> getZonesOfHouse(){
+        return zonesOfHouse;
     }
 
     public static ArrayList<Room> getRoomsOfHouse() {
