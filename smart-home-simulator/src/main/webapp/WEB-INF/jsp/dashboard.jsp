@@ -7,26 +7,27 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <t:wrapper>
     <script src="/js/dashboard.js"></script>
+    <script src="/js/shhTab.js"></script>
 
     <div class="container-fluid p-3 dashboard">
         <div class="row">
             <div class="profile col-1 pt-1 pb-1 rounded" id="dashboardContextContent">
-                    <h4 class="mb-2 text-center">Simulation</h4>
-                    <label class="switch d-block m-auto">
-                        <input type="checkbox" id="simSwitch" onclick="displayLayout()">s
-                        <span class="slider round"></span>
-                    </label>
-                    <img src="/img/undefined_profile.png" alt="ProfilePic" class="profilePic d-block m-auto">
-                    <button class="btn btn-primary d-block ml-auto mr-auto mt-2 mb-1" id="editBtn" onclick="redirectEditForm()">edit</button>
-                    <p class="d-block">Date: {{ date }}</p>
-                    <p class="d-block">Time: {{ time }}</p>
-                    <p class="d-block">House Layout: {{ layout }}</p>
-                    <p class="d-block">Location: {{ location }}</p>
-                    <p class="d-block">Temperature: {{ tempOut }} &#176;C</p>
+                <h4 class="mb-2 text-center">Simulation</h4>
+                <label class="switch d-block m-auto">
+                    <input type="checkbox" id="simSwitch" onclick="displayLayout()">s
+                    <span class="slider round"></span>
+                </label>
+                <img src="/img/undefined_profile.png" alt="ProfilePic" class="profilePic d-block m-auto">
+                <button class="btn btn-primary d-block ml-auto mr-auto mt-2 mb-1" id="editBtn" onclick="redirectEditForm()">edit</button>
+                <p class="d-block">Date: {{ date }}</p>
+                <p class="d-block">Time: {{ time }}</p>
+                <p class="d-block">House Layout: {{ layout }}</p>
+                <p class="d-block">Location: {{ location }}</p>
+                <p class="d-block">Temp: {{ tempOut }} &#176;C</p>
             </div>
 
             <div class="col-4 justify-content-center pl-4 pr-4">
-                <div class="border rounded">
+                <div class="border rounded" style="padding-right:15px">
                     <div class="row justify-content-center mt-1 ml-5 mr-5">
                         <div class="btn-group" role="group">
                             <button class="tab btn btn-outline-primary" onclick="openModule(event, 'SHS')">SHS</button>
@@ -157,7 +158,7 @@
                                 </label>
                                 <div class="form-group">
                                     <label for="shpRoom">Select Room:</label>
-                                    <select class="form-control" id="shpRoom" name="shpRoom">
+                                    <select class="form-control" id="shpRoom" name="nameRoom">
                                         <c:forEach var="room" items="${RoomList}">
                                             <option value="${room.getRoomName()}">${room.getRoomName()}</option>
                                         </c:forEach>
@@ -168,22 +169,22 @@
                                     <input class="form-control" id="startTime" name="startTime" />
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="endTime">End Time:</label>
-                                    <input class="form-control" id="endTime" name="endTime" />
-                                    <div>
-                                        <form:form method = "GET" action = "/printProfiles">
-                                            <table>
-                                                <tr>
-                                                    <td>
-                                                        <input type = "submit" value = "printProfiles"/>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </form:form>
-                                    </div>
+<%--                                <div class="form-group">--%>
+<%--                                    <label for="endTime">End Time:</label>--%>
+<%--                                    <input class="form-control" id="endTime" name="endTime" />--%>
+<%--                                    <div>--%>
+<%--                                        <form:form method = "GET" action = "/printProfiles">--%>
+<%--                                            <table>--%>
+<%--                                                <tr>--%>
+<%--                                                    <td>--%>
+<%--                                                        <input type = "submit" value = "printProfiles"/>--%>
+<%--                                                    </td>--%>
+<%--                                                </tr>--%>
+<%--                                            </table>--%>
+<%--                                        </form:form>--%>
+<%--                                    </div>--%>
 
-                                </div>
+<%--                                </div>--%>
 
                                 <div class="form-group">
                                     <label for="alertTime">Alert Time (in minutes):</label>
@@ -199,7 +200,95 @@
                             </form>
                         </div>
                         <div id="SHH" class="w-100 tabContent ml-4 mr-4"><br/>
-                            <p>Smart Home Heating.</p>
+                            <form id="shhZone" onsubmit="addZone(event)">
+                                <h5>Add Zone</h5>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label for="zoneName">Zone Name: </label>
+                                        <input class="form-control" type="text" id="zoneName" v-model="name" />
+                                    </div>
+                                    <div class="col">
+                                        <label for="zoneSetting">Zone Setting:</label>
+                                        <select class="form-control" id="zoneSetting" type="boolean" v-model="setting">
+                                            <option :value="false">Cooling</option>
+                                            <option :value="true">Heating</option>
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <label for="tempOut">Zone Temperature:</label>
+                                        <input class="form-control" type="number" step="0.01" id="zoneTemp" v-model="temperature"/>
+                                    </div>
+                                </div>
+                                <div class="p-1"></div>
+                                <button class="btn btn-outline-dark" type="submit">Add</button>
+                            </form>
+
+
+
+                            <form id="shhVariables" @submit="changeZone($event)" >
+                                <h5>Edit Zones</h5>
+                                <label>Zones:</label>
+                                <select selected="selected" @change="onSelected($event)" class="form-control">
+                                    <option :value="null">-- Select Zone --</option>
+                                    <option v-for="(item, index) in zones" :value="index">
+                                        {{ item.name }}
+                                    </option>
+                                </select>
+
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label for="zoneSetting">Zone Setting:</label>
+                                        <select class="form-control" id="selectedZoneSetting" type="boolean" v-model="selectedZone.setting">
+                                            <option :value="false">Cooling</option>
+                                            <option :value="true">Heating</option>
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <label for="tempOut">Zone Temperature:</label>
+                                        <input class="form-control" type="number" step="0.01" id="selectedZoneTemp" v-model="selectedZone.temperature"/>
+                                    </div>
+                                </div>
+
+                                <div class="p-1"></div>
+                                <button class="btn btn-outline-dark" type="submit">Change</button>
+                            </form>
+
+                            <form id="shhRoomTemperatures">
+                                <h5>Edit Room Temperatures</h5>
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Room</th>
+                                        <th scope="col">Temperature</th>
+                                        <th scope="col">Zone</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr v-for="room in rooms" var="room.roomName">
+                                        <th scope="row">
+                                            {{ room.roomName }}
+                                        </th>
+                                        <td>
+                                            <div class="input-group">
+                                                <input class="form-control" type="number" @blur="overrideTemperature(room.roomName, $event)" step="0.01" id="roomTemperature" v-model="room.temperature"/>
+                                                <div class="input-group-append">
+                                                    <button @click="resetTemperature()" class="btn btn-outline-secondary" type="button" id="coolButton" :disabled="!room.overridden">Reset</button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <select selected="roomSelectedZone" @change="onRoomSelected($event, room.roomName)" class="form-control">
+                                                <option :value="-1">-- Select Zone --</option>
+                                                <option v-for="(item, index) in zones" :value="index">
+                                                    {{ item.name }}
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+
                         </div>
                     </div>
                 </div>
@@ -208,17 +297,19 @@
                 <div style="text-align:center">
                     <div class="houseLayout border rounded p-1">
                         <div class="w-100 h-100 overflow-hidden">
-                            <c:forEach items="${RoomList}" var="room">
-                                <button class="rooms">
-                                    <img src="${room.canEnter() ? 'img/doorOpen.jpg': 'img/doorClosed.jpg'}"
-                                         class="${ room.findDoors() ? 'doors' : 'display:none' }"/>
-                                    <img src="${room.isBright() ? 'img/lightsOn.png': 'img/lightsOff.png'}"
-                                         class="${ room.findLights() ? 'lights' : 'display:none' }"/>
-                                    <img src="${room.isWindy() ? 'img/windowsOpen.jpg': 'img/windowsClosed.jpg'}"
-                                         class="${ room.findWindows() ? 'windows' : 'display:none' }"/>
-                                    <c:out value="${room.getRoomName()}"/>
-                                </button>
-                            </c:forEach>
+                            <div class="houseSimulatorOnOff">
+                                <c:forEach items="${RoomList}" var="room">
+                                    <button class="rooms">
+                                        <img src="${room.canEnter() ? 'img/doorOpen.jpg': 'img/doorClosed.jpg'}"
+                                             class="${ room.findDoors() ? 'doors' : 'display:none' }"/>
+                                        <img src="${room.isBright() ? 'img/lightsOn.png': 'img/lightsOff.png'}"
+                                             class="${ room.findLights() ? 'lights' : 'display:none' }"/>
+                                        <img src="${room.isWindy() ? 'img/windowsOpen.jpg': 'img/windowsClosed.jpg'}"
+                                             class="${ room.findWindows() ? 'windows' : 'display:none' }"/>
+                                        <c:out value="${room.getRoomName()}"/>
+                                    </button>
+                                </c:forEach>
+                            </div>
                         </div>
                     </div>
                     <span>House Layout</span>

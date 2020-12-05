@@ -1,16 +1,19 @@
 package smarthomesimulator.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.*;
 
 public class Room {
-	 	private String roomName;
-	    private List<Door> doors = new ArrayList<>();
+		private String roomName;
+		private List<Door> doors = new ArrayList<>();
 	    private List<Window> windows = new ArrayList<>();
-	    private List<Light> lights = new ArrayList<>();
+		private List<Light> lights = new ArrayList<>();
 		private int blockedWindows;
 		private int blockedDoors;
-	    
-	    
+		private double temperature;
+		private boolean overridden;
+		private Zone zone;
 	    public int getOpenLights() {
 	    	int count = 0;
 	    	
@@ -122,7 +125,8 @@ public class Room {
 	        initDoors(numOfDoors);
 	        initWindows(numOfWindows);
 	        initLights(numOfLights);
-
+	        overridden = false;
+			temperature = 0;
 	    }
 
 
@@ -277,5 +281,29 @@ public class Room {
 			
 			return status+blockStatus+closeStatus;
 		}
+
+	public double getTemperature() {
+		return temperature;
+	}
+
+	public void setTemperature(double temperature) {
+		this.temperature = temperature;
+	}
+
+	public Zone getZone() {
+		return zone;
+	}
+
+	public void setZone(Zone zone) {
+		this.zone = zone;
+	}
+
+	public boolean isOverridden() {
+		return overridden;
+	}
+
+	public void setOverridden(boolean overridden) {
+		this.overridden = overridden;
+	}
 }
 
