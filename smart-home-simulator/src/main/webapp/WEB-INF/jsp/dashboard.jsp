@@ -12,18 +12,18 @@
     <div class="container-fluid p-3 dashboard">
         <div class="row">
             <div class="profile col-1 pt-1 pb-1 rounded" id="dashboardContextContent">
-                    <h4 class="mb-2 text-center">Simulation</h4>
-                    <label class="switch d-block m-auto">
-                        <input type="checkbox" id="simSwitch" onclick="displayLayout()">s
-                        <span class="slider round"></span>
-                    </label>
-                    <img src="/img/undefined_profile.png" alt="ProfilePic" class="profilePic d-block m-auto">
-                    <button class="btn btn-primary d-block ml-auto mr-auto mt-2 mb-1" id="editBtn" onclick="redirectEditForm()">edit</button>
-                    <p class="d-block">Date: {{ date }}</p>
-                    <p class="d-block">Time: {{ time }}</p>
-                    <p class="d-block">House Layout: {{ layout }}</p>
-                    <p class="d-block">Location: {{ location }}</p>
-                    <p class="d-block">Temp: {{ tempOut }} &#176;C</p>
+                <h4 class="mb-2 text-center">Simulation</h4>
+                <label class="switch d-block m-auto">
+                    <input type="checkbox" id="simSwitch" onclick="displayLayout()">s
+                    <span class="slider round"></span>
+                </label>
+                <img src="/img/undefined_profile.png" alt="ProfilePic" class="profilePic d-block m-auto">
+                <button class="btn btn-primary d-block ml-auto mr-auto mt-2 mb-1" id="editBtn" onclick="redirectEditForm()">edit</button>
+                <p class="d-block">Date: {{ date }}</p>
+                <p class="d-block">Time: {{ time }}</p>
+                <p class="d-block">House Layout: {{ layout }}</p>
+                <p class="d-block">Location: {{ location }}</p>
+                <p class="d-block">Temp: {{ tempOut }} &#176;C</p>
             </div>
 
             <div class="col-4 justify-content-center pl-4 pr-4">
@@ -229,7 +229,7 @@
                                 <h5>Edit Zones</h5>
                                 <label>Zones:</label>
                                 <select selected="selected" @change="onSelected($event)" class="form-control">
-                                    <option disabled :value="null">-- Select Zone --</option>
+                                    <option :value="null">-- Select Zone --</option>
                                     <option v-for="(item, index) in zones" :value="index">
                                         {{ item.name }}
                                     </option>
@@ -270,15 +270,15 @@
                                         </th>
                                         <td>
                                             <div class="input-group">
-                                                <input class="form-control" type="number" step="0.01" id="roomTemperature" v-model="room.temperature"/>
+                                                <input class="form-control" type="number" @blur="overrideTemperature(room.roomName, $event)" step="0.01" id="roomTemperature" v-model="room.temperature"/>
                                                 <div class="input-group-append">
-                                                    <button class="btn btn-outline-secondary" type="button" id="coolButton" disabled="!room.overriden">Reset</button>
+                                                    <button @click="resetTemperature()" class="btn btn-outline-secondary" type="button" id="coolButton" :disabled="!room.overridden">Reset</button>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
-                                            <select selected="selected" @change="onRoomSelected($event)" class="form-control">
-                                                <option disabled :value="null">-- Select Zone --</option>
+                                            <select selected="roomSelectedZone" @change="onRoomSelected($event, room.roomName)" class="form-control">
+                                                <option :value="-1">-- Select Zone --</option>
                                                 <option v-for="(item, index) in zones" :value="index">
                                                     {{ item.name }}
                                                 </option>

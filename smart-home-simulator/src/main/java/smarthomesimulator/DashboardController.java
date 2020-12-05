@@ -10,6 +10,7 @@ import smarthomesimulator.model.*;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -99,6 +100,25 @@ public class DashboardController extends SmartHomeController{
         mapper.writeValue(o, listZones);
         final byte[] data = o.toByteArray();
         return new String(data);
+    }
+
+    @PostMapping(value="/shhOverrideRoomTemperature")
+    public void overrideRoomTemperature(@Validated @RequestBody Map<String, String> json){
+        Simulator sim = simulatorMap.get(0);
+        if(sim.getRoom(json.get("name")).getTemperature() != Double.parseDouble(json.get("temp"))){
+            sim.getRoom(json.get("name")).setTemperature(Double.parseDouble(json.get("temp")));
+            sim.getRoom(json.get("name")).setOverridden(true);
+        }
+        simulatorMap.put(0, sim);
+        return;
+    }
+
+    @PostMapping(value="/shhRoomChangeZone")
+    public void changeRoomZone(@Validated @RequestBody Map<String, String> json){
+        Simulator sim = simulatorMap.get(0);
+        sim.getRoom(json.get("name")).setZone(sim.zonesOfHouse.get(Integer.parseInt(json.get("zoneID"))));
+        simulatorMap.put(0,sim);
+        return;
     }
 
     @GetMapping(value="/shhRooms")
