@@ -23,7 +23,6 @@
                     <p class="d-block">House Layout: {{ layout }}</p>
                     <p class="d-block">Location: {{ location }}</p>
                     <p class="d-block">Temperature: {{ tempOut }} &#176;C</p>
-                    <p class="d-block">cout: {{ cOut }} &#176;C</p>
             </div>
 
             <div class="col-4 justify-content-center pl-4 pr-4">
