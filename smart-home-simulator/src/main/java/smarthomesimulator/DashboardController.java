@@ -271,4 +271,18 @@ public class DashboardController extends SmartHomeController{
         return messages;
     }
 
+    @PostMapping(value="/getTime")
+    public String getTime(){
+        String time = "";
+        try {
+            Simulator sim = simulatorMap.get(0);
+
+            time = sim.getTime();
+
+        }catch(Exception E) {
+            System.out.println("Null Values");
+        }
+        return time;
+    }
+
 }
