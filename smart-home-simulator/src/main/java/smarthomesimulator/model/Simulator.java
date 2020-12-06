@@ -23,6 +23,11 @@ public class Simulator {
     private static int roomNumber = 0;
     private boolean awayMode;
 
+    @JsonProperty()
+    private double defaultSummerTemp;
+    @JsonProperty()
+    private double defaultWinterTemp;
+
     public static ArrayList<Room> roomsOfHouse = new ArrayList<>();
     public static ArrayList<Profile> profilesOfHouse = new ArrayList<>();
     public static List<Zone> zonesOfHouse = new ArrayList<>();
@@ -33,6 +38,8 @@ public class Simulator {
         this.time = this.getCurrentTime();
         this.tempOut = this.getTempOut();
         this.defaultTempIn = this.getDefaultTempIn();
+        this.defaultSummerTemp = this.getDefaultSummerTemp();
+        this.defaultWinterTemp = this.getDefaultWinterTemp();
         this.fileName=this.getFileName();
         awayMode = isAwayMode();
     }
@@ -137,4 +144,19 @@ public class Simulator {
         profilesOfHouse.add(profile);
     }
 
+    public double getDefaultSummerTemp() {
+        return defaultSummerTemp;
+    }
+
+    public void setDefaultSummerTemp(double defaultSummerTemp) {
+        this.defaultSummerTemp = defaultSummerTemp;
+    }
+
+    public double getDefaultWinterTemp() {
+        return defaultWinterTemp;
+    }
+
+    public void setDefaultWinterTemp(double defaultWinterTemp) {
+        this.defaultWinterTemp = defaultWinterTemp;
+    }
 }

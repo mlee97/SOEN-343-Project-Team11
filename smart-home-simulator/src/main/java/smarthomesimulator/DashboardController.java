@@ -49,84 +49,6 @@ public class DashboardController extends SmartHomeController{
         return sim;
     }
 
-    @PostMapping(value="/shhChangeZone")
-    public String changeSHHZone(@Validated @RequestBody Zone zone) throws IOException{
-        Simulator sim = simulatorMap.get(0);
-        // Temp while I figure out a better way
-        for(Zone z :sim.getZonesOfHouse()){
-            if(z.getName() == zone.getName()){
-                z.setSetting(zone.isSetting());
-                z.setTemperature(zone.getTemperature());
-                simulatorMap.put(0,sim);
-                break;
-            }
-        }
-        List<Zone> listZones = sim.getZonesOfHouse();
-        final ByteArrayOutputStream o = new ByteArrayOutputStream();
-        final ObjectMapper mapper = new ObjectMapper();
-
-        mapper.writeValue(o, listZones);
-        final byte[] data = o.toByteArray();
-        return new String(data);
-    }
-
-    @PostMapping(value="/shhAddZone")
-    public String addSHHZone(@Validated @RequestBody Zone zone) throws IOException {
-        Simulator sim = simulatorMap.get(0);
-        List<Zone> listZones = sim.getZonesOfHouse();
-        if(!listZones.stream().anyMatch(o -> o.getName().equals(zone.name))){
-            //Console log but no console yet
-            sim.zonesOfHouse.add(zone);
-            simulatorMap.put(0,sim);
-        }else{
-            System.out.println("Zone name already exists");
-        }
-        listZones = sim.getZonesOfHouse();
-        final ByteArrayOutputStream o = new ByteArrayOutputStream();
-        final ObjectMapper mapper = new ObjectMapper();
-
-        mapper.writeValue(o, listZones);
-        final byte[] data = o.toByteArray();
-        return new String(data);
-    }
-
-    @GetMapping(value="/shh")
-    public String getSHHZones() throws IOException {
-        Simulator sim = simulatorMap.get(0);
-        List<Zone> listZones = sim.getZonesOfHouse();
-        final ByteArrayOutputStream o = new ByteArrayOutputStream();
-        final ObjectMapper mapper = new ObjectMapper();
-
-        mapper.writeValue(o, listZones);
-        final byte[] data = o.toByteArray();
-        return new String(data);
-    }
-
-    @PostMapping(value="/shhOverrideRoomTemperature")
-    public void overrideRoomTemperature(@Validated @RequestBody Map<String, String> json){
-        Simulator sim = simulatorMap.get(0);
-        if(sim.getRoom(json.get("name")).getTemperature() != Double.parseDouble(json.get("temp"))){
-            sim.getRoom(json.get("name")).setTemperature(Double.parseDouble(json.get("temp")));
-            sim.getRoom(json.get("name")).setOverridden(true);
-        }
-        simulatorMap.put(0, sim);
-        return;
-    }
-
-    @PostMapping(value="/shhRoomChangeZone")
-    public void changeRoomZone(@Validated @RequestBody Map<String, String> json){
-        Simulator sim = simulatorMap.get(0);
-        sim.getRoom(json.get("name")).setZone(sim.zonesOfHouse.get(Integer.parseInt(json.get("zoneID"))));
-        simulatorMap.put(0,sim);
-        return;
-    }
-
-    @GetMapping(value="/shhRooms")
-    public List<Room> getSHHRooms(){
-        Simulator sim = simulatorMap.get(0);
-        return sim.roomsOfHouse;
-    }
-
     @PostMapping(value={"/addProfileDashboard"})
     public Simulator submitProfile(@Validated @RequestBody Profile profile) {
 
@@ -218,4 +140,109 @@ public class DashboardController extends SmartHomeController{
         return simulator.getRoom(roomName);
     }
 
+    @PostMapping(value="/shhChangeZone")
+    public String changeSHHZone(@Validated @RequestBody Zone zone) throws IOException{
+        Simulator sim = simulatorMap.get(0);
+        // Temp while I figure out a better way
+        for(Zone z :sim.getZonesOfHouse()){
+            if(z.getName() == zone.getName()){
+                z.setSetting(zone.isSetting());
+                z.setTemperature(zone.getTemperature());
+                simulatorMap.put(0,sim);
+                break;
+            }
+        }
+        List<Zone> listZones = sim.getZonesOfHouse();
+        final ByteArrayOutputStream o = new ByteArrayOutputStream();
+        final ObjectMapper mapper = new ObjectMapper();
+
+        mapper.writeValue(o, listZones);
+        final byte[] data = o.toByteArray();
+        return new String(data);
+    }
+
+    @PostMapping(value="/shhAddZone")
+    public String addSHHZone(@Validated @RequestBody Zone zone) throws IOException {
+        Simulator sim = simulatorMap.get(0);
+        List<Zone> listZones = sim.getZonesOfHouse();
+        if(!listZones.stream().anyMatch(o -> o.getName().equals(zone.name))){
+            //Console log but no console yet
+            sim.zonesOfHouse.add(zone);
+            simulatorMap.put(0,sim);
+        }else{
+            System.out.println("Zone name already exists");
+        }
+        listZones = sim.getZonesOfHouse();
+        final ByteArrayOutputStream o = new ByteArrayOutputStream();
+        final ObjectMapper mapper = new ObjectMapper();
+
+        mapper.writeValue(o, listZones);
+        final byte[] data = o.toByteArray();
+        return new String(data);
+    }
+
+    @GetMapping(value="/shh")
+    public String getSHHZones() throws IOException {
+        Simulator sim = simulatorMap.get(0);
+        List<Zone> listZones = sim.getZonesOfHouse();
+        final ByteArrayOutputStream o = new ByteArrayOutputStream();
+        final ObjectMapper mapper = new ObjectMapper();
+
+        mapper.writeValue(o, listZones);
+        final byte[] data = o.toByteArray();
+        return new String(data);
+    }
+
+    @PostMapping(value="/shhOverrideRoomTemperature")
+    public Room overrideRoomTemperature(@Validated @RequestBody Map<String, String> json){
+        Simulator sim = simulatorMap.get(0);
+        if(sim.getRoom(json.get("name")).getTemperature() != Double.parseDouble(json.get("temp"))){
+            sim.getRoom(json.get("name")).setTemperature(Double.parseDouble(json.get("temp")));
+            if(sim.getRoom(json.get("name")).getZone() != null){
+                sim.getRoom(json.get("name")).setOverridden(true);
+            }
+        }
+        simulatorMap.put(0, sim);
+        return sim.getRoom(json.get("name"));
+    }
+
+    @PostMapping(value="/shhRoomChangeZone")
+    public Room changeRoomZone(@Validated @RequestBody Map<String, String> json){
+        Simulator sim = simulatorMap.get(0);
+        if(Integer.parseInt(json.get("zoneID")) == -1){
+            sim.getRoom(json.get("name")).setZone(null);
+            sim.getRoom(json.get("name")).setOverridden(false);
+        }
+        else{
+            sim.getRoom(json.get("name")).setZone(sim.zonesOfHouse.get(Integer.parseInt(json.get("zoneID"))));
+            sim.getRoom(json.get("name")).setTemperature(sim.zonesOfHouse.get(Integer.parseInt(json.get("zoneID"))).getTemperature());
+            sim.getRoom(json.get("name")).setOverridden(false);
+        }
+        simulatorMap.put(0,sim);
+        return sim.getRoom(json.get("name"));
+    }
+
+    @PostMapping(value="/resetTemperature")
+    public Room resetTemperature(@Validated @RequestBody Map<String, String> json){
+        Simulator sim = simulatorMap.get(0);
+        sim.getRoom(json.get("name")).setTemperature(sim.getRoom(json.get("name")).getZone().getTemperature());
+        sim.getRoom(json.get("name")).setOverridden(false);
+
+        simulatorMap.put(0,sim);
+        return sim.getRoom(json.get("name"));
+    }
+
+    @GetMapping(value="/shhRooms")
+    public List<Room> getSHHRooms(){
+        Simulator sim = simulatorMap.get(0);
+        return sim.roomsOfHouse;
+    }
+    @PostMapping(value="/shhChangeSeasonalTemperature")
+    public void changeSeasonalTemperature(@Validated @RequestBody Map<String, String> json){
+        Simulator sim = simulatorMap.get(0);
+        sim.setDefaultSummerTemp(Double.parseDouble(json.get("summerTemp")));
+        sim.setDefaultWinterTemp(Double.parseDouble(json.get("winterTemp")));
+        simulatorMap.put(0,sim);
+        return;
+    }
 }
