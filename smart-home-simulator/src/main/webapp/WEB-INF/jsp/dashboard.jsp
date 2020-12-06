@@ -18,7 +18,7 @@
                     <span class="slider round"></span>
                 </label>
                 <img src="/img/undefined_profile.png" alt="ProfilePic" class="profilePic d-block m-auto">
-                <button class="btn btn-primary d-block ml-auto mr-auto mt-2 mb-1" id="editBtn" onclick="redirectEditForm()">edit</button>
+                <button class="btn btn-primary d-block ml-auto mr-auto mt-2 mb-1" id="editBtn">edit</button>
                 <p class="d-block">Date: {{ date }}</p>
                 <p class="d-block">Time: {{ time }}</p>
                 <p class="d-block">House Layout: {{ layout }}</p>
@@ -317,7 +317,6 @@
                 <div style="text-align:center">
                     <div class="houseLayout border rounded p-1" id="house-layout">
                         <div class="w-100 h-100 overflow-hidden">
-                            <div class="houseSimulatorOnOff">
                                <span v-for="room in roomList">
                                 <button class="rooms">
                                     <span v-if="room.hasDoors">

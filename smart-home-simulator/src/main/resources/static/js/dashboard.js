@@ -7,24 +7,27 @@ var shhZone;
 var shhSeason;
 
 window.onload = async function () {
+
     const response = await fetch("/dashboard", {method: "GET"});
     let responseData = await response.json();
     console.log(responseData);
+
     const house = await fetch("/dashboard/HouseParameters", {method:'POST'});
     let houseData = await house.json();
-    ;
     
     dashboardContext = new Vue({
         el: "#dashboardContextContent",
         data: {date: responseData.date, time: responseData.time, layout: responseData.fileName, tempOut: responseData.tempOut, location: 'Placeholder'}
 
     });
+
     houseParameters = new Vue({
         el:"#house-layout",
         data: {
             roomList:{}
         }
-    })
+    });
+
     conOut = new Vue({
         el: "#consoleOut",
         data: {cOut: ''}
@@ -43,7 +46,7 @@ window.onload = async function () {
                 }});
             }
         }
-    })
+    });
 
     initHouse(houseData);
     loadSHHTab();
@@ -105,7 +108,7 @@ function openModule(evt, modName) {
 }
 
 function shcModule(evt, id){
-
+    
     console.log(evt.target);
     let tabcontent = document.getElementsByClassName("shcTabContent");
     for (let i = 0; i < tabcontent.length; i++) {
@@ -163,7 +166,7 @@ async function editProfile(e){
     const json = new FormData(e.target);
     json.forEach((value, key) => object[key] = value);
     let data = JSON.stringify(object);
-
+    
     const response = await fetch("/dashboard/addProfileDashboard", {method: "POST", body: data, headers: {
         "Content-Type": "application/json",
     }});
@@ -180,13 +183,13 @@ async function changePrivacySettings(e){
     let data = JSON.stringify(object);
     console.log(data);
     const response = await fetch("/dashboard/shp", {method: "POST", body: data, headers: {
-            "Content-Type": "application/json",
-        }});
+        "Content-Type": "application/json",
+    }});
     let responseData = await response.json();
     console.log(responseData);
     displayConsoleOut();
     }
-
+    
 function activateAwayMode(){
     console.log('/dashboard');
     window.location = '/dashboard/awayMode';
@@ -195,78 +198,77 @@ function activateAwayMode(){
 
 async function openWindow(e, room){
     e.preventDefault();
-
+    
     const response = await fetch("/dashboard/openWindows", {method:'POST', body: room});
     let responseData = await response.json();
-    console.log(responseData);
     houseParameters.roomList[responseData.roomName].isWindy = true;
+    console.log(responseData);
 }
 async function closeWindow(e, room){
     e.preventDefault();
+
     const response = await fetch("/dashboard/closeWindows", {method:'POST', body: room});
     let responseData = await response.json();
-    console.log(responseData);
     houseParameters.roomList[responseData.roomName].isWindy = false;
+    console.log(responseData);
 }
 
 async function openDoors(e, room){
     e.preventDefault();
-
+    
     const response = await fetch("/dashboard/openDoors", {method:'POST', body: room});
-
     let responseData = await response.json();
-    console.log(responseData);
     houseParameters.roomList[responseData.roomName].isEnterable = true;
+    console.log(responseData);
 }
 async function closeDoors(e, room){
     e.preventDefault();
-    const response = await fetch("/dashboard/closeDoors", {method:'POST', body: room});
 
+    const response = await fetch("/dashboard/closeDoors", {method:'POST', body: room});
     let responseData = await response.json();
-    console.log(responseData);
     houseParameters.roomList[responseData.roomName].isEnterable = false;
+    console.log(responseData);
 }
 
 async function onLights(e, room){
     e.preventDefault();
 
     const response = await fetch("/dashboard/onLights", {method:'POST', body: room});
-
     let responseData = await response.json();
-    console.log(responseData);
     houseParameters.roomList[responseData.roomName].isBright = true;
+    console.log(responseData);
 }
 async function offLights(e, room){
     e.preventDefault();
-    const response = await fetch("/dashboard/offLights", {method:'POST', body: room});
 
+    const response = await fetch("/dashboard/offLights", {method:'POST', body: room});
     let responseData = await response.json();
-    console.log(responseData);
     houseParameters.roomList[responseData.roomName].isBright = false;
+    console.log(responseData);
 }
 
 
 async function displayConsoleOut(){
-
+    
     const response = await fetch("/dashboard/consoleOutput", {method: "POST"});
     const string = await response.text();
     conOut.cOut = string;
-
+    
 }
 
 
 async function loadSHHTab(){
     const getSHH = await fetch("/dashboard/shh", {method: "GET"});
     let shhTabResponseData = await getSHH.json();
-
+    
     const getRooms = await fetch("/dashboard/shhRooms", {method: "GET"});
     let shhRoomResponseData = await getRooms.json();
-
+    
     let overriddenRooms =[];
     for (let room in shhRoomResponseData){
         overriddenRooms.push(room.overridden);
     }
-
+    
     shhTab = new Vue({
         el: "#shhVariables",
         data: {selected: "null", zones: shhTabResponseData, selectedZone:{}},
