@@ -1,20 +1,30 @@
 var dashboardContext;
+var houseParameters;
 var conOut;
 var shhTab;
 var shhRoom;
 var shhZone;
 var shhSeason;
 
-
 window.onload = async function () {
     const response = await fetch("/dashboard", {method: "GET"});
     let responseData = await response.json();
     console.log(responseData);
+    const house = await fetch("/dashboard/HouseParameters", {method:'POST'});
+    let houseData = await house.json();
+    ;
+    
     dashboardContext = new Vue({
         el: "#dashboardContextContent",
         data: {date: responseData.date, time: responseData.time, layout: responseData.fileName, tempOut: responseData.tempOut, location: 'Placeholder'}
 
     });
+    houseParameters = new Vue({
+        el:"#house-layout",
+        data: {
+            roomList:{}
+        }
+    })
     conOut = new Vue({
         el: "#consoleOut",
         data: {cOut: ''}
@@ -35,8 +45,49 @@ window.onload = async function () {
         }
     })
 
+    initHouse(houseData);
     loadSHHTab();
+}
 
+
+
+
+initHouse = (houseData) => {
+
+    for ( i =0; i< Object.keys(houseData).length; i++){
+        let room = {}
+        
+        let roomName = houseData[i].roomName
+        room.name = houseData[i].roomName
+
+        if(houseData[i].closedDoors >0){
+            room.hasDoors = true;
+        } else room.hasDoors = false;
+        
+        if(houseData[i].openDoors > 0 || houseData[i].blockedDoors > 0 ){
+            room.isEnterable = true;
+        }else room.isEnterable = false;
+
+        if(houseData[i].closedWindows >0){
+            room.hasWindows = true;
+        } else room.hasWindows = false;
+
+        if(houseData[i].openWindows > 0 || houseData[i].blockedWindows > 0 ){
+            room.isWindy = true;
+        }else room.isWindy = false;
+
+        if(houseData[i].closedLights >0){
+            room.hasLights = true;
+        } else room.hasLights = false;
+
+        if(houseData[i].openLights > 0 ){
+            room.isBright = true;
+        }else room.isBright = false;
+
+        Vue.set(houseParameters.roomList, roomName, room);
+        
+    }
+    
 }
 
 function openModule(evt, modName) {
@@ -68,9 +119,10 @@ function shcModule(evt, id){
     evt.currentTarget.className += " active";
 }
 
-function displayLayout() {
-    var checkBox = document.getElementById("simSwitch");
-    let layout = document.getElementsByClassName("houseSimulatorOnOff")[0];
+async function displayLayout() {
+
+    let checkBox = document.getElementById("simSwitch")
+    let layout = document.getElementById("house-layout")
 
     if (checkBox.checked == true) {
         layout.style.display = "block";
@@ -147,12 +199,14 @@ async function openWindow(e, room){
     const response = await fetch("/dashboard/openWindows", {method:'POST', body: room});
     let responseData = await response.json();
     console.log(responseData);
+    houseParameters.roomList[responseData.roomName].isWindy = true;
 }
 async function closeWindow(e, room){
     e.preventDefault();
     const response = await fetch("/dashboard/closeWindows", {method:'POST', body: room});
     let responseData = await response.json();
     console.log(responseData);
+    houseParameters.roomList[responseData.roomName].isWindy = false;
 }
 
 async function openDoors(e, room){
@@ -162,13 +216,16 @@ async function openDoors(e, room){
 
     let responseData = await response.json();
     console.log(responseData);
+    houseParameters.roomList[responseData.roomName].isEnterable = true;
 }
 async function closeDoors(e, room){
     e.preventDefault();
     const response = await fetch("/dashboard/closeDoors", {method:'POST', body: room});
 
     let responseData = await response.json();
-    console.log(responseData);}
+    console.log(responseData);
+    houseParameters.roomList[responseData.roomName].isEnterable = false;
+}
 
 async function onLights(e, room){
     e.preventDefault();
@@ -177,6 +234,7 @@ async function onLights(e, room){
 
     let responseData = await response.json();
     console.log(responseData);
+    houseParameters.roomList[responseData.roomName].isBright = true;
 }
 async function offLights(e, room){
     e.preventDefault();
@@ -184,6 +242,7 @@ async function offLights(e, room){
 
     let responseData = await response.json();
     console.log(responseData);
+    houseParameters.roomList[responseData.roomName].isBright = false;
 }
 
 

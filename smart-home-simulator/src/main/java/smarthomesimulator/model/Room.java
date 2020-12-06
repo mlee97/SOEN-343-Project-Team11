@@ -15,7 +15,11 @@ public class Room {
 		private double temperature;
 		private boolean overridden;
 		private Zone zone;
-
+		private boolean bright = false;
+		private boolean canEnter = false;
+		private boolean windy = false;
+	    
+	    
 	    public int getOpenLights() {
 	    	int count = 0;
 	    	
@@ -55,18 +59,21 @@ public class Room {
 	    	for(int i = 0; i < lightsToOpen ; i++){
 	    		lights.get(i).turnOn();
 	    	}
+	    	isBright();
 	    }
 	    
 	    public void setOpenDoors(int doorsToOpen) {
 	    	for(int i = 0; i < doorsToOpen ; i++){
 	    		doors.get(i).open();
 			}
+	    	canEnter();
 	    }
 	    
 	    public void setOpenWindows(int windowsToOpen) {
 	    	for(int i = 0; i < windowsToOpen ; i++){
 	    		windows.get(i).open();
 			}
+	    	isWindy();
 	    }
 	    
 	    public int getClosedLights() {
@@ -107,18 +114,21 @@ public class Room {
 	    	for(int i = 0; i < lightsToClose ; i++){
 	    		lights.get(i).turnOff();
 	    	}
+	    	isBright();
 	    }
 	    
 	    public void setClosedDoors(int doorsToClose) {
 	    	for(int i = 0; i < doorsToClose ; i++){
 	    		doors.get(i).close();
 			}
+	    	canEnter();
 	    }
 	    
 	    public void setClosedWindows(int windowsToClose) {
 	    	for(int i = 0; i < windowsToClose ; i++){
 	    		windows.get(i).close();
 			}
+	    	isWindy();
 	    }
 
 
@@ -159,49 +169,37 @@ public class Room {
 	     
 	    public boolean canEnter() {
 	    	
-	    	boolean canEnter = false;
-	    	
 	    	for(int i=0; i>=doors.size(); i++) {
-	    		if(canEnter == true) {
-	    			break;
-	    		}
+
 	    		if(doors.get(i).isOpen()) {
-	    			canEnter = true;
+	    			this.canEnter = true;
+	    			break;
 	    		}
 	    	}
 	    	
-	    	return canEnter;
+	    	return this.canEnter;
 			
 	    }
 	    
 	    public boolean isWindy() {
-	    	boolean windy = false;
 	    	
 	    	for(int i=0; i>=windows.size(); i++) {
-	    		if(windy == true) {
-	    			break;
-	    		}
 	    		if(windows.get(i).isOpen()) {
-	    			windy = true;
+	    			this.windy = true;
+					break;
 	    		}
 	    	}
-	    	return windy;
+	    	return this.windy;
 	    }
 	    
-	    public boolean isBright() {
-	    	
-	    	boolean bright = false;
+	    public void isBright() {
 	    	
 	    	for(int i=0; i>=lights.size(); i++) {
-	    		if(bright == true) {
-	    			break;
-	    		}
 	    		if(lights.get(i).isOn()) {
 	    			bright = true;
+					break;
 	    		}
 	    	}
-	    	
-	    	return bright; 
 	    }
 	    
 	    public boolean findDoors() {

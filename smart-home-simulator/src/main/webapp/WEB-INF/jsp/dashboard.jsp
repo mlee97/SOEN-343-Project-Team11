@@ -315,20 +315,26 @@
             </div>
             <div class="col-7 justify-content-center ">
                 <div style="text-align:center">
-                    <div class="houseLayout border rounded p-1">
+                    <div class="houseLayout border rounded p-1" id="house-layout">
                         <div class="w-100 h-100 overflow-hidden">
                             <div class="houseSimulatorOnOff">
-                                <c:forEach items="${RoomList}" var="room">
-                                    <button class="rooms">
-                                        <img src="${room.canEnter() ? 'img/doorOpen.jpg': 'img/doorClosed.jpg'}"
-                                             class="${ room.findDoors() ? 'doors' : 'display:none' }"/>
-                                        <img src="${room.isBright() ? 'img/lightsOn.png': 'img/lightsOff.png'}"
-                                             class="${ room.findLights() ? 'lights' : 'display:none' }"/>
-                                        <img src="${room.isWindy() ? 'img/windowsOpen.jpg': 'img/windowsClosed.jpg'}"
-                                             class="${ room.findWindows() ? 'windows' : 'display:none' }"/>
-                                        <c:out value="${room.getRoomName()}"/>
-                                    </button>
-                                </c:forEach>
+                               <span v-for="room in roomList">
+                                <button class="rooms">
+                                    <span v-if="room.hasDoors">
+                                        <img v-if="room.isEnterable == true" src="img/doorOpen.jpg" class="doors"/>
+                                        <img v-if="room.isEnterable == false" src="img/doorClosed.jpg" class="doors"/>
+                                    </span>
+                                    <span v-if="room.hasWindows">
+                                        <img v-if="room.isWindy == true" src="img/windowsOpen.jpg" class="windows"/>
+                                        <img v-if="room.isWindy == false" src="img/windowsClosed.jpg" class="windows"/>
+                                    </span>
+                                   <span v-if="room.hasLights">
+                                        <img v-if="room.isBright == true" src="img/lightsOn.png" class="lights"/>
+                                        <img v-if="room.isBright == false" src="img/lightsOff.png" class="lights"/>
+                                    </span>
+                                    <c:out value="${room.getRoomName()}"/>
+                                </button>
+                            </span>
                             </div>
                         </div>
                     </div>
