@@ -24,7 +24,9 @@ window.onload = async function () {
     houseParameters = new Vue({
         el:"#house-layout",
         data: {
-            roomList:{}
+            roomList:{},
+            profileList:{},
+            showProfiles: false
         }
     });
 
@@ -51,9 +53,6 @@ window.onload = async function () {
     initHouse(houseData);
     loadSHHTab();
 }
-
-
-
 
 
 function openModule(evt, modName) {
@@ -83,6 +82,10 @@ function shcModule(evt, id){
     }
     document.getElementById(id).style.display = "";
     evt.currentTarget.className += " active";
+}
+
+function displayProfiles(){
+    houseParameters.showProfiles = !houseParameters.showProfiles;
 }
 
 function displayLayout() {
@@ -121,10 +124,14 @@ async function editContext(e){
 
 async function editProfile(e){
     e.preventDefault();
-    let object = {};
+
+    let profile = {};
+
     const json = new FormData(e.target);
-    json.forEach((value, key) => object[key] = value);
-    let data = JSON.stringify(object);
+    json.forEach((value, key) => profile[key] = value);
+    let data = JSON.stringify(profile);
+
+    Vue.set(houseParameters.profileList, profile.name, profile);
     
     const response = await fetch("/dashboard/addProfileDashboard", {method: "POST", body: data, headers: {
         "Content-Type": "application/json",
@@ -132,6 +139,8 @@ async function editProfile(e){
     let responseData = await response.json();
     console.log(responseData);
     displayConsoleOut();
+    console.log(profile.location);
+    isHere(profile.location);
 }
 
 async function changePrivacySettings(e){
@@ -322,6 +331,7 @@ initHouse = (houseData) => {
             
         let roomName = houseData[i].roomName;
         room.name = roomName;
+        room.hasSomebody = false;
     
         if(houseData[i].closedDoors > 0 || houseData[i].openDoors > 0 || houseData[i].blockedDoors > 0){
             room.hasDoors = true;
@@ -351,3 +361,12 @@ initHouse = (houseData) => {
             
     }        
 }
+
+function isHere(location){
+    for(const room in houseParameters.roomList){
+        if(location == room){
+            houseParameters.roomList[room].hasSomebody = true;
+        }
+    }
+}
+

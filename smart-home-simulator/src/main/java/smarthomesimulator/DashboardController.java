@@ -274,8 +274,18 @@ public class DashboardController extends SmartHomeController{
     @PostMapping(value="/HouseParameters")
     public ArrayList<Room> houseStatus(@Validated @ModelAttribute("profile") final Profile profile, @Validated @ModelAttribute("simulator") final Simulator simulator){
 
-        return Simulator.roomsOfHouse;
+        Simulator sim = simulatorMap.get(0);
+        return sim.roomsOfHouse;
     }
+
+    @PostMapping(value="/getProfiles")
+    public ArrayList<Profile> getProfiles(@Validated @ModelAttribute("profile") final Profile profile, @Validated @ModelAttribute("simulator") final Simulator simulator){
+
+        Simulator sim = simulatorMap.get(0);
+        return sim.profilesOfHouse;
+    }
+
+
 
 
 

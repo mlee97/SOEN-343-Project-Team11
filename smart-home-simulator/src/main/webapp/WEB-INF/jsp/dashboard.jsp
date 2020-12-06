@@ -14,11 +14,11 @@
             <div class="profile col-1 pt-1 pb-1 rounded" id="dashboardContextContent">
                 <h4 class="mb-2 text-center">Simulation</h4>
                 <label class="switch d-block m-auto">
-                    <input type="checkbox" id="simSwitch" onclick="displayLayout()">s
+                    <input type="checkbox" id="simSwitch" onclick="displayLayout()">
                     <span class="slider round"></span>
                 </label>
                 <img src="/img/undefined_profile.png" alt="ProfilePic" class="profilePic d-block m-auto">
-                <button class="btn btn-primary d-block ml-auto mr-auto mt-2 mb-1" id="editBtn">edit</button>
+                <button class="btn btn-primary d-block ml-auto mr-auto mt-2 mb-1" id="editBtn" onclick="displayProfiles()">edit</button>
                 <p class="d-block">Date: {{ date }}</p>
                 <p class="d-block">Time: {{ time }}</p>
                 <p class="d-block">House Layout: {{ layout }}</p>
@@ -316,8 +316,8 @@
             <div class="col-7 justify-content-center ">
                 <div style="text-align:center">
                     <div class="houseLayout border rounded p-1" id="house-layout">
-                        <div class="w-100 h-100 overflow-hidden">
-                               <span v-for="room in roomList">
+                        <div class="roomDisplay w-100 h-100 overflow-hidden">
+                            <span v-for="room in roomList">
                                 <button class="rooms">
                                     <span v-if="room.hasDoors">
                                         <img v-if="room.isEnterable == true" src="img/doorOpen.jpg" class="doors"/>
@@ -331,9 +331,19 @@
                                         <img v-if="room.isBright == true" src="img/lightsOn.png" class="lights"/>
                                         <img v-if="room.isBright == false" src="img/lightsOff.png" class="lights"/>
                                     </span>
+                                    <span v-if="room.hasSomebody">
+                                        <img src="img/person.jpg" class="profile"/>
+                                    </span>
                                     {{room.name}}
                                 </button>
                             </span>
+                            <div v-if="showProfiles" class="profileDisplay">
+                                Profiles:
+                                <span v-for="profile in profileList">
+                                    Name:{{profile.name}} 
+                                    Role:{{profile.role}} 
+                                    Location:{{profile.location}}
+                                </span>
                             </div>
                         </div>
                     </div>
