@@ -1,6 +1,8 @@
 package smarthomesimulator.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import smarthomesimulator.interfaces.Observable;
+import smarthomesimulator.interfaces.Observer;
 
 import java.util.ArrayList;
 
@@ -10,7 +12,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
-public class Simulator {
+public class Simulator implements Observer{
 
     @JsonProperty()
     private String date;
@@ -172,4 +174,8 @@ public class Simulator {
         return this.cOut;
     }
 
+    @Override
+    public void update(Observable o) {
+        this.awayMode = ((SHP)o).isAway();
+    }
 }

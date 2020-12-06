@@ -74,14 +74,11 @@ public class DashboardController extends SmartHomeController{
         return sim;
     }
 
-    @RequestMapping(value={"/awayMode"}, method = {RequestMethod.GET, RequestMethod.POST})
-    public Simulator setAwayMode(@Validated @ModelAttribute("simulator") final Simulator simulator, @Validated @ModelAttribute("profile") final Profile profile, @Validated @ModelAttribute("shp") final SHP shp,
-                              ModelMap model){
+    @PostMapping(value={"/awayMode"})
+    public boolean setAwayMode(){
 
         Simulator sim = simulatorMap.get(0);
         sim.setAwayMode(!sim.isAwayMode());
-        model.addAttribute("awayMode", sim.isAwayMode());
-
         if(sim.isAwayMode()) {
             sim.getcOut().setMessage("Away mode is active\n");
         }
@@ -89,14 +86,17 @@ public class DashboardController extends SmartHomeController{
             sim.getcOut().setMessage("Away mode is not active\n");
         }
         simulatorMap.put(0,sim);
-        return sim;
+        return sim.isAwayMode();
     }
 
     @PostMapping(value="/openWindows")
     public Room openAllWindows(@Validated @ModelAttribute("profile") final Profile profile, @Validated @ModelAttribute("simulator") final Simulator simulator,
                                @Validated @ModelAttribute("shp") final SHP shp, ModelMap model, @RequestBody String roomName){
         try{
-            simulator.getRoom(roomName).setOpenWindows(Simulator.getRoom(roomName).getClosedWindows());
+            if(!simulator.isAwayMode())
+                simulator.getRoom(roomName).setOpenWindows(Simulator.getRoom(roomName).getClosedWindows());
+            else
+                simulator.getcOut().setMessage("Away mode is active: windows could not be opened\n");
         }catch(Exception E) {
             System.out.println("Null Values");
         }
@@ -118,7 +118,10 @@ public class DashboardController extends SmartHomeController{
     public Room openAllDoors(@Validated @ModelAttribute("profile") final Profile profile, @Validated @ModelAttribute("simulator") final Simulator simulator,
                                  @Validated @ModelAttribute("shp") final SHP shp,ModelMap model, @RequestBody String roomName){
         try{
-            Simulator.getRoom(roomName).setOpenDoors(Simulator.getRoom(roomName).getClosedDoors());
+            if(!simulator.isAwayMode())
+                Simulator.getRoom(roomName).setOpenDoors(Simulator.getRoom(roomName).getClosedDoors());
+            else
+                simulator.getcOut().setMessage("Away mode is active: doors could not be opened\n");
         }catch(Exception E) {
             System.out.println("Null Values");
         }
@@ -151,7 +154,8 @@ public class DashboardController extends SmartHomeController{
     public Room turnOffLights(@Validated @ModelAttribute("profile") final Profile profile, @Validated @ModelAttribute("simulator") final Simulator simulator,
                                   @Validated @ModelAttribute("shp") final SHP shp, @RequestBody String roomName){
         try{
-            Simulator.getRoom(roomName).setClosedLights(Simulator.getRoom(roomName).getOpenLights());
+                simulator.getRoom(roomName).setClosedLights(Simulator.getRoom(roomName).getOpenLights());
+
         }catch(Exception E) {
             System.out.println("Null Values");
         }

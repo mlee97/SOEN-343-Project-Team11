@@ -49,6 +49,7 @@ public class SHP implements Observable {
 
     public void setAway(boolean status) {
         this.away = status;
+        notifyObserver(this);
     }
 
     public void setStartTime(String time) {
@@ -94,8 +95,13 @@ public class SHP implements Observable {
         observers.remove(o);
     }
     @Override
-    public void notifyObserver(Observable observable){
-        System.out.println("New Observer added");
+    public void notifyObserver(Observable o){
+        for (Observer observer : observers){
+            observer.update(o);
+        }
+    }
 
+    public boolean isAway() {
+        return away;
     }
 }

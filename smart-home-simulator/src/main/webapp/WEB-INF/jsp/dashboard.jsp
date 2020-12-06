@@ -83,6 +83,13 @@
 
                                 <button class="btn btn-outline-dark" type="submit">Submit</button>
                             </form>
+                            <div>
+                                <form:form method = "GET" action = "/printProfiles">
+                                    <div class="form-group">
+                                        <a href="download" value = "printProfiles/">Download Profiles</a>
+                                    </div>
+                                </form:form>
+                            </div>
                         </div>
                         <div id="SHC" class="w-100 tabContent ml-4 mr-4"><br/>
                             <h4>Controls</h4>
@@ -147,15 +154,15 @@
                             </table>
                             <h4>Lights AUTO MODE</h4>
                             <label class="switch">
-                                <input type="checkbox" onclick="activateAwayMode()" value="${awayMode}">
+                                <input type="checkbox" >
                                 <span class="slider round"></span>
                             </label>
                         </div>
                         <div id="SHP" class="w-100 tabContent ml-4 mr-4">
                             <form onsubmit="changePrivacySettings(event)">
                                 Set away:
-                                <label class="switch">
-                                    <input type="checkbox">
+                                <label class="switch" id="shpAwayMode">
+                                    <input type="checkbox" @click="activateAwayMode()" v-model="awayMode">
                                     <span class="slider round"></span>
                                 </label>
                                 <div class="form-group">
@@ -168,24 +175,12 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="startTime">Start Time:</label>
-                                    <input class="form-control" id="startTime" name="startTime" />
+                                    <input class="form-control" type="time" id="startTime" name="startTime" />
                                 </div>
 
                                 <div class="form-group">
                                     <label for="endTime">End Time:</label>
-                                    <input class="form-control" id="endTime" name="endTime" />
-                                    <div>
-                                        <form:form method = "GET" action = "/printProfiles">
-                                            <table>
-                                                <tr>
-                                                    <td>
-                                                        <a href="download" value = "printProfiles/">Download</a>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </form:form>
-                                    </div>
-
+                                    <input class="form-control" type="time" id="endTime" name="endTime" />
                                 </div>
 
                                 <div class="form-group">

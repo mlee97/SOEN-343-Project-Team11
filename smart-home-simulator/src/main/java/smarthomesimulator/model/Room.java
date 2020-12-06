@@ -1,7 +1,7 @@
 package smarthomesimulator.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.lang.Nullable;
+import smarthomesimulator.interfaces.Observable;
 
 import java.util.*;
 

@@ -56,6 +56,18 @@ window.onload = async function () {
         }
     });
 
+    let shpAwayMode = new Vue({
+        el: "#shpAwayMode",
+        data: {awayMode: responseData.awayMode},
+        methods: {
+            activateAwayMode: async function () {
+                await fetch("/dashboard/awayMode", {method: 'POST'});
+                displayConsoleOut();
+            }
+
+        }
+    });
+
     initHouse(houseData);
     loadSHHTab();
     retrieveTime();
@@ -168,11 +180,6 @@ async function changePrivacySettings(e){
     displayConsoleOut();
     }
     
-function activateAwayMode(){
-    console.log('/dashboard');
-    window.location = '/dashboard/awayMode';
-    displayConsoleOut();
-}
 
 async function openWindow(e, room){
     e.preventDefault();
