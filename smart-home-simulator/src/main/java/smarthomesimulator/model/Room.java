@@ -273,15 +273,6 @@ public class Room {
 			}
 			
 		}
-		
-		public String Status() {
-			String status = "There are currently ";
-			String blockStatus = this.getBlockedDoors()+" blocked doors and "+this.getBlockedWindows()+" blocked windows, ";
-			String closeStatus = this.getClosedDoors()+" closed doors, "+this.getClosedWindows()
-			+" closed windows, and "+this.getClosedLights()+" closed lights.";
-			
-			return status+blockStatus+closeStatus;
-		}
 
 	public double getTemperature() {
 		return temperature;
