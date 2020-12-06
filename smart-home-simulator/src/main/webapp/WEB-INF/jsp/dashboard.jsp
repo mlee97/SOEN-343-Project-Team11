@@ -331,7 +331,7 @@
                                         <img v-if="room.isBright == true" src="img/lightsOn.png" class="lights"/>
                                         <img v-if="room.isBright == false" src="img/lightsOff.png" class="lights"/>
                                     </span>
-                                    <c:out value="${room.getRoomName()}"/>
+                                    {{room.name}}
                                 </button>
                             </span>
                             </div>
