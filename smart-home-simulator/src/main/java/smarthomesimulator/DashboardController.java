@@ -150,7 +150,6 @@ public class DashboardController extends SmartHomeController{
         return simulator.getRoom(roomName);
     }
 
-<<<<<<< HEAD
     @PostMapping(value="/shhChangeZone")
     public String changeSHHZone(@Validated @RequestBody Zone zone) throws IOException{
         Simulator sim = simulatorMap.get(0);
@@ -256,7 +255,6 @@ public class DashboardController extends SmartHomeController{
         simulatorMap.put(0,sim);
         return;
     }
-=======
     @PostMapping(value="/consoleOutput")
     public String displayConsoleOutput(){
         String messages = "";
@@ -273,5 +271,4 @@ public class DashboardController extends SmartHomeController{
         return messages;
     }
 
->>>>>>> 276a2ecd4c23cfb9df42b772e72e508a8141d2ff
 }
