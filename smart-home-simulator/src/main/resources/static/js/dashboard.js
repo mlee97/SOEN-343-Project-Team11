@@ -28,8 +28,6 @@ window.onload = async function () {
         el:"#house-layout",
         data: {
             roomList:{},
-            profileList:{},
-            showProfiles: false
         }
     });
 
@@ -52,6 +50,27 @@ window.onload = async function () {
             }
         }
     });
+
+    profileParameters = new Vue({
+        el:"#profile-parameters",
+        data:{
+            profileList:{},
+            showProfiles: false,
+            addProfilesForm: false,
+            deleteProfilesForm: false
+        },
+        methods:{
+            async deleteProfile(profile){
+                const response = await fetch("/dashboard/removeProfileDashboard", {method:'POST', body: profile.name});
+                let responseData = await response.json();
+                console.log(responseData);
+                delete profileParameters.profileList[profile.name]
+                isNotHere(profile.location);
+                displayConsoleOut();
+                console.log(`${profile.name} has been deleted!`);
+            }
+        }
+    })
 
     initHouse(houseData);
     loadSHHTab();
@@ -88,9 +107,22 @@ function shcModule(evt, id){
     evt.currentTarget.className += " active";
 }
 
-function displayProfiles(){
-    houseParameters.showProfiles = !houseParameters.showProfiles;
+function displayProfiles(role){
+
+    if(role=="show"){
+        profileParameters.showProfiles = !profileParameters.showProfiles;
+    }
+
+    if(role=="add"){
+        profileParameters.addProfilesForm = !profileParameters.addProfilesForm;
+    }
+
+    if(role=="delete"){
+        profileParameters.deleteProfilesForm = !profileParameters.deleteProfilesForm;
+    }
 }
+
+
 
 function displayLayout() {
     
@@ -127,7 +159,7 @@ async function editContext(e){
     displayConsoleOut();
 }
 
-async function editProfile(e){
+async function addProfile(e){
     e.preventDefault();
 
     let profile = {};
@@ -136,7 +168,7 @@ async function editProfile(e){
     json.forEach((value, key) => profile[key] = value);
     let data = JSON.stringify(profile);
 
-    Vue.set(houseParameters.profileList, profile.name, profile);
+    Vue.set(profileParameters.profileList, profile.name, profile);
     
     const response = await fetch("/dashboard/addProfileDashboard", {method: "POST", body: data, headers: {
         "Content-Type": "application/json",
@@ -144,7 +176,6 @@ async function editProfile(e){
     let responseData = await response.json();
     console.log(responseData);
     displayConsoleOut();
-    console.log(profile.location);
     isHere(profile.location);
 }
 
@@ -371,6 +402,13 @@ function isHere(location){
     for(const room in houseParameters.roomList){
         if(location == room){
             houseParameters.roomList[room].hasSomebody = true;
+        }
+    }
+}
+function isNotHere(location){
+    for(const room in houseParameters.roomList){
+        if(location == room){
+            houseParameters.roomList[room].hasSomebody = false;
         }
     }
 }
