@@ -1,7 +1,9 @@
 var dashboardContext;
+var conOut;
 var shhTab;
 var shhRoom;
 var shhZone;
+
 
 window.onload = async function () {
     const response = await fetch("/dashboard", {method: "GET"});
@@ -10,9 +12,15 @@ window.onload = async function () {
     dashboardContext = new Vue({
         el: "#dashboardContextContent",
         data: {date: responseData.date, time: responseData.time, layout: responseData.fileName, tempOut: responseData.tempOut, location: 'Placeholder'}
+
+    });
+    conOut = new Vue({
+        el: "#consoleOut",
+        data: {cOut: ''}
     });
 
     loadSHHTab();
+
 }
 
 function openModule(evt, modName) {
@@ -78,6 +86,7 @@ async function editContext(e){
     dashboardContext.time= responseData.time;
     dashboardContext.layout= responseData.fileName;
     dashboardContext.tempOut= responseData.tempOut;
+    displayConsoleOut();
 }
 
 async function editProfile(e){
@@ -92,6 +101,7 @@ async function editProfile(e){
     }});
     let responseData = await response.json();
     console.log(responseData);
+    displayConsoleOut();
 }
 
 async function changePrivacySettings(e){
@@ -106,11 +116,13 @@ async function changePrivacySettings(e){
         }});
     let responseData = await response.json();
     console.log(responseData);
+    displayConsoleOut();
     }
 
 function activateAwayMode(){
     console.log('/dashboard');
     window.location = '/dashboard/awayMode';
+    displayConsoleOut();
 }
 
 async function openWindow(e, room){
@@ -157,6 +169,16 @@ async function offLights(e, room){
     let responseData = await response.json();
     console.log(responseData);
 }
+
+
+async function displayConsoleOut(){
+
+    const response = await fetch("/dashboard/consoleOutput", {method: "POST"});
+    const string = await response.text();
+    conOut.cOut = string;
+
+}
+
 
 async function loadSHHTab(){
     const getSHH = await fetch("/dashboard/shh", {method: "GET"});

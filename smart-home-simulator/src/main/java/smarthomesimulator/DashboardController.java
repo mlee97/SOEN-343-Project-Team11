@@ -31,6 +31,7 @@ public class DashboardController extends SmartHomeController{
         sim.setDate(simulator.getDate());
         sim.setTime(simulator.getTime());
         sim.setTempOut(simulator.getTempOut());
+        sim.getcOut().setMessage("Modified Context Parameters\n");
         simulatorMap.put(0,sim);
 
         return sim;
@@ -45,6 +46,7 @@ public class DashboardController extends SmartHomeController{
         model.addAttribute("endTime",shp.getEndTime());
         model.addAttribute("alertTime",shp.getAlertTime());
         model.addAttribute("lightsSHP",shp.getLightsSHP());
+        sim.getcOut().setMessage("Modified SHP settings\n");
         simulatorMap.put(0,sim);
         return sim;
     }
@@ -136,6 +138,7 @@ public class DashboardController extends SmartHomeController{
         String location = profile.getLocation();
         Profile prof = new Profile(name, role, location);
         sim.addProfile(prof);
+        sim.getcOut().setMessage("The user " + name + " has been added\n");
         simulatorMap.put(0,sim);
 
         return sim;
@@ -148,6 +151,13 @@ public class DashboardController extends SmartHomeController{
         Simulator sim = simulatorMap.get(0);
         sim.setAwayMode(!sim.isAwayMode());
         model.addAttribute("awayMode", sim.isAwayMode());
+
+        if(sim.isAwayMode()) {
+            sim.getcOut().setMessage("Away mode is active\n");
+        }
+        else{
+            sim.getcOut().setMessage("Away mode is not active\n");
+        }
         simulatorMap.put(0,sim);
         return sim;
     }
@@ -216,6 +226,22 @@ public class DashboardController extends SmartHomeController{
             System.out.println("Null Values");
         }
         return simulator.getRoom(roomName);
+    }
+
+    @PostMapping(value="/consoleOutput")
+    public String displayConsoleOutput(){
+        String messages = "";
+        try {
+            Simulator sim = simulatorMap.get(0);
+
+            for (int i = 0; i < sim.getcOut().getSize(); i++){
+                messages += sim.getcOut().getMessage(i);
+            }
+
+        }catch(Exception E) {
+            System.out.println("Null Values");
+        }
+        return messages;
     }
 
 }

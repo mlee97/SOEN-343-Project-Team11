@@ -319,9 +319,9 @@
 
         </div>
         <div class="row justify-content-center">
-            <div class="consoleOutput overflow-auto w-75 p-3">
+            <div class="consoleOutput overflow-auto w-75 p-3" id="consoleOut">
                         <textarea class="p-1 border rounded" id="consoleOutput" rows="7" placeholder="Console output will appear here"
-                                  readonly></textarea>
+                                  readonly>Date: {{ cOut }}</textarea>
             </div>
         </div>
     </div>

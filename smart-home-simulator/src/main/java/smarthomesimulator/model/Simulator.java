@@ -22,6 +22,8 @@ public class Simulator {
     private String fileName;
     private static int roomNumber = 0;
     private boolean awayMode;
+    @JsonProperty()
+    private ConsoleOutput cOut;
 
     public static ArrayList<Room> roomsOfHouse = new ArrayList<>();
     public static ArrayList<Profile> profilesOfHouse = new ArrayList<>();
@@ -34,6 +36,7 @@ public class Simulator {
         this.tempOut = this.getTempOut();
         this.defaultTempIn = this.getDefaultTempIn();
         this.fileName=this.getFileName();
+        this.cOut = new ConsoleOutput();
         awayMode = isAwayMode();
     }
 
@@ -135,6 +138,10 @@ public class Simulator {
 
     public void addProfile(Profile profile) {
         profilesOfHouse.add(profile);
+    }
+
+    public ConsoleOutput getcOut(){
+        return this.cOut;
     }
 
 }
