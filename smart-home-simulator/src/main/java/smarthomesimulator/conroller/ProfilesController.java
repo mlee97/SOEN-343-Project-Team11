@@ -26,20 +26,19 @@ public class ProfilesController {
     @Autowired
     ServletContext context;
 
-    @RequestMapping("/download/{fileName:.+}")
-    public void downloader(HttpServletRequest request, HttpServletResponse response,
-                           @PathVariable("fileName") String fileName) {
+    @RequestMapping("/download")
+    public void downloader(HttpServletRequest request, HttpServletResponse response) {
 
-        System.out.println("Downloading file :- " + fileName);
+        System.out.println("Downloading file :- " + "user.txt");
 
         String downloadFolder = context.getRealPath("/WEB-INF/download/");
-        Path file = Paths.get(downloadFolder, fileName);
+        Path file = Paths.get(downloadFolder, "user.txt");
         // Check if file exists
         if (Files.exists(file)) {
             // set content type
             response.setContentType("application/pdf");
             // add response header
-            response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
+            response.addHeader("Content-Disposition", "attachment; filename=" + "user.txt");
             try {
                 // copies all bytes from a file to an output stream
                 Files.copy(file, response.getOutputStream());
