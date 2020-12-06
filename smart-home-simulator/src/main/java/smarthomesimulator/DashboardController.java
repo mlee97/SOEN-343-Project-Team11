@@ -67,6 +67,17 @@ public class DashboardController extends SmartHomeController{
         return sim;
     }
 
+    @PostMapping(value={"/removeProfileDashboard"})
+    public Simulator deleteProfile(@Validated @RequestBody String profileName) {
+
+        Simulator sim = simulatorMap.get(0);
+        sim.removeProfile(sim.getProfile(profileName));
+        sim.getcOut().setMessage("The user " + profileName + " has been deleted\n");
+        simulatorMap.put(0,sim);
+
+        return sim;
+    }
+
     @RequestMapping(value={"/awayMode"}, method = {RequestMethod.GET, RequestMethod.POST})
     public Simulator setAwayMode(@Validated @ModelAttribute("simulator") final Simulator simulator, @Validated @ModelAttribute("profile") final Profile profile, @Validated @ModelAttribute("shp") final SHP shp,
                               ModelMap model){
