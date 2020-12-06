@@ -141,3 +141,15 @@ input:checked + .slider:before {
     height: 30px;
 
 }
+.roomDisplay{
+    height: 500px;
+}
+.profileDisplay{
+    height: 225px;
+    display: grid;
+}
+.profile{
+    width: 30px;
+    height: 30px;
+}
+
