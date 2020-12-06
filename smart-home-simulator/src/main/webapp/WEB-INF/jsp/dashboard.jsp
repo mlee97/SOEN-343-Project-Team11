@@ -56,30 +56,44 @@
                                 </div>
                                 <button class="btn btn-outline-dark" type="submit">Submit</button>
                             </form>
-                            <form onsubmit="editProfile(event)">
-                                <h5>Profile: </h5>
-                                <div class="form-group">
-                                    <label for="name">Person's Name: </label>
-                                    <input class="form-control" type="text" id="name" name="name"/>
-                                </div>
+                            <span id="profile-parameters">
+                                <button class="btn btn-primary" id="editBtn" onclick="displayProfiles('show')">Manage Profiles</button>
+                                    <button v-if="showProfiles" class="btn btn-primary" id="editBtn" onclick="displayProfiles('add')">Add Profiles</button>
+                                    <form v-if="addProfilesForm && showProfiles"onsubmit="addProfile(event)">
+                                        <h5>Profile: </h5>
+                                        <div class="form-group">
+                                            <label for="name">Person's Name: </label>
+                                            <input class="form-control" type="text" id="name" name="name"/>
+                                        </div>
 
-                                <div class="form-group">
-                                    <label for="role">Role</label>
-                                    <select class="form-control" id="role" name="role">
-                                        <option value="CHILD">Child</option>
-                                        <option value="GUEST">Guest</option>
-                                        <option value="PARENT">Parent</option>
-                                        <option value="STRANGER">Stranger</option>
-                                    </select>
-                                </div>
+                                        <div class="form-group">
+                                            <label for="role">Role</label>
+                                            <select class="form-control" id="role" name="role">
+                                                <option value="CHILD">Child</option>
+                                                <option value="GUEST">Guest</option>
+                                                <option value="PARENT">Parent</option>
+                                                <option value="STRANGER">Stranger</option>
+                                            </select>
+                                        </div>
 
-                                <div class="form-group">
-                                    <label for="location">Location:</label>
-                                    <input class="form-control" id="location" name="location"/>
-                                </div>
+                                        <div class="form-group">
+                                            <label for="location">Location:</label>
+                                            <input class="form-control" id="location" name="location"/>
+                                        </div>
 
-                                <button class="btn btn-outline-dark" type="submit">Submit</button>
-                            </form>
+                                        <button class="btn btn-outline-dark" type="submit">Submit</button>
+                                    </form>
+                                    <button v-if="showProfiles" class="btn btn-primary" id="editBtn" onclick="displayProfiles('delete')">Delete Profiles</button>
+                                    <div v-if="deleteProfilesForm && showProfiles" class="profileDisplay">
+                                        Profiles:
+                                        <span v-if="profile" v-for="profile in profileList">
+                                            Name:{{profile.name}} 
+                                            Role:{{profile.role}} 
+                                            Location:{{profile.location}}
+                                            <button class="btn btn-danger" @click="deleteProfile(profile)">X</button>
+                                        </span>
+                                    </div>
+                            </span>
                         </div>
                         <div id="SHC" class="w-100 tabContent ml-4 mr-4"><br/>
                             <h4>Controls</h4>
@@ -336,14 +350,6 @@
                                     {{room.name}}
                                 </button>
                             </span>
-                            <div v-if="showProfiles" class="profileDisplay">
-                                Profiles:
-                                <span v-for="profile in profileList">
-                                    Name:{{profile.name}} 
-                                    Role:{{profile.role}} 
-                                    Location:{{profile.location}}
-                                </span>
-                            </div>
                         </div>
                     </div>
                     <span>House Layout</span>
