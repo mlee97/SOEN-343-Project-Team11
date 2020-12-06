@@ -19,8 +19,12 @@
                     <form:input class="form-control" type="time" id="time" name="time" path="time"/>
                 </div>
                 <div class="form-group">
-                    <form:label for="tempOut" path="tempOut">Outside Temperature</form:label>
+                    <form:label for="tempOut" path="tempOut">Current Outdoor Temperature</form:label>
                     <form:input class="form-control" type="number" step="0.01" id="tempOut" name="tempOut" path="tempOut"/>
+                </div>
+                <div class="form-group">
+                    <form:label for="tempIn" path="tempIn">Current Inside Temperature</form:label>
+                    <form:input class="form-control" type="number" step="0.01" id="tempIn" name="tempIn" path="tempIn"/>
                 </div>
                 <div class="form-group">
                     <form:label for="defaultTempIn" path="defaultTempIn">Default Indoor Room Temperature</form:label>

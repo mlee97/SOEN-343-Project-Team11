@@ -285,9 +285,33 @@ public class DashboardController extends SmartHomeController{
         return sim.profilesOfHouse;
     }
 
+    @PostMapping(value="/getIndoorTemp")
+    public double getInTemp(){
+        double temp = 0.00;
+        try {
+            Simulator sim = simulatorMap.get(0);
 
+            temp = sim.getDefaultTempIn();
 
+        }catch(Exception E) {
+            System.out.println("Null Values");
+        }
+        return temp;
+    }
 
+    @PostMapping(value="/getOutdoorTemp")
+    public double getOutTemp(){
+        double temp = 0.00;
+        try {
+            Simulator sim = simulatorMap.get(0);
+
+            temp = sim.getTempOut();
+
+        }catch(Exception E) {
+            System.out.println("Null Values");
+        }
+        return temp;
+    }
 
     @PostMapping(value="/getTime")
     public String getTime(){
@@ -301,6 +325,12 @@ public class DashboardController extends SmartHomeController{
             System.out.println("Null Values");
         }
         return time;
+    }
+
+    @PostMapping(value="/getTemps")
+    public Simulator getTemps(){
+        Simulator sim = simulatorMap.get(0);
+        return sim;
     }
 
 }

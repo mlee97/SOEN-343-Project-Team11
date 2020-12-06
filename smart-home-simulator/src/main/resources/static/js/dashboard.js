@@ -8,6 +8,9 @@ var shhSeason;
 var hours = 0;
 var minutes = 0;
 var displayClock;
+var defaultInTemp = 0.00;
+var outTemp = 0.00;
+var inTemp = 0.00;
 
 window.onload = async function () {
 
@@ -20,7 +23,7 @@ window.onload = async function () {
     
     dashboardContext = new Vue({
         el: "#dashboardContextContent",
-        data: {date: responseData.date, time: responseData.time, layout: responseData.fileName, tempOut: responseData.tempOut, location: 'Placeholder'}
+        data: {date: responseData.date, time: responseData.time, layout: responseData.fileName, tempOut: responseData.tempOut, defaultTempIn: responseData.defaultTempIn, location: 'Placeholder'}
 
     });
 
@@ -56,6 +59,7 @@ window.onload = async function () {
     initHouse(houseData);
     loadSHHTab();
     retrieveTime();
+    retrieveTemp();
 }
 
 
@@ -123,6 +127,7 @@ async function editContext(e){
     dashboardContext.time= responseData.time;
     dashboardContext.layout= responseData.fileName;
     dashboardContext.tempOut= responseData.tempOut;
+    dashboardContext.defaultTempIn = responseData.defaultTempIn;
     updateTime();
     displayConsoleOut();
 }
@@ -398,6 +403,7 @@ custom_Clock.prototype.run = function (){ setInterval(this.update.bind(this), 10
 custom_Clock.prototype.update = function ()
   {
     this.updateTime(1);
+
     if (this.mins < 10 && this.secs < 10) {
         time = this.hrs + ":0" + this.mins + ":0" + this.secs;
     }
@@ -410,7 +416,7 @@ custom_Clock.prototype.update = function ()
     else{
         time = this.hrs + ":" + this.mins + ":" + this.secs;
     }
-    document.getElementById("clock").innerText = time;
+    document.getElementById("clock").innerText = "Time: " + time;
   };
 custom_Clock.prototype.updateTime = function (seconds)
   {
@@ -442,6 +448,47 @@ async function updateTime(){
     displayClock.mins = minutes;
     displayClock.secs = 0;
 }
+
+async function retrieveTemp(){
+
+    const response = await fetch("/dashboard/getTemps", {method: "POST"});
+    const responseData = await response.json();
+    let defaultInTemp = responseData.defaultTempIn;
+    let outTemp = responseData.tempOut;
+    let inTemp = responseData.tempIn;
+    return await Promise.resolve([defaultInTemp, outTemp, inTemp]);
+}
+
+retrieveTemp().then((value) => {  defaultInTemp = value[0];
+                                   outTemp = value[1];
+                                   inTemp = value[2];
+                                   console.log(outTemp);
+                                   monitor = new monitor_Temp();
+                                   monitor.run();} )
+
+function monitor_Temp(){
+    this.defaultInTmp = defaultInTemp;
+    this.outTmp = outTemp;
+    this.inTmp = inTemp;
+}
+monitor_Temp.prototype.run = function (){ setInterval(this.update.bind(this), 1000);};
+
+monitor_Temp.prototype.update = function ()
+  {
+
+    if (this.inTmp < (defaultInTemp - 0.25)) {
+        this.inTmp = this.inTmp + 0.1;
+    }
+    else if (this.inTmp > (defaultInTemp + 0.25)) {
+        this.inTmp = this.inTmp - 0.1;
+    }
+    else {
+       //Do nothing
+    }
+
+    document.getElementById("inTemp").innerText = "Inside Temperature: " + this.inTmp.toFixed(2) + " \u00B0C";
+  };
+
 
 
 
