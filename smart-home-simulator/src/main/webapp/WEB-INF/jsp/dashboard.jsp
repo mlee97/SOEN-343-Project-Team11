@@ -20,7 +20,7 @@
                 <img src="/img/undefined_profile.png" alt="ProfilePic" class="profilePic d-block m-auto">
                 <button class="btn btn-primary d-block ml-auto mr-auto mt-2 mb-1" id="editBtn" onclick="displayProfiles()">edit</button>
                 <p class="d-block">Date: {{ date }}</p>
-                <p class="d-block">Time: {{ time }}</p>
+                <p class="d-block">Time: <div id="clock"></div></p>
                 <p class="d-block">House Layout: {{ layout }}</p>
                 <p class="d-block">Location: {{ location }}</p>
                 <p class="d-block">Temp: {{ tempOut }} &#176;C</p>

@@ -5,6 +5,9 @@ var shhTab;
 var shhRoom;
 var shhZone;
 var shhSeason;
+var hours = 0;
+var minutes = 0;
+var displayClock;
 
 window.onload = async function () {
 
@@ -52,6 +55,7 @@ window.onload = async function () {
 
     initHouse(houseData);
     loadSHHTab();
+    retrieveTime();
 }
 
 
@@ -119,6 +123,7 @@ async function editContext(e){
     dashboardContext.time= responseData.time;
     dashboardContext.layout= responseData.fileName;
     dashboardContext.tempOut= responseData.tempOut;
+    changeTime(dashboardContext.time);
     displayConsoleOut();
 }
 
@@ -369,4 +374,63 @@ function isHere(location){
         }
     }
 }
+
+async function retrieveTime(){
+
+    const response = await fetch("/dashboard/getTime", {method: "POST"});
+    const inTime = await response.text();
+    return inTime;
+}
+
+retrieveTime().then(inTime => {var hrs_mins = inTime.split(':');
+                                   hours = parseInt(hrs_mins[0]);
+                                   minutes = parseInt(hrs_mins[1]);
+                                   console.log(hours);
+                                   displayClock = new custom_Clock();
+                                   displayClock.run();} )
+
+function custom_Clock(){
+    this.hrs = hours;
+    this.mins = minutes;
+    this.secs = 0;
+}
+custom_Clock.prototype.run = function (){ setInterval(this.update.bind(this), 1000);};
+
+custom_Clock.prototype.update = function ()
+  {
+    this.updateTime(1);
+    if (this.mins < 10 && this.secs < 10) {
+        time = this.hrs + ":0" + this.mins + ":0" + this.secs;
+    }
+    else if (this.mins < 10) {
+        time = this.hrs + ":0" + this.mins + ":" + this.secs;
+    }
+    else if (this.secs < 10) {
+        time = this.hrs + ":" + this.mins + ":0" + this.secs;
+    }
+    else{
+        time = this.hrs + ":" + this.mins + ":" + this.secs;
+    }
+    document.getElementById("clock").innerText = time;
+  };
+custom_Clock.prototype.updateTime = function (seconds)
+  {
+     this.secs+= seconds;
+     if (this.secs >= 60)
+      {
+          this.mins++;
+          this.secs= 0;
+      }
+     if (this.mins >= 60)
+      {
+          this.hrs++;
+          this.mins=0;
+      }
+     if (this.hrs >= 24)
+      {
+        this.hrs = 0;
+      }
+};
+
+
 
