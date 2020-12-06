@@ -2,18 +2,22 @@ package smarthomesimulator.conroller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import smarthomesimulator.SmartHomeController;
+import smarthomesimulator.model.Profile;
+import smarthomesimulator.model.Simulator;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 
 @Controller
@@ -29,6 +33,25 @@ public class ProfilesController{
 
     @RequestMapping("/download")
     public void downloader(HttpServletRequest request, HttpServletResponse response) {
+        StringBuilder newFileInput = new StringBuilder();
+
+        for (Profile profile: Simulator.profilesOfHouse) {
+            newFileInput.append(profile.toString());
+        }
+
+        try{
+            String downloadFolder = context.getRealPath("/WEB-INF/download/");
+            File file = new File(downloadFolder + "user.txt");
+            Writer output = null;
+            output = new BufferedWriter(new FileWriter(file));
+            output.write(newFileInput.toString());
+
+            output.close();
+            System.out.println(newFileInput.toString() + "File has been written");
+
+        }catch(Exception e){
+            System.out.println("Could not create file");
+        }
 
         System.out.println("Downloading file :- " + "user.txt");
 

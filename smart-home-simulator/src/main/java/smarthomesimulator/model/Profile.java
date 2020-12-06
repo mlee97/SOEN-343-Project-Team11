@@ -6,7 +6,6 @@ import smarthomesimulator.interfaces.Observer;
 
 public class Profile implements Observer {
 
-
     public enum Role {
         CHILD(0, "Child"),
         GUEST(0, "Guest"),
@@ -86,6 +85,15 @@ public class Profile implements Observer {
     @Override
     public void update(Observable o){
         this.observable = (SHP) o;
+    }
 
+    @Override
+    public String toString() {
+        return "Profile{" +
+                "name='" + name + '\'' +
+                ", role=" + role +
+                ", location='" + location + '\'' +
+                ", observable=" + observable +
+                '}';
     }
 }

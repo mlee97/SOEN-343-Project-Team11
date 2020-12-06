@@ -1,1 +1,1 @@
-yo
+Profile{name='kayla', role=CHILD, location='Kitchen', observable=null}
