@@ -1,14 +1,21 @@
 package smarthomesimulator;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import smarthomesimulator.model.*;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
@@ -285,10 +292,6 @@ public class DashboardController extends SmartHomeController{
         return sim.profilesOfHouse;
     }
 
-
-
-
-
     @PostMapping(value="/getTime")
     public String getTime(){
         String time = "";
@@ -302,5 +305,4 @@ public class DashboardController extends SmartHomeController{
         }
         return time;
     }
-
 }
