@@ -11,6 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
 
 
 @RestController
@@ -270,5 +271,12 @@ public class DashboardController extends SmartHomeController{
         }
         return messages;
     }
+    @PostMapping(value="/HouseParameters")
+    public ArrayList<Room> houseStatus(@Validated @ModelAttribute("profile") final Profile profile, @Validated @ModelAttribute("simulator") final Simulator simulator){
+
+        return Simulator.roomsOfHouse;
+    }
+
+
 
 }
