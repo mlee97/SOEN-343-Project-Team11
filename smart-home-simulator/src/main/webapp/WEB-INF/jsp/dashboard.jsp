@@ -202,24 +202,25 @@
                         <div id="SHH" class="w-100 tabContent ml-4 mr-4"><br/>
                             <form id="shhZone" onsubmit="addZone(event)">
                                 <h5>Add Zone</h5>
-                                <div class="form-row">
-                                    <div class="col">
-                                        <label for="zoneName">Zone Name: </label>
-                                        <input class="form-control" type="text" id="zoneName" v-model="name" />
-                                    </div>
-                                    <div class="col">
-                                        <label for="zoneSetting">Zone Setting:</label>
-                                        <select class="form-control" id="zoneSetting" type="boolean" v-model="setting">
-                                            <option :value="false">Cooling</option>
-                                            <option :value="true">Heating</option>
-                                        </select>
-                                    </div>
-                                    <div class="col">
-                                        <label for="tempOut">Zone Temperature:</label>
-                                        <input class="form-control" type="number" step="0.01" id="zoneTemp" v-model="temperature"/>
+                                <div class="form-group">
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <label for="zoneName">Zone Name: </label>
+                                            <input class="form-control" type="text" id="zoneName" v-model="name" />
+                                        </div>
+                                        <div class="col">
+                                            <label for="zoneSetting">Zone Setting:</label>
+                                            <select class="form-control" id="zoneSetting" type="boolean" v-model="setting">
+                                                <option :value="false">Cooling</option>
+                                                <option :value="true">Heating</option>
+                                            </select>
+                                        </div>
+                                        <div class="col">
+                                            <label for="tempOut">Zone Temperature:</label>
+                                            <input class="form-control" type="number" step="0.01" id="zoneTemp" v-model="temperature"/>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="p-1"></div>
                                 <button class="btn btn-outline-dark" type="submit">Add</button>
                             </form>
 
@@ -227,33 +228,33 @@
 
                             <form id="shhVariables" @submit="changeZone($event)" >
                                 <h5>Edit Zones</h5>
-                                <label>Zones:</label>
-                                <select selected="selected" @change="onSelected($event)" class="form-control">
-                                    <option :value="null">-- Select Zone --</option>
-                                    <option v-for="(item, index) in zones" :value="index">
-                                        {{ item.name }}
-                                    </option>
-                                </select>
+                                <div class="form-group">
+                                    <label>Zones:</label>
+                                    <select selected="selected" @change="onSelected($event)" class="form-control">
+                                        <option :value="null">-- Select Zone --</option>
+                                        <option v-for="(item, index) in zones" :value="index">
+                                            {{ item.name }}
+                                        </option>
+                                    </select>
 
-                                <div class="form-row">
-                                    <div class="col">
-                                        <label for="zoneSetting">Zone Setting:</label>
-                                        <select class="form-control" id="selectedZoneSetting" type="boolean" v-model="selectedZone.setting">
-                                            <option :value="false">Cooling</option>
-                                            <option :value="true">Heating</option>
-                                        </select>
-                                    </div>
-                                    <div class="col">
-                                        <label for="tempOut">Zone Temperature:</label>
-                                        <input class="form-control" type="number" step="0.01" id="selectedZoneTemp" v-model="selectedZone.temperature"/>
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <label for="zoneSetting">Zone Setting:</label>
+                                            <select class="form-control" id="selectedZoneSetting" type="boolean" v-model="selectedZone.setting">
+                                                <option :value="false">Cooling</option>
+                                                <option :value="true">Heating</option>
+                                            </select>
+                                        </div>
+                                        <div class="col">
+                                            <label for="tempOut">Zone Temperature:</label>
+                                            <input class="form-control" type="number" step="0.01" id="selectedZoneTemp" v-model="selectedZone.temperature"/>
+                                        </div>
                                     </div>
                                 </div>
-
-                                <div class="p-1"></div>
                                 <button class="btn btn-outline-dark" type="submit">Change</button>
                             </form>
 
-                            <form id="shhRoomTemperatures">
+                            <div id="shhRoomTemperatures">
                                 <h5>Edit Room Temperatures</h5>
                                 <table class="table table-hover">
                                     <thead>
@@ -264,21 +265,24 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr v-for="room in rooms" var="room.roomName">
+                                    <tr v-for="(item, index) in rooms" :var="item.roomName">
                                         <th scope="row">
-                                            {{ room.roomName }}
+                                            {{ item.roomName }}
                                         </th>
-                                        <td>
-                                            <div class="input-group">
-                                                <input class="form-control" type="number" @blur="overrideTemperature(room.roomName, $event)" step="0.01" id="roomTemperature" v-model="room.temperature"/>
+                                        <td class="row">
+                                            <div class="input-group col-8">
+                                                <input class="form-control" type="number" @blur="overrideTemperature(item.roomName, index, $event)" step="0.01" id="roomTemperature" v-model="item.temperature"/>
                                                 <div class="input-group-append">
-                                                    <button @click="resetTemperature()" class="btn btn-outline-secondary" type="button" id="coolButton" :disabled="!room.overridden">Reset</button>
+                                                    <button @click="resetTemperature(item.roomName, index)" class="btn btn-outline-secondary" type="button" id="coolButton" :disabled="!item.overridden">Reset</button>
                                                 </div>
                                             </div>
+                                                <small id="overridden" class="text-danger" v-if="item.overridden">
+                                                    Overridden
+                                                </small>
                                         </td>
                                         <td>
-                                            <select selected="roomSelectedZone" @change="onRoomSelected($event, room.roomName)" class="form-control">
-                                                <option :value="-1">-- Select Zone --</option>
+                                            <select selected="roomSelectedZone" @change="onRoomSelected($event, index, item.roomName)" class="form-control">
+                                                <option :value="-1">No Zone</option>
                                                 <option v-for="(item, index) in zones" :value="index">
                                                     {{ item.name }}
                                                 </option>
@@ -287,8 +291,24 @@
                                     </tr>
                                     </tbody>
                                 </table>
-                            </form>
+                            </div>
 
+                            <form id="shhSeasonTemperature" @submit="shhChangeSeasonTemperature($event)">
+                                <h5>Set Seasonal Away Temperature</h5>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col">
+                                            <label for="summer">Summer Time:</label>
+                                            <input id="summer" type="number" step="0.01" class="form-control" placeholder="Temperature" v-model="summerTemp"/>
+                                        </div>
+                                        <div class="col">
+                                            <label for="winter">Winter Time:</label>
+                                            <input id="winter" type="number" step="0.01" class="form-control" placeholder="Temperature" v-model="winterTemp"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-outline-dark" type="submit">Change</button>
+                            </form>
                         </div>
                     </div>
                 </div>

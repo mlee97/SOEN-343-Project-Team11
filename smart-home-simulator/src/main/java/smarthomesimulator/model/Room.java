@@ -1,6 +1,7 @@
 package smarthomesimulator.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.lang.Nullable;
 
 import java.util.*;
 
@@ -14,6 +15,7 @@ public class Room {
 		private double temperature;
 		private boolean overridden;
 		private Zone zone;
+
 	    public int getOpenLights() {
 	    	int count = 0;
 	    	
@@ -127,6 +129,7 @@ public class Room {
 	        initLights(numOfLights);
 	        overridden = false;
 			temperature = 0;
+			zone = null;
 	    }
 
 
@@ -294,7 +297,7 @@ public class Room {
 		return zone;
 	}
 
-	public void setZone(Zone zone) {
+	public void setZone(@Nullable Zone zone) {
 		this.zone = zone;
 	}
 

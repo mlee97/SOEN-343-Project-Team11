@@ -3,6 +3,7 @@ var conOut;
 var shhTab;
 var shhRoom;
 var shhZone;
+var shhSeason;
 
 
 window.onload = async function () {
@@ -18,6 +19,21 @@ window.onload = async function () {
         el: "#consoleOut",
         data: {cOut: ''}
     });
+
+    shhSeason = new Vue({
+        el:"#shhSeasonTemperature",
+        data: {summerTemp: responseData.defaultSummerTemp, winterTemp: responseData.defaultWinterTemp},
+        methods:{
+            async shhChangeSeasonTemperature(e){
+                e.preventDefault();
+                let object = {summerTemp: this.summerTemp, winterTemp: this.winterTemp}
+                const data = JSON.stringify(object);
+                await fetch("/dashboard/shhChangeSeasonalTemperature", {method: "POST", body: data, headers: {
+                        "Content-Type": "application/json",
+                }});
+            }
+        }
+    })
 
     loadSHHTab();
 
@@ -187,6 +203,11 @@ async function loadSHHTab(){
     const getRooms = await fetch("/dashboard/shhRooms", {method: "GET"});
     let shhRoomResponseData = await getRooms.json();
 
+    let overriddenRooms =[];
+    for (let room in shhRoomResponseData){
+        overriddenRooms.push(room.overridden);
+    }
+
     shhTab = new Vue({
         el: "#shhVariables",
         data: {selected: "null", zones: shhTabResponseData, selectedZone:{}},
@@ -209,27 +230,42 @@ async function loadSHHTab(){
     });
     shhRoom = new Vue({
         el: '#shhRoomTemperatures',
-        data: {
+        data(){ return {
             rooms: shhRoomResponseData,
+            roomsOverridden: overriddenRooms,
             zones: shhTabResponseData,
-            roomSelectedZone: "-1",
+            roomSelectedZone: "-1",}
         },
         methods:{
-            async onRoomSelected(event, roomName) {
+            onRoomSelected: async function(event,index, roomName) {
                 let object = {name: roomName, zoneID: event.target.value}
                 const data = JSON.stringify(object);
                 const response = await fetch("/dashboard/shhRoomChangeZone", {method: "POST", body: data, headers: {
                         "Content-Type": "application/json",
-                    }});
+                }});
+                let responseData = await response.json();
+
+                Vue.set(shhRoom.rooms, index, responseData);
             },
-            async overrideTemperature(roomName, event){
+            overrideTemperature: async function(roomName, index, event){
                 let object = {name: roomName, temp: event.target.value}
                 const data = JSON.stringify(object);
                 const response = await fetch("/dashboard/shhOverrideRoomTemperature", {method: "POST", body: data, headers: {
                         "Content-Type": "application/json",
                     }});
-                console.log(response);
+                let responseData = await response.json();
+                Vue.set(shhRoom.rooms, index, responseData);
             },
+            resetTemperature: async function(roomName, index){
+                let object = {name: roomName}
+                const data = JSON.stringify(object);
+                const response = await fetch("/dashboard/resetTemperature", {method: "POST", body: data, headers: {
+                        "Content-Type": "application/json",
+                    }});
+                let responseData = await response.json();
+                Vue.set(shhRoom.rooms, index, responseData);
+            }
+
         }
     });
 
@@ -256,3 +292,4 @@ async function addZone(e){
     shhTab.zones = responseData;
     shhRoom.zones = responseData;
 }
+
