@@ -292,6 +292,7 @@ public class DashboardController extends SmartHomeController{
         return sim.profilesOfHouse;
     }
 
+
     @PostMapping(value="/getTime")
     public String getTime(){
         String time = "";
@@ -305,4 +306,13 @@ public class DashboardController extends SmartHomeController{
         }
         return time;
     }
+
+
+    @PostMapping(value="/getTemps")
+    public Simulator getTemps(){
+        Simulator sim = simulatorMap.get(0);
+        return sim;
+    }
+
+
 }

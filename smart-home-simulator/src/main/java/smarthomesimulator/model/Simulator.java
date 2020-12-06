@@ -18,7 +18,8 @@ public class Simulator {
     private String time;
     @JsonProperty()
     private double tempOut;
-    private int defaultTempIn;
+    private double defaultTempIn;
+    private double tempIn;
     private String fileName;
     private static int roomNumber = 0;
     private boolean awayMode;
@@ -83,9 +84,13 @@ public class Simulator {
 
     public void setTempOut(double tempOut) { this.tempOut = tempOut; }
 
-    public int getDefaultTempIn() { return defaultTempIn; }
+    public double getDefaultTempIn() { return defaultTempIn; }
 
-    public void setDefaultTempIn(int defaultTempIn) { this.defaultTempIn = defaultTempIn; }
+    public void setDefaultTempIn(double defaultTempIn) { this.defaultTempIn = defaultTempIn; }
+
+    public double getTempIn(){ return this.tempIn;}
+
+    public void setTempIn(double temp) { this.tempIn = temp; }
 
     public String getCurrentDate(){
 
