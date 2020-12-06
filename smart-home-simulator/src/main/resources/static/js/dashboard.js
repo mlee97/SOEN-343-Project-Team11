@@ -135,10 +135,6 @@ async function displayLayout() {
     }
 }
 
-function redirectEditForm() {
-    window.location.href = "/editForm";
-}
-
 function redirectDashboard() {
     window.location.href = "/dashboard";
 }
