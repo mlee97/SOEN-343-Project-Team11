@@ -7,15 +7,15 @@ import java.util.*;
 
 public class Room {
 		private String roomName;
-		private List<Door> doors = new ArrayList<>();
-	    private List<Window> windows = new ArrayList<>();
-		private List<Light> lights = new ArrayList<>();
+		private final List<Door> doors = new ArrayList<>();
+	    private final List<Window> windows = new ArrayList<>();
+		private final List<Light> lights = new ArrayList<>();
 		private int blockedWindows;
 		private int blockedDoors;
 		private double temperature;
 		private boolean overridden;
 		private Zone zone;
-
+	    
 	    public int getOpenLights() {
 	    	int count = 0;
 	    	
@@ -156,74 +156,6 @@ public class Room {
 	    public void setRoomName(String roomName) { this.roomName=roomName; }
 	    
 	    public String getRoomName() { return this.roomName; }
-	     
-	    public boolean canEnter() {
-	    	
-	    	boolean canEnter = false;
-	    	
-	    	for(int i=0; i>=doors.size(); i++) {
-	    		if(canEnter == true) {
-	    			break;
-	    		}
-	    		if(doors.get(i).isOpen()) {
-	    			canEnter = true;
-	    		}
-	    	}
-	    	
-	    	return canEnter;
-			
-	    }
-	    
-	    public boolean isWindy() {
-	    	boolean windy = false;
-	    	
-	    	for(int i=0; i>=windows.size(); i++) {
-	    		if(windy == true) {
-	    			break;
-	    		}
-	    		if(windows.get(i).isOpen()) {
-	    			windy = true;
-	    		}
-	    	}
-	    	return windy;
-	    }
-	    
-	    public boolean isBright() {
-	    	
-	    	boolean bright = false;
-	    	
-	    	for(int i=0; i>=lights.size(); i++) {
-	    		if(bright == true) {
-	    			break;
-	    		}
-	    		if(lights.get(i).isOn()) {
-	    			bright = true;
-	    		}
-	    	}
-	    	
-	    	return bright; 
-	    }
-	    
-	    public boolean findDoors() {
-	    	if (doors.size() == 0) {
-	    		return false;
-	    	}else
-	    		return true;
-	    }
-	    
-	    public boolean findLights() {
-	    	if (lights.size() == 0) {
-	    		return false;
-	    	}else
-	    		return true;
-	    }
-	    
-	    public boolean findWindows() {
-	    	if (windows.size() == 0) {
-	    		return false;
-	    	}else
-	    		return true;
-	    }
 	    
 	    public List<Window> getWindows() {
 	    	return this.windows;
@@ -274,15 +206,6 @@ public class Room {
 	    		windows.get(i).block();
 			}
 			
-		}
-		
-		public String Status() {
-			String status = "There are currently ";
-			String blockStatus = this.getBlockedDoors()+" blocked doors and "+this.getBlockedWindows()+" blocked windows, ";
-			String closeStatus = this.getClosedDoors()+" closed doors, "+this.getClosedWindows()
-			+" closed windows, and "+this.getClosedLights()+" closed lights.";
-			
-			return status+blockStatus+closeStatus;
 		}
 
 	public double getTemperature() {
