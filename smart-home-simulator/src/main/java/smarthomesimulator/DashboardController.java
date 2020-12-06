@@ -1,14 +1,21 @@
 package smarthomesimulator;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import smarthomesimulator.model.*;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
@@ -285,33 +292,6 @@ public class DashboardController extends SmartHomeController{
         return sim.profilesOfHouse;
     }
 
-    @PostMapping(value="/getIndoorTemp")
-    public double getInTemp(){
-        double temp = 0.00;
-        try {
-            Simulator sim = simulatorMap.get(0);
-
-            temp = sim.getDefaultTempIn();
-
-        }catch(Exception E) {
-            System.out.println("Null Values");
-        }
-        return temp;
-    }
-
-    @PostMapping(value="/getOutdoorTemp")
-    public double getOutTemp(){
-        double temp = 0.00;
-        try {
-            Simulator sim = simulatorMap.get(0);
-
-            temp = sim.getTempOut();
-
-        }catch(Exception E) {
-            System.out.println("Null Values");
-        }
-        return temp;
-    }
 
     @PostMapping(value="/getTime")
     public String getTime(){
@@ -327,10 +307,12 @@ public class DashboardController extends SmartHomeController{
         return time;
     }
 
+
     @PostMapping(value="/getTemps")
     public Simulator getTemps(){
         Simulator sim = simulatorMap.get(0);
         return sim;
     }
+
 
 }

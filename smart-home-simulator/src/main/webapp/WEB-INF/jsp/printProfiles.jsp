@@ -8,6 +8,6 @@
     <title>Download User</title>
 </head>
     <body>
-        <h2><a href="download/user.txt">Download user.txt</a></h2>
+        <h2><a href="download">Download user.txt</a></h2>
     </body>
 </html>

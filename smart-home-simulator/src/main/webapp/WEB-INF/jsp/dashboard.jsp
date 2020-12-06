@@ -171,22 +171,22 @@
                                     <input class="form-control" id="startTime" name="startTime" />
                                 </div>
 
-<%--                                <div class="form-group">--%>
-<%--                                    <label for="endTime">End Time:</label>--%>
-<%--                                    <input class="form-control" id="endTime" name="endTime" />--%>
-<%--                                    <div>--%>
-<%--                                        <form:form method = "GET" action = "/printProfiles">--%>
-<%--                                            <table>--%>
-<%--                                                <tr>--%>
-<%--                                                    <td>--%>
-<%--                                                        <input type = "submit" value = "printProfiles"/>--%>
-<%--                                                    </td>--%>
-<%--                                                </tr>--%>
-<%--                                            </table>--%>
-<%--                                        </form:form>--%>
-<%--                                    </div>--%>
+                                <div class="form-group">
+                                    <label for="endTime">End Time:</label>
+                                    <input class="form-control" id="endTime" name="endTime" />
+                                    <div>
+                                        <form:form method = "GET" action = "/printProfiles">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <a href="download" value = "printProfiles/">Download</a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </form:form>
+                                    </div>
 
-<%--                                </div>--%>
+                                </div>
 
                                 <div class="form-group">
                                     <label for="alertTime">Alert Time (in minutes):</label>
