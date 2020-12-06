@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 
 @Controller
-public class ProfilesController{
+public class ProfilesController {
 
     @GetMapping(value = "/printProfiles")
     public String printProfiles() {
@@ -35,23 +35,15 @@ public class ProfilesController{
     public void downloader(HttpServletRequest request, HttpServletResponse response) {
         StringBuilder newFileInput = new StringBuilder();
 
-        for (Profile profile: Simulator.profilesOfHouse) {
+        for (Profile profile : Simulator.profilesOfHouse) {
             newFileInput.append(profile.toString());
         }
 
-        try{
-            String downloadFolder = context.getRealPath("/WEB-INF/download/");
-            File file = new File(downloadFolder + "user.txt");
-            Writer output = null;
-            output = new BufferedWriter(new FileWriter(file));
-            output.write(newFileInput.toString());
+        writeProfiles(newFileInput);
+        downloadProfileFile(response);
+    }
 
-            output.close();
-            System.out.println(newFileInput.toString() + "File has been written");
-
-        }catch(Exception e){
-            System.out.println("Could not create file");
-        }
+    private void downloadProfileFile(HttpServletResponse response) {
 
         System.out.println("Downloading file :- " + "user.txt");
 
@@ -73,6 +65,22 @@ public class ProfilesController{
             }
         } else {
             System.out.println("Sorry File not found!!!!");
+        }
+    }
+
+    private void writeProfiles(StringBuilder newFileInput) {
+        try {
+            String downloadFolder = context.getRealPath("/WEB-INF/download/");
+            File file = new File(downloadFolder + "user.txt");
+            Writer output = null;
+            output = new BufferedWriter(new FileWriter(file));
+            output.write(newFileInput.toString());
+
+            output.close();
+            System.out.println(newFileInput.toString() + "File has been written");
+
+        } catch (Exception e) {
+            System.out.println("Could not create file");
         }
     }
 }
