@@ -123,7 +123,7 @@ async function editContext(e){
     dashboardContext.time= responseData.time;
     dashboardContext.layout= responseData.fileName;
     dashboardContext.tempOut= responseData.tempOut;
-    changeTime(dashboardContext.time);
+    updateTime();
     displayConsoleOut();
 }
 
@@ -382,10 +382,9 @@ async function retrieveTime(){
     return inTime;
 }
 
-retrieveTime().then(inTime => {var hrs_mins = inTime.split(':');
+retrieveTime().then(inTime => {    var hrs_mins = inTime.split(':');
                                    hours = parseInt(hrs_mins[0]);
                                    minutes = parseInt(hrs_mins[1]);
-                                   console.log(hours);
                                    displayClock = new custom_Clock();
                                    displayClock.run();} )
 
@@ -431,6 +430,18 @@ custom_Clock.prototype.updateTime = function (seconds)
         this.hrs = 0;
       }
 };
+
+async function updateTime(){
+
+    const response = await fetch("/dashboard/getTime", {method: "POST"});
+    const inTime = await response.text();
+    var hrs_mins = inTime.split(':');
+    hours = parseInt(hrs_mins[0]);
+    minutes = parseInt(hrs_mins[1]);
+    displayClock.hrs = hours;
+    displayClock.mins = minutes;
+    displayClock.secs = 0;
+}
 
 
 
