@@ -7,18 +7,14 @@ import java.util.*;
 
 public class Room {
 		private String roomName;
-		private List<Door> doors = new ArrayList<>();
-	    private List<Window> windows = new ArrayList<>();
-		private List<Light> lights = new ArrayList<>();
+		private final List<Door> doors = new ArrayList<>();
+	    private final List<Window> windows = new ArrayList<>();
+		private final List<Light> lights = new ArrayList<>();
 		private int blockedWindows;
 		private int blockedDoors;
 		private double temperature;
 		private boolean overridden;
 		private Zone zone;
-		private boolean bright = false;
-		private boolean canEnter = false;
-		private boolean windy = false;
-	    
 	    
 	    public int getOpenLights() {
 	    	int count = 0;
@@ -59,21 +55,18 @@ public class Room {
 	    	for(int i = 0; i < lightsToOpen ; i++){
 	    		lights.get(i).turnOn();
 	    	}
-	    	isBright();
 	    }
 	    
 	    public void setOpenDoors(int doorsToOpen) {
 	    	for(int i = 0; i < doorsToOpen ; i++){
 	    		doors.get(i).open();
 			}
-	    	canEnter();
 	    }
 	    
 	    public void setOpenWindows(int windowsToOpen) {
 	    	for(int i = 0; i < windowsToOpen ; i++){
 	    		windows.get(i).open();
 			}
-	    	isWindy();
 	    }
 	    
 	    public int getClosedLights() {
@@ -114,21 +107,18 @@ public class Room {
 	    	for(int i = 0; i < lightsToClose ; i++){
 	    		lights.get(i).turnOff();
 	    	}
-	    	isBright();
 	    }
 	    
 	    public void setClosedDoors(int doorsToClose) {
 	    	for(int i = 0; i < doorsToClose ; i++){
 	    		doors.get(i).close();
 			}
-	    	canEnter();
 	    }
 	    
 	    public void setClosedWindows(int windowsToClose) {
 	    	for(int i = 0; i < windowsToClose ; i++){
 	    		windows.get(i).close();
 			}
-	    	isWindy();
 	    }
 
 
@@ -166,62 +156,6 @@ public class Room {
 	    public void setRoomName(String roomName) { this.roomName=roomName; }
 	    
 	    public String getRoomName() { return this.roomName; }
-	     
-	    public boolean canEnter() {
-	    	
-	    	for(int i=0; i>=doors.size(); i++) {
-
-	    		if(doors.get(i).isOpen()) {
-	    			this.canEnter = true;
-	    			break;
-	    		}
-	    	}
-	    	
-	    	return this.canEnter;
-			
-	    }
-	    
-	    public boolean isWindy() {
-	    	
-	    	for(int i=0; i>=windows.size(); i++) {
-	    		if(windows.get(i).isOpen()) {
-	    			this.windy = true;
-					break;
-	    		}
-	    	}
-	    	return this.windy;
-	    }
-	    
-	    public void isBright() {
-	    	
-	    	for(int i=0; i>=lights.size(); i++) {
-	    		if(lights.get(i).isOn()) {
-	    			bright = true;
-					break;
-	    		}
-	    	}
-	    }
-	    
-	    public boolean findDoors() {
-	    	if (doors.size() == 0) {
-	    		return false;
-	    	}else
-	    		return true;
-	    }
-	    
-	    public boolean findLights() {
-	    	if (lights.size() == 0) {
-	    		return false;
-	    	}else
-	    		return true;
-	    }
-	    
-	    public boolean findWindows() {
-	    	if (windows.size() == 0) {
-	    		return false;
-	    	}else
-	    		return true;
-	    }
 	    
 	    public List<Window> getWindows() {
 	    	return this.windows;

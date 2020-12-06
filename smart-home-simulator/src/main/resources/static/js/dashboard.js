@@ -55,43 +55,6 @@ window.onload = async function () {
 
 
 
-initHouse = (houseData) => {
-
-    for ( i =0; i< Object.keys(houseData).length; i++){
-        let room = {}
-        
-        let roomName = houseData[i].roomName
-        room.name = houseData[i].roomName
-
-        if(houseData[i].closedDoors >0){
-            room.hasDoors = true;
-        } else room.hasDoors = false;
-        
-        if(houseData[i].openDoors > 0 || houseData[i].blockedDoors > 0 ){
-            room.isEnterable = true;
-        }else room.isEnterable = false;
-
-        if(houseData[i].closedWindows >0){
-            room.hasWindows = true;
-        } else room.hasWindows = false;
-
-        if(houseData[i].openWindows > 0 || houseData[i].blockedWindows > 0 ){
-            room.isWindy = true;
-        }else room.isWindy = false;
-
-        if(houseData[i].closedLights >0){
-            room.hasLights = true;
-        } else room.hasLights = false;
-
-        if(houseData[i].openLights > 0 ){
-            room.isBright = true;
-        }else room.isBright = false;
-
-        Vue.set(houseParameters.roomList, roomName, room);
-        
-    }
-    
-}
 
 function openModule(evt, modName) {
     var i, tabcontent, tablinks;
@@ -122,11 +85,11 @@ function shcModule(evt, id){
     evt.currentTarget.className += " active";
 }
 
-async function displayLayout() {
-
+function displayLayout() {
+    
     let checkBox = document.getElementById("simSwitch")
     let layout = document.getElementById("house-layout")
-
+    
     if (checkBox.checked == true) {
         layout.style.display = "block";
     }
@@ -146,10 +109,10 @@ async function editContext(e){
     json.forEach((value, key) => object[key] = value);
     const data = JSON.stringify(object)
     const response = await fetch("/dashboard/context", {method: "POST", body: data, headers: {
-            "Content-Type": "application/json",
+        "Content-Type": "application/json",
         }});
-    let responseData = await response.json();
-    dashboardContext.date = responseData.date;
+        let responseData = await response.json();
+        dashboardContext.date = responseData.date;
     dashboardContext.time= responseData.time;
     dashboardContext.layout= responseData.fileName;
     dashboardContext.tempOut= responseData.tempOut;
@@ -341,12 +304,50 @@ async function addZone(e){
     let object = {name: shhZone.name, setting: shhZone.setting, temperature: shhZone.temperature};
 
     let data = JSON.stringify(object);
-
+    
     const response = await fetch("/dashboard/shhAddZone", {method: "POST", body: data, headers: {
             "Content-Type": "application/json",
         }});
-    let responseData = await response.json();
-    shhTab.zones = responseData;
-    shhRoom.zones = responseData;
-}
+        let responseData = await response.json();
+        shhTab.zones = responseData;
+        shhRoom.zones = responseData;
+    }
+    
+    
+initHouse = (houseData) => {
+    
+    for ( i = 0; i < Object.keys(houseData).length; i++){
 
+        let room = {};
+            
+        let roomName = houseData[i].roomName;
+        room.name = roomName;
+    
+        if(houseData[i].closedDoors > 0 || houseData[i].openDoors > 0 || houseData[i].blockedDoors > 0){
+            room.hasDoors = true;
+        } else room.hasDoors = false;
+            
+        if(houseData[i].openDoors > 0 || houseData[i].blockedDoors > 0 ){
+            room.isEnterable = true;
+        }else room.isEnterable = false;
+    
+        if(houseData[i].closedWindows > 0 || houseData[i].openWindows > 0 || houseData[i].blockedWindows > 0){
+            room.hasWindows = true;
+        } else room.hasWindows = false;
+    
+        if(houseData[i].openWindows > 0 || houseData[i].blockedWindows > 0){
+            room.isWindy = true;
+        }else room.isWindy = false;
+    
+        if(houseData[i].closedLights > 0 || houseData[i].openLights > 0){
+            room.hasLights = true;
+        } else room.hasLights = false;
+    
+        if(houseData[i].openLights > 0 ){
+            room.isBright = true;
+        }else room.isBright = false;
+    
+        Vue.set(houseParameters.roomList, roomName, room);
+            
+    }        
+}
