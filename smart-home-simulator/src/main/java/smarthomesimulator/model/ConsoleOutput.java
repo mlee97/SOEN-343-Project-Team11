@@ -1,18 +1,25 @@
 package smarthomesimulator.model;
 
+import java.util.ArrayList;
+
 public class ConsoleOutput {
 
-    private String message;
+    private ArrayList<String> message; // Create an ArrayList object
 
     public ConsoleOutput(){
-        this.message = "";
+        this.message = new ArrayList<String>();
     }
 
-    public String getMessage(){
-        return this.message;
+    public String getMessage(int i){
+        return this.message.get(i);
     }
 
     public void setMessage(String s){
-        this.message = s;
+        this.message.add(s);
     }
+
+    public int getSize(){
+        return this.message.size();
+    }
+
 }

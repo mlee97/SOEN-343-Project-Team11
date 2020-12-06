@@ -22,6 +22,8 @@ public class Simulator {
     private String fileName;
     private static int roomNumber = 0;
     private boolean awayMode;
+    @JsonProperty()
+    private ConsoleOutput cOut;
 
     @JsonProperty()
     private double defaultSummerTemp;
@@ -41,6 +43,7 @@ public class Simulator {
         this.defaultSummerTemp = this.getDefaultSummerTemp();
         this.defaultWinterTemp = this.getDefaultWinterTemp();
         this.fileName=this.getFileName();
+        this.cOut = new ConsoleOutput();
         awayMode = isAwayMode();
     }
 
@@ -159,4 +162,9 @@ public class Simulator {
     public void setDefaultWinterTemp(double defaultWinterTemp) {
         this.defaultWinterTemp = defaultWinterTemp;
     }
+
+    public ConsoleOutput getcOut(){
+        return this.cOut;
+    }
+
 }
