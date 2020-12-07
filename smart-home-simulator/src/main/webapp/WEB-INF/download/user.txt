@@ -1,1 +1,1 @@
-Profile{name='kayla', role=CHILD, location='Kitchen', observable=null}Profile{name='kayla1', role=PARENT, location='Bathroom', observable=null}Profile{name='kayla2', role=PARENT, location='Kitchen', observable=null}
+Profile{name='kayla1', role=CHILD, location='Kitchen', observable=null}
