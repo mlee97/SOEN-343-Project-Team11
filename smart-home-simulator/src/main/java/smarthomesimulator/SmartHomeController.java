@@ -28,8 +28,8 @@ public class SmartHomeController {
     }
 
     @RequestMapping(value = "/simulator", method = {RequestMethod.GET, RequestMethod.POST})
-    public String submit(@Validated @ModelAttribute("simulator") Simulator simulator, @Validated  @ModelAttribute("profile") Profile profile, @Validated  @ModelAttribute("shp") SHP shp,
-                         BindingResult result, ModelMap model, @RequestParam("file") String fileName) {
+    public String simulator(@Validated @ModelAttribute("simulator") Simulator simulator, @Validated  @ModelAttribute("profile") Profile profile, @Validated  @ModelAttribute("shp") SHP shp,
+                            BindingResult result, ModelMap model, @RequestParam("file") String fileName) {
         if (result.hasErrors()) {
             return "error";
         }
