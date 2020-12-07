@@ -1,0 +1,3 @@
+
+Profile{name='kayla1', role=CHILD, location='Kitchen', observable=null}
+
