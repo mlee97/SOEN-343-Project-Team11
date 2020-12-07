@@ -52,6 +52,7 @@ window.onload = async function () {
                 await fetch("/dashboard/shhChangeSeasonalTemperature", {method: "POST", body: data, headers: {
                         "Content-Type": "application/json",
                 }});
+                displayConsoleOut();
             }
         }
     });
@@ -270,6 +271,7 @@ async function loadSHHTab(){
                     }});
                 let responseData = await response.json();
                 this.zones = responseData;
+                displayConsoleOut();
                 return;
             }
         }
@@ -337,6 +339,7 @@ async function addZone(e){
         let responseData = await response.json();
         shhTab.zones = responseData;
         shhRoom.zones = responseData;
+        displayConsoleOut();
     }
     
     

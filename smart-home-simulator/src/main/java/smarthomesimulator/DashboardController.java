@@ -178,6 +178,8 @@ public class DashboardController extends SmartHomeController{
         final ByteArrayOutputStream o = new ByteArrayOutputStream();
         final ObjectMapper mapper = new ObjectMapper();
 
+        sim.getcOut().setMessage("The zone " + zone.name + " has been modified." + "\n");
+
         mapper.writeValue(o, listZones);
         final byte[] data = o.toByteArray();
         return new String(data);
@@ -197,6 +199,8 @@ public class DashboardController extends SmartHomeController{
         listZones = sim.getZonesOfHouse();
         final ByteArrayOutputStream o = new ByteArrayOutputStream();
         final ObjectMapper mapper = new ObjectMapper();
+
+        sim.getcOut().setMessage(zone.name + " has been added as a zone." + "\n");
 
         mapper.writeValue(o, listZones);
         final byte[] data = o.toByteArray();
@@ -264,6 +268,10 @@ public class DashboardController extends SmartHomeController{
         Simulator sim = simulatorMap.get(0);
         sim.setDefaultSummerTemp(Double.parseDouble(json.get("summerTemp")));
         sim.setDefaultWinterTemp(Double.parseDouble(json.get("winterTemp")));
+
+        sim.getcOut().setMessage("Summer Temperature set to: " + Double.parseDouble(json.get("summerTemp")) + "\n");
+        sim.getcOut().setMessage("Winter Temperature set to: " + Double.parseDouble(json.get("winterTemp"))+ "\n");
+
         simulatorMap.put(0,sim);
         return;
     }
