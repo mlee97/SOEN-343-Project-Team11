@@ -301,6 +301,7 @@
                                                 </option>
                                             </select>
                                         </td>
+
                                     </tr>
                                     </tbody>
                                 </table>
@@ -348,7 +349,10 @@
                                         <span v-if="room.hasSomebody">
                                             <img src="img/person.jpg" class="profileList"/>
                                         </span>
-                                        {{room.name}}
+                                        {{ room.name }}
+                                        <div v-bind:id="room.name+'Display'">
+                                            {{ room.temperature }} &#176;C
+                                        </div>
                                     </button>
                                 </span>
                             </div>
