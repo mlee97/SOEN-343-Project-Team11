@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>smarthomesimulator.model</OriginalElement>
+  <nodes>
+    <node x="917.0" y="0.0">smarthomesimulator.model.SHP</node>
+    <node x="0.0" y="999.0">smarthomesimulator.model.Zone</node>
+    <node x="0.0" y="752.0">smarthomesimulator.model.Door</node>
+    <node x="662.0" y="252.0">smarthomesimulator.model.Profile.Role</node>
+    <node x="963.0" y="752.0">smarthomesimulator.model.Light</node>
+    <node x="384.0" y="752.0">smarthomesimulator.model.RoomTest</node>
+    <node x="0.0" y="0.0">smarthomesimulator.model.Simulator</node>
+    <node x="636.0" y="0.0">smarthomesimulator.model.Profile</node>
+    <node x="686.0" y="752.0">smarthomesimulator.model.ConsoleOutput</node>
+    <node x="369.0" y="0.0">smarthomesimulator.model.Room</node>
+    <node x="192.0" y="752.0">smarthomesimulator.model.Window</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="smarthomesimulator.model.Profile.Role" target="smarthomesimulator.model.Profile">
+      <point x="0.0" y="-125.5" />
+      <point x="0.0" y="101.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="540.5" y="387.5" />
+  <SelectedNodes>
+    <node>smarthomesimulator.model.SHP</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Inner Classes</Category>
+    <Category>Properties</Category>
+    <Category>Methods</Category>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

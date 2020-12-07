@@ -26,31 +26,35 @@ public class ParseLayout {
             Pattern patternLights = Pattern.compile("Lights:(.*?);");
             Matcher matcherLights = patternLights.matcher(line);
 
-            if (matcherRoomName.find()) {
-                int numOfDoors = 0;
-                int numOfWindows = 0;
-                int numOfLights = 0;
-
-                String roomName = matcherRoomName.group(1);
-
-                if (matcherDoors.find()) {
-                    numOfDoors = (Integer.parseInt(matcherDoors.group(1)));
-                }
-
-                if (matcherWindows.find()) {
-                    numOfWindows = (Integer.parseInt(matcherWindows.group(1)));
-                }
-
-                if (matcherLights.find()) {
-                	numOfLights = ((Integer.parseInt(matcherLights.group(1))));
-                }
-                
-                Room room = new Room(roomName, numOfDoors, numOfWindows,numOfLights);
-
-                Simulator.roomsOfHouse.add(room);
-            }
+            matchRooms(matcherRoomName, matcherDoors, matcherWindows, matcherLights);
         }
         br.close();
     }
+
+    private static void matchRooms(Matcher matcherRoomName, Matcher matcherDoors, Matcher matcherWindows, Matcher matcherLights) {
+        if (matcherRoomName.find()) {
+            int numOfDoors = 0;
+            int numOfWindows = 0;
+            int numOfLights = 0;
+
+            String roomName = matcherRoomName.group(1);
+
+            if (matcherDoors.find()) {
+                numOfDoors = (Integer.parseInt(matcherDoors.group(1)));
+            }
+
+            if (matcherWindows.find()) {
+                numOfWindows = (Integer.parseInt(matcherWindows.group(1)));
+            }
+
+            if (matcherLights.find()) {
+                numOfLights = ((Integer.parseInt(matcherLights.group(1))));
+            }
+
+            Room room = new Room(roomName, numOfDoors, numOfWindows,numOfLights);
+            Simulator.roomsOfHouse.add(room);
+        }
+    }
+
 
 }
