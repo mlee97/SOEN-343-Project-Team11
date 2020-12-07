@@ -194,6 +194,9 @@ public class DashboardController extends SmartHomeController{
                 break;
             }
         }
+
+        sim.getcOut().setMessage("The zone " + zone.name + " has been modified." + "\n");
+
         return getJsonString(sim);
     }
 
@@ -201,9 +204,6 @@ public class DashboardController extends SmartHomeController{
         List<Zone> listZones = sim.getZonesOfHouse();
         final ByteArrayOutputStream o = new ByteArrayOutputStream();
         final ObjectMapper mapper = new ObjectMapper();
-
-        sim.getcOut().setMessage("The zone " + zone.name + " has been modified." + "\n");
-
         mapper.writeValue(o, listZones);
         final byte[] data = o.toByteArray();
         return new String(data);
