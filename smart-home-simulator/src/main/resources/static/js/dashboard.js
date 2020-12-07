@@ -370,6 +370,7 @@ async function loadSHHTab(){
                 let responseData = await response.json();
 
                 Vue.set(shhRoom.rooms, index, responseData);
+                updateTemperatureDisplay(roomName, responseData.temperature);
                 displayConsoleOut();
 
             },
@@ -381,6 +382,7 @@ async function loadSHHTab(){
                     }});
                 let responseData = await response.json();
                 Vue.set(shhRoom.rooms, index, responseData);
+                updateTemperatureDisplay(roomName, responseData.temperature);
                 await displayConsoleOut();
 
             },
@@ -392,6 +394,7 @@ async function loadSHHTab(){
                     }});
                 let responseData = await response.json();
                 Vue.set(shhRoom.rooms, index, responseData);
+                updateTemperatureDisplay(roomName, responseData.temperature);
                 await displayConsoleOut();
 
             }
@@ -424,8 +427,11 @@ async function addZone(e){
         displayConsoleOut();
     }
 
-    
-    
+
+function updateTemperatureDisplay(roomName, updatedTemperature){
+    Vue.set(houseParameters.roomList[roomName], "temperature", updatedTemperature);
+}
+
 initHouse = (houseData) => {
     
     for ( i = 0; i < Object.keys(houseData).length; i++){
@@ -434,6 +440,7 @@ initHouse = (houseData) => {
             
         let roomName = houseData[i].roomName;
         room.name = roomName;
+        room.temperature = houseData[i].temperature;
         room.hasSomebody = false;
         room.isDoorBlocked = false;
         room.isWindowBlocked = false;
@@ -584,10 +591,6 @@ monitor_Temp.prototype.update = function ()
     else if (this.inTmp > (defaultInTemp + 0.25)) {
         this.inTmp = this.inTmp - 0.1;
     }
-    else {
-       //Do nothing
-    }
-
     document.getElementById("inTemp").innerText = "Inside Temperature: " + this.inTmp.toFixed(2) + " \u00B0C";
   };
 
