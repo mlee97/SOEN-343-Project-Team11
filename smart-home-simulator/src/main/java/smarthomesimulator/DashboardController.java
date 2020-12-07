@@ -93,14 +93,14 @@ public class DashboardController extends SmartHomeController{
             sim.getcOut().setMessage("Away mode is active\n");
         }
         else{
-            sim.getcOut().setMessage("Away mode has been disabled active\n");
+            sim.getcOut().setMessage("Away mode has been disabled\n");
         }
         simulatorMap.put(0,sim);
         return sim.isAwayMode();
     }
 
     @PostMapping(value="/openWindows")
-    public Room openAllWindows(@RequestBody String roomName){
+    public boolean openAllWindows(@RequestBody String roomName){
         Simulator sim = simulatorMap.get(0);
         try{
             if(!sim.isAwayMode()) {
@@ -113,7 +113,7 @@ public class DashboardController extends SmartHomeController{
         }catch(Exception E) {
             System.out.println("Null Values");
         }
-        return sim.getRoom(roomName);
+        return sim.isAwayMode();
     }
 
     @PostMapping(value="/closeWindows")
@@ -130,7 +130,7 @@ public class DashboardController extends SmartHomeController{
     }
 
     @PostMapping(value="/openDoors")
-    public Room openAllDoors(@RequestBody String roomName){
+    public boolean openAllDoors(@RequestBody String roomName){
         Simulator sim = simulatorMap.get(0);
 
         try{
@@ -144,7 +144,7 @@ public class DashboardController extends SmartHomeController{
         }catch(Exception E) {
             System.out.println("Null Values");
         }
-        return sim.getRoom(roomName);
+        return sim.isAwayMode();
     }
 
     @PostMapping(value="/closeDoors")

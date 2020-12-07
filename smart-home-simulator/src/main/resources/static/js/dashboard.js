@@ -181,7 +181,9 @@ async function openWindow(e, room){
     
     const response = await fetch("/dashboard/openWindows", {method:'POST', body: room});
     let responseData = await response.json();
-    houseParameters.roomList[responseData.roomName].isWindy = true;
+    if(!responseData){
+        houseParameters.roomList[responseData.roomName].isWindy = true;
+    }
     await displayConsoleOut();
 }
 async function closeWindow(e, room){
@@ -198,7 +200,8 @@ async function openDoors(e, room){
     
     const response = await fetch("/dashboard/openDoors", {method:'POST', body: room});
     let responseData = await response.json();
-    houseParameters.roomList[responseData.roomName].isEnterable = true;
+    if(!responseData)
+        houseParameters.roomList[responseData.roomName].isEnterable = true;
     await displayConsoleOut();
 }
 async function closeDoors(e, room){
