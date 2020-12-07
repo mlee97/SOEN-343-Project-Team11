@@ -41,13 +41,13 @@ class RoomTest {
     }
 
     @Test
-    void getBlockedDoors() {
+    void blockingDoorsTest() {
         room.setBlockedDoors(1);
         Assertions.assertEquals(room.getBlockedDoors(), 1);
     }
 
     @Test
-    void getBlockedWindows() {
+    void blockingWindowsTest() {
         room.setBlockedWindows(1);
         Assertions.assertEquals(room.getBlockedWindows(), 1);
     }
