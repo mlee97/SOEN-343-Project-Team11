@@ -19,10 +19,12 @@
                 </label>
                 <img src="/img/undefined_profile.png" alt="ProfilePic" class="profilePic d-block m-auto">
                 <p class="d-block">Date: {{ date }}</p>
-                <p class="d-block">Time: <div id="clock"></div></p>
+                <p class="d-block"><div id="clock"></div></p>
                 <p class="d-block">House Layout: {{ layout }}</p>
                 <p class="d-block">Location: {{ location }}</p>
-                <p class="d-block">Temp: {{ tempOut }} &#176;C</p>
+                <p class="d-block">Outside Temperature: {{ tempOut }} &#176;C</p>
+                <p class="d-block">Default Indoor Temperature: {{ defaultTempIn }} &#176;C</p>
+                <p class="d-block"><div id="inTemp"></div></p>
             </div>
 
             <div class="col-4 justify-content-center pl-4 pr-4">
@@ -80,7 +82,6 @@
                                             <label for="location">Location:</label>
                                             <input class="form-control" id="location" name="location"/>
                                         </div>
-
                                         <button class="btn btn-outline-dark" type="submit">Submit</button>
                                     </form>
                                     <button v-if="showProfiles" class="btn btn-primary" id="editBtn" onclick="displayProfiles('delete')">Delete Profiles</button>
@@ -94,6 +95,13 @@
                                         </span>
                                     </div>
                             </span>
+                            <div>
+                                <form:form method = "GET" action = "/printProfiles">
+                                    <div class="form-group">
+                                        <a href="download" value = "printProfiles/">Download Profiles</a>
+                                    </div>
+                                </form:form>
+                            </div>
                         </div>
                         <div id="SHC" class="w-100 tabContent ml-4 mr-4"><br/>
                             <h4>Controls</h4>
@@ -115,6 +123,8 @@
                                         <td>
                                             <button type="button" class="btn btn-dark" onclick="openWindow(event, '${room.getRoomName()}')">Open</button>
                                             <button type="button" class="btn btn-outline-dark" onclick="closeWindow(event, '${room.getRoomName()}')">Close</button>
+                                            <button type="button" class="btn btn-danger" onclick="blockWindow(event, '${room.getRoomName()}')">Block</button>
+                                            <button type="button" class="btn btn-secondary" onclick="unblockWindow(event, '${room.getRoomName()}')">Unblock</button>
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -133,6 +143,8 @@
                                                 <td >
                                                     <button type="button" class="btn btn-dark" onclick="openDoors(event, '${room.getRoomName()}')">Open</button>
                                                     <button type="button" class="btn btn-outline-dark" onclick="closeDoors(event, '${room.getRoomName()}')">Close</button>
+                                                    <button type="button" class="btn btn-danger" onclick="blockDoors(event,'${room.getRoomName()}')">Block</button>
+                                                    <button type="button" class="btn btn-secondary" onclick="unblockDoors(event, '${room.getRoomName()}')">Unblock</button>
                                                 </td> </tr>
                                         </c:forEach>
                                     </form:form>
@@ -158,15 +170,15 @@
                             </table>
                             <h4>Lights AUTO MODE</h4>
                             <label class="switch">
-                                <input type="checkbox" onclick="activateAwayMode()" value="${awayMode}">
+                                <input type="checkbox" >
                                 <span class="slider round"></span>
                             </label>
                         </div>
                         <div id="SHP" class="w-100 tabContent ml-4 mr-4">
                             <form onsubmit="changePrivacySettings(event)">
                                 Set away:
-                                <label class="switch">
-                                    <input type="checkbox">
+                                <label class="switch" id="shpAwayMode">
+                                    <input type="checkbox" @click="activateAwayMode()" v-model="awayMode">
                                     <span class="slider round"></span>
                                 </label>
                                 <div class="form-group">
@@ -179,25 +191,13 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="startTime">Start Time:</label>
-                                    <input class="form-control" id="startTime" name="startTime" />
+                                    <input class="form-control" type="time" id="startTime" name="startTime" />
                                 </div>
 
-<%--                                <div class="form-group">--%>
-<%--                                    <label for="endTime">End Time:</label>--%>
-<%--                                    <input class="form-control" id="endTime" name="endTime" />--%>
-<%--                                    <div>--%>
-<%--                                        <form:form method = "GET" action = "/printProfiles">--%>
-<%--                                            <table>--%>
-<%--                                                <tr>--%>
-<%--                                                    <td>--%>
-<%--                                                        <input type = "submit" value = "printProfiles"/>--%>
-<%--                                                    </td>--%>
-<%--                                                </tr>--%>
-<%--                                            </table>--%>
-<%--                                        </form:form>--%>
-<%--                                    </div>--%>
-
-<%--                                </div>--%>
+                                <div class="form-group">
+                                    <label for="endTime">End Time:</label>
+                                    <input class="form-control" type="time" id="endTime" name="endTime" />
+                                </div>
 
                                 <div class="form-group">
                                     <label for="alertTime">Alert Time (in minutes):</label>
@@ -329,27 +329,29 @@
             <div class="col-7 justify-content-center ">
                 <div style="text-align:center">
                     <div class="houseLayout border rounded p-1" id="house-layout">
-                        <div class="roomDisplay w-100 h-100 overflow-hidden">
-                            <span v-for="room in roomList">
-                                <button class="rooms">
-                                    <span v-if="room.hasDoors">
-                                        <img v-if="room.isEnterable == true" src="img/doorOpen.jpg" class="doors"/>
-                                        <img v-if="room.isEnterable == false" src="img/doorClosed.jpg" class="doors"/>
-                                    </span>
-                                    <span v-if="room.hasWindows">
-                                        <img v-if="room.isWindy == true" src="img/windowsOpen.jpg" class="windows"/>
-                                        <img v-if="room.isWindy == false" src="img/windowsClosed.jpg" class="windows"/>
-                                    </span>
-                                   <span v-if="room.hasLights">
-                                        <img v-if="room.isBright == true" src="img/lightsOn.png" class="lights"/>
-                                        <img v-if="room.isBright == false" src="img/lightsOff.png" class="lights"/>
-                                    </span>
-                                    <span v-if="room.hasSomebody">
-                                        <img src="img/person.jpg" class="profile"/>
-                                    </span>
-                                    {{room.name}}
-                                </button>
-                            </span>
+                        <div id="simulatorSwitchedOnOrOffStopChangingThis">
+                            <div class="roomDisplay w-100 h-100 overflow-hidden">
+                                <span v-for="room in roomList">
+                                    <button class="rooms">
+                                        <span v-if="room.hasDoors">
+                                            <img v-if="room.isEnterable == true" src="img/doorOpen.jpg" class="doors"/>
+                                            <img v-if="room.isEnterable == false" src="img/doorClosed.jpg" class="doors"/>
+                                        </span>
+                                        <span v-if="room.hasWindows">
+                                            <img v-if="room.isWindy == true" src="img/windowsOpen.jpg" class="windows"/>
+                                            <img v-if="room.isWindy == false" src="img/windowsClosed.jpg" class="windows"/>
+                                        </span>
+                                        <span v-if="room.hasLights">
+                                            <img v-if="room.isBright == true" src="img/lightsOn.png" class="lights"/>
+                                            <img v-if="room.isBright == false" src="img/lightsOff.png" class="lights"/>
+                                        </span>
+                                        <span v-if="room.hasSomebody">
+                                            <img src="img/person.jpg" class="profileList"/>
+                                        </span>
+                                        {{room.name}}
+                                    </button>
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <span>House Layout</span>

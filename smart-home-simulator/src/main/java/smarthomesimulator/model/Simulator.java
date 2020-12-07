@@ -1,6 +1,8 @@
 package smarthomesimulator.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import smarthomesimulator.interfaces.Observable;
+import smarthomesimulator.interfaces.Observer;
 
 import java.util.ArrayList;
 
@@ -10,7 +12,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
-public class Simulator {
+public class Simulator implements Observer{
 
     @JsonProperty()
     private String date;
@@ -18,7 +20,8 @@ public class Simulator {
     private String time;
     @JsonProperty()
     private double tempOut;
-    private int defaultTempIn;
+    private double defaultTempIn;
+    private double tempIn;
     private String fileName;
     private static int roomNumber = 0;
     private static int profileNumber = 0;
@@ -87,9 +90,13 @@ public class Simulator {
 
     public void setTempOut(double tempOut) { this.tempOut = tempOut; }
 
-    public int getDefaultTempIn() { return defaultTempIn; }
+    public double getDefaultTempIn() { return defaultTempIn; }
 
-    public void setDefaultTempIn(int defaultTempIn) { this.defaultTempIn = defaultTempIn; }
+    public void setDefaultTempIn(double defaultTempIn) { this.defaultTempIn = defaultTempIn; }
+
+    public double getTempIn(){ return this.tempIn;}
+
+    public void setTempIn(double temp) { this.tempIn = temp; }
 
     public String getCurrentDate(){
 
@@ -185,4 +192,8 @@ public class Simulator {
         return this.cOut;
     }
 
+    @Override
+    public void update(Observable o) {
+        this.awayMode = ((SHP)o).isAway();
+    }
 }

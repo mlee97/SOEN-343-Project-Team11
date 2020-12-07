@@ -4,8 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import smarthomesimulator.interfaces.Observable;
 import smarthomesimulator.interfaces.Observer;
 
-public class Profile implements Observer {
-
+public class Profile{
 
     public enum Role {
         CHILD(0, "Child"),
@@ -82,10 +81,13 @@ public class Profile implements Observer {
     public SHP getObservable() {
         return observable;
     }
-
     @Override
-    public void update(Observable o){
-        this.observable = (SHP) o;
-
+    public String toString() {
+        return "Profile{" +
+                "name='" + name + '\'' +
+                ", role=" + role +
+                ", location='" + location + '\'' +
+                ", observable=" + observable +
+                '}';
     }
 }

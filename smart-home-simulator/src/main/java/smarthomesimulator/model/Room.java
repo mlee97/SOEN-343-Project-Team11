@@ -1,7 +1,7 @@
 package smarthomesimulator.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.lang.Nullable;
+import smarthomesimulator.interfaces.Observable;
 
 import java.util.*;
 
@@ -200,6 +200,12 @@ public class Room {
 			
 			
 		}
+		
+		public void setUnblockedDoors(int doorsToUnblock) {
+			for (int i = 0; i < doorsToUnblock; i++) {
+				doors.get(i).unblock();
+			}
+		}
 
 		public void setBlockedWindows(int windowsToBlock) {
 			for(int i = 0; i < windowsToBlock ; i++){
@@ -208,7 +214,13 @@ public class Room {
 			
 		}
 
-	public double getTemperature() {
+		public void setUnblockedWindows(int windowsToUnblock) {
+			for (int i = 0; i < windowsToUnblock; i++) {
+				windows.get(i).unblock();
+			}
+		}
+
+	public double getTemperature(){
 		return temperature;
 	}
 
