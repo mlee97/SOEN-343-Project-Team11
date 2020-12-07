@@ -214,7 +214,9 @@ async function openWindow(e, room){
     
     const response = await fetch("/dashboard/openWindows", {method:'POST', body: room});
     let responseData = await response.json();
+    if(!responseData){
     houseParameters.roomList[room].isWindy = true;
+    }
     await displayConsoleOut();
 }
 async function closeWindow(e, room){
@@ -235,6 +237,7 @@ async function closeWindow(e, room){
 async function blockWindow(e, room){
     e.preventDefault();
     const response = await fetch("/dashboard/blockWindows", {method:'POST', body: room});
+    let responseData = await response.json();
     houseParameters.roomList[room].isWindowBlocked = true;
     await displayConsoleOut();
 }
@@ -242,6 +245,7 @@ async function blockWindow(e, room){
 async function unblockWindow(e, room){
     e.preventDefault();
     const response = await fetch("/dashboard/unblockWindow", {method:'POST', body: room});
+    let responseData = await response.json();
     houseParameters.roomList[room].isWindowBlocked = false;
     await displayConsoleOut();
 }
@@ -250,7 +254,10 @@ async function openDoors(e, room){
     e.preventDefault();
     
     const response = await fetch("/dashboard/openDoors", {method:'POST', body: room});
-    houseParameters.roomList[room].isEnterable = true;
+    let responseData = await response.json();
+    if(!responseData){
+        houseParameters.roomList[room].isEnterable = true;
+    }
     await displayConsoleOut();
 }
 async function closeDoors(e, room){
@@ -259,6 +266,7 @@ async function closeDoors(e, room){
     if(!houseParameters.roomList[room].isDoorBlocked){
 
         const response = await fetch("/dashboard/closeDoors", {method:'POST', body: room});
+        let responseData = await response.json();
         houseParameters.roomList[room].isEnterable = false;
         await displayConsoleOut();
     }
@@ -272,12 +280,14 @@ async function blockDoors(e, room){
     e.preventDefault();
 
     const response = await fetch("/dashboard/blockDoors", {method:'POST', body: room});
+    let responseData = await response.json();
     houseParameters.roomList[room].isDoorBlocked = true;
 }
 
 async function unblockDoors(e, room){
     e.preventDefault();
     const response = await fetch("/dashboard/unblockDoors", {method:'POST', body: room});
+    let responseData = await response.json();
     houseParameters.roomList[room].isDoorBlocked = false;
     await displayConsoleOut();
 }
@@ -286,6 +296,7 @@ async function onLights(e, room){
     e.preventDefault();
 
     const response = await fetch("/dashboard/onLights", {method:'POST', body: room});
+    let responseData = await response.json();
     houseParameters.roomList[room].isBright = true;
     await displayConsoleOut();
 }
@@ -293,6 +304,7 @@ async function offLights(e, room){
     e.preventDefault();
 
     const response = await fetch("/dashboard/offLights", {method:'POST', body: room});
+    let responseData = await response.json();
     houseParameters.roomList[room].isBright = false;
     await displayConsoleOut();
 }
