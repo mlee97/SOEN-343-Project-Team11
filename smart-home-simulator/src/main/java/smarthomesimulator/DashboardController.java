@@ -74,6 +74,17 @@ public class DashboardController extends SmartHomeController{
         return sim;
     }
 
+    @PostMapping(value={"/removeProfileDashboard"})
+    public Simulator deleteProfile(@Validated @RequestBody String profileName) {
+
+        Simulator sim = simulatorMap.get(0);
+        sim.removeProfile(sim.getProfile(profileName));
+        sim.getcOut().setMessage("The user " + profileName + " has been deleted\n");
+        simulatorMap.put(0,sim);
+
+        return sim;
+    }
+
     @PostMapping(value={"/awayMode"})
     public boolean setAwayMode(){
 
@@ -128,6 +139,38 @@ public class DashboardController extends SmartHomeController{
         }
         return sim.getRoom(roomName);
     }
+    
+    @PostMapping(value = "/blockWindows")
+    public Room blockAllWindows(@Validated @ModelAttribute("profile") final Profile profile,
+            @Validated @ModelAttribute("simulator") final Simulator simulator,
+            @Validated @ModelAttribute("shp") final SHP shp, ModelMap model, @RequestBody String roomName) {
+
+        Simulator sim = simulatorMap.get(0);
+        try {
+            Simulator.getRoom(roomName).setBlockedWindows(Simulator.getRoom(roomName).getWindows().size());
+            sim.getcOut().setMessage("All windows have been blocked\n");
+            simulatorMap.put(0, sim);
+        } catch (Exception E) {
+            System.out.println("Null Values");
+        }
+        return sim.getRoom(roomName);
+    }
+
+    @PostMapping(value = "/unblockWindow")
+    public Room unblockAllWindows(@Validated @ModelAttribute("profile") final Profile profile,
+            @Validated @ModelAttribute("simulator") final Simulator simulator,
+            @Validated @ModelAttribute("shp") final SHP shp, ModelMap model, @RequestBody String roomName) {
+        
+        Simulator sim = simulatorMap.get(0);
+        try {
+            Simulator.getRoom(roomName).setUnblockedWindows(Simulator.getRoom(roomName).getWindows().size());
+            sim.getcOut().setMessage("All windows have been unblocked\n");
+            simulatorMap.put(0, sim);
+        } catch (Exception E) {
+            System.out.println("Null Values");
+        }
+        return sim.getRoom(roomName);
+    }
 
     @PostMapping(value="/openDoors")
     public boolean openAllDoors(@RequestBody String roomName){
@@ -155,6 +198,38 @@ public class DashboardController extends SmartHomeController{
             simulatorMap.put(0,sim);
             sim.getcOut().setMessage("All windows in "+roomName+" have been closed\n");
         }catch(Exception E) {
+            System.out.println("Null Values");
+        }
+        return sim.getRoom(roomName);
+    }
+
+    @PostMapping(value = "/blockDoors")
+    public Room blockAllDoors(@Validated @ModelAttribute("profile") final Profile profile,
+            @Validated @ModelAttribute("simulator") final Simulator simulator,
+            @Validated @ModelAttribute("shp") final SHP shp, ModelMap model, @RequestBody String roomName) {
+
+        Simulator sim = simulatorMap.get(0);
+        try {
+            Simulator.getRoom(roomName).setBlockedDoors(Simulator.getRoom(roomName).getDoors().size());
+            sim.getcOut().setMessage("All doors have been blocked\n");
+            simulatorMap.put(0, sim);
+        } catch (Exception E) {
+            System.out.println("Null Values");
+        }
+        return sim.getRoom(roomName);
+    }
+
+    @PostMapping(value = "/unblockDoors")
+    public Room unblockAllDoors(@Validated @ModelAttribute("profile") final Profile profile,
+            @Validated @ModelAttribute("simulator") final Simulator simulator,
+            @Validated @ModelAttribute("shp") final SHP shp, ModelMap model, @RequestBody String roomName) {
+
+        Simulator sim = simulatorMap.get(0);
+        try {
+            Simulator.getRoom(roomName).setUnblockedDoors(Simulator.getRoom(roomName).getDoors().size());
+            sim.getcOut().setMessage("All doors have been unblocked\n");
+            simulatorMap.put(0, sim);
+        } catch (Exception E) {
             System.out.println("Null Values");
         }
         return sim.getRoom(roomName);

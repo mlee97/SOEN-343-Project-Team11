@@ -1,5 +1,6 @@
 var dashboardContext;
 var houseParameters;
+var profileParameters;
 var conOut;
 var shhTab;
 var shhRoom;
@@ -30,8 +31,6 @@ window.onload = async function () {
         el:"#house-layout",
         data: {
             roomList:{},
-            profileList:{},
-            showProfiles: false
         }
     });
 
@@ -55,6 +54,27 @@ window.onload = async function () {
             }
         }
     });
+
+    profileParameters = new Vue({
+        el:"#profile-parameters",
+        data:{
+            profileList:{},
+            showProfiles: false,
+            addProfilesForm: false,
+            deleteProfilesForm: false
+        },
+        methods:{
+            async deleteProfile(profile){
+                const response = await fetch("/dashboard/removeProfileDashboard", {method:'POST', body: profile.name});
+                let responseData = await response.json();
+                console.log(responseData);
+                delete profileParameters.profileList[profile.name]
+                isNotHere(profile.location);
+                displayConsoleOut();
+                console.log(`${profile.name} has been deleted!`);
+            }
+        }
+    })
 
     let shpAwayMode = new Vue({
         el: "#shpAwayMode",
@@ -103,9 +123,22 @@ function shcModule(evt, id){
     evt.currentTarget.className += " active";
 }
 
-function displayProfiles(){
-    houseParameters.showProfiles = !houseParameters.showProfiles;
+function displayProfiles(role){
+
+    if(role=="show"){
+        profileParameters.showProfiles = !profileParameters.showProfiles;
+    }
+
+    if(role=="add"){
+        profileParameters.addProfilesForm = !profileParameters.addProfilesForm;
+    }
+
+    if(role=="delete"){
+        profileParameters.deleteProfilesForm = !profileParameters.deleteProfilesForm;
+    }
 }
+
+
 
 function displayLayout() {
     
@@ -143,7 +176,7 @@ async function editContext(e){
     await displayConsoleOut();
 }
 
-async function editProfile(e){
+async function addProfile(e){
     e.preventDefault();
 
     let profile = {};
@@ -152,7 +185,7 @@ async function editProfile(e){
     json.forEach((value, key) => profile[key] = value);
     let data = JSON.stringify(profile);
 
-    Vue.set(houseParameters.profileList, profile.name, profile);
+    Vue.set(profileParameters.profileList, profile.name, profile);
     
     const response = await fetch("/dashboard/addProfileDashboard", {method: "POST", body: data, headers: {
         "Content-Type": "application/json",
@@ -182,16 +215,38 @@ async function openWindow(e, room){
     const response = await fetch("/dashboard/openWindows", {method:'POST', body: room});
     let responseData = await response.json();
     if(!responseData){
-        houseParameters.roomList[responseData.roomName].isWindy = true;
+    houseParameters.roomList[responseData.roomName].isWindy = true;
     }
     await displayConsoleOut();
 }
 async function closeWindow(e, room){
     e.preventDefault();
 
-    const response = await fetch("/dashboard/closeWindows", {method:'POST', body: room});
+    if(!houseParameters.roomList[room].isWindowBlocked){
+
+        const response = await fetch("/dashboard/closeWindows", {method:'POST', body: room});
+        let responseData = await response.json();
+        houseParameters.roomList[room].isWindy = false;
+        await displayConsoleOut();
+    }
+    else{
+        conOut.cOut="Windows are blocked, cannot be closed";
+    }
+}
+
+async function blockWindow(e, room){
+    e.preventDefault();
+    const response = await fetch("/dashboard/blockWindows", {method:'POST', body: room});
     let responseData = await response.json();
-    houseParameters.roomList[responseData.roomName].isWindy = false;
+    houseParameters.roomList[room].isWindowBlocked = true;
+    await displayConsoleOut();
+}
+
+async function unblockWindow(e, room){
+    e.preventDefault();
+    const response = await fetch("/dashboard/unblockWindow", {method:'POST', body: room});
+    let responseData = await response.json();
+    houseParameters.roomList[room].isWindowBlocked = false;
     await displayConsoleOut();
 }
 
@@ -200,16 +255,40 @@ async function openDoors(e, room){
     
     const response = await fetch("/dashboard/openDoors", {method:'POST', body: room});
     let responseData = await response.json();
-    if(!responseData)
+    if(!responseData){
         houseParameters.roomList[responseData.roomName].isEnterable = true;
+    }
     await displayConsoleOut();
 }
 async function closeDoors(e, room){
     e.preventDefault();
 
-    const response = await fetch("/dashboard/closeDoors", {method:'POST', body: room});
+    if(!houseParameters.roomList[room].isDoorBlocked){
+
+        const response = await fetch("/dashboard/closeDoors", {method:'POST', body: room});
+        let responseData = await response.json();
+        houseParameters.roomList[room].isEnterable = false;
+        await displayConsoleOut();
+    }
+
+    else{
+        conOut.cOut="Doors are blocked, cannot be closed";
+    }
+}
+
+async function blockDoors(e, room){
+    e.preventDefault();
+
+    const response = await fetch("/dashboard/blockDoors", {method:'POST', body: room});
     let responseData = await response.json();
-    houseParameters.roomList[responseData.roomName].isEnterable = false;
+    houseParameters.roomList[room].isDoorBlocked = true;
+}
+
+async function unblockDoors(e, room){
+    e.preventDefault();
+    const response = await fetch("/dashboard/unblockDoors", {method:'POST', body: room});
+    let responseData = await response.json();
+    houseParameters.roomList[room].isDoorBlocked = false;
     await displayConsoleOut();
 }
 
@@ -218,7 +297,7 @@ async function onLights(e, room){
 
     const response = await fetch("/dashboard/onLights", {method:'POST', body: room});
     let responseData = await response.json();
-    houseParameters.roomList[responseData.roomName].isBright = true;
+    houseParameters.roomList[room].isBright = true;
     await displayConsoleOut();
 }
 async function offLights(e, room){
@@ -226,7 +305,7 @@ async function offLights(e, room){
 
     const response = await fetch("/dashboard/offLights", {method:'POST', body: room});
     let responseData = await response.json();
-    houseParameters.roomList[responseData.roomName].isBright = false;
+    houseParameters.roomList[room].isBright = false;
     await displayConsoleOut();
 }
 
@@ -356,6 +435,8 @@ initHouse = (houseData) => {
         let roomName = houseData[i].roomName;
         room.name = roomName;
         room.hasSomebody = false;
+        room.isDoorBlocked = false;
+        room.isWindowBlocked = false;
     
         if(houseData[i].closedDoors > 0 || houseData[i].openDoors > 0 || houseData[i].blockedDoors > 0){
             room.hasDoors = true;
@@ -390,6 +471,13 @@ function isHere(location){
     for(const room in houseParameters.roomList){
         if(location == room){
             houseParameters.roomList[room].hasSomebody = true;
+        }
+    }
+}
+function isNotHere(location){
+    for(const room in houseParameters.roomList){
+        if(location == room){
+            houseParameters.roomList[room].hasSomebody = false;
         }
     }
 }
