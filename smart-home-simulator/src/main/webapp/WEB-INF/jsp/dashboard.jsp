@@ -313,7 +313,8 @@
             <div class="col-7 justify-content-center ">
                 <div style="text-align:center">
                     <div class="houseLayout border rounded p-1" id="house-layout">
-                        <div class="roomDisplay w-100 h-100 overflow-hidden">
+                        <div id="simulatorSwitchedOnOrOffStopChangingThis">
+                            <div class="roomDisplay w-100 h-100 overflow-hidden">
                             <span v-for="room in roomList">
                                 <button class="rooms">
                                     <span v-if="room.hasDoors">
@@ -329,18 +330,19 @@
                                         <img v-if="room.isBright == false" src="img/lightsOff.png" class="lights"/>
                                     </span>
                                     <span v-if="room.hasSomebody">
-                                        <img src="img/person.jpg" class="profile"/>
+                                        <img src="img/person.jpg" class="profileList"/>
                                     </span>
                                     {{room.name}}
                                 </button>
                             </span>
-                            <div v-if="showProfiles" class="profileDisplay">
-                                Profiles:
-                                <span v-for="profile in profileList">
-                                    Name:{{profile.name}} 
-                                    Role:{{profile.role}} 
+                                <div v-if="showProfiles" class="profileDisplay">
+                                    Profiles:
+                                    <span v-for="profile in profileList">
+                                    Name:{{profile.name}}
+                                    Role:{{profile.role}}
                                     Location:{{profile.location}}
                                 </span>
+                                </div>
                             </div>
                         </div>
                     </div>

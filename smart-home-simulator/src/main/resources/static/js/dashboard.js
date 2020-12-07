@@ -16,7 +16,6 @@ window.onload = async function () {
 
     const response = await fetch("/dashboard", {method: "GET"});
     let responseData = await response.json();
-    console.log(responseData);
 
     const house = await fetch("/dashboard/HouseParameters", {method:'POST'});
     let houseData = await house.json();
@@ -63,12 +62,12 @@ window.onload = async function () {
         methods: {
             activateAwayMode: async function () {
                 await fetch("/dashboard/awayMode", {method: 'POST'});
-                displayConsoleOut();
+                await displayConsoleOut();
+
             }
 
         }
     });
-
     initHouse(houseData);
     loadSHHTab();
     retrieveTime();
@@ -92,7 +91,6 @@ function openModule(evt, modName) {
 
 function shcModule(evt, id){
     
-    console.log(evt.target);
     let tabcontent = document.getElementsByClassName("shcTabContent");
     for (let i = 0; i < tabcontent.length; i++) {
         tabcontent[i].style.display = "none";
@@ -112,7 +110,7 @@ function displayProfiles(){
 function displayLayout() {
     
     let checkBox = document.getElementById("simSwitch")
-    let layout = document.getElementById("house-layout")
+    let layout = document.getElementById("simulatorSwitchedOnOrOffStopChangingThis")
     
     if (checkBox.checked == true) {
         layout.style.display = "block";
@@ -142,7 +140,7 @@ async function editContext(e){
     dashboardContext.tempOut= responseData.tempOut;
     dashboardContext.defaultTempIn = responseData.defaultTempIn;
     updateTime();
-    displayConsoleOut();
+    await displayConsoleOut();
 }
 
 async function editProfile(e){
@@ -160,9 +158,7 @@ async function editProfile(e){
         "Content-Type": "application/json",
     }});
     let responseData = await response.json();
-    console.log(responseData);
-    displayConsoleOut();
-    console.log(profile.location);
+    await displayConsoleOut();
     isHere(profile.location);
 }
 
@@ -172,13 +168,11 @@ async function changePrivacySettings(e){
     const json = new FormData(e.target);
     json.forEach((value, key) => object[key] = value);
     let data = JSON.stringify(object);
-    console.log(data);
     const response = await fetch("/dashboard/shp", {method: "POST", body: data, headers: {
         "Content-Type": "application/json",
     }});
     let responseData = await response.json();
-    console.log(responseData);
-    displayConsoleOut();
+    await displayConsoleOut();
     }
     
 
@@ -188,7 +182,7 @@ async function openWindow(e, room){
     const response = await fetch("/dashboard/openWindows", {method:'POST', body: room});
     let responseData = await response.json();
     houseParameters.roomList[responseData.roomName].isWindy = true;
-    console.log(responseData);
+    await displayConsoleOut();
 }
 async function closeWindow(e, room){
     e.preventDefault();
@@ -196,7 +190,7 @@ async function closeWindow(e, room){
     const response = await fetch("/dashboard/closeWindows", {method:'POST', body: room});
     let responseData = await response.json();
     houseParameters.roomList[responseData.roomName].isWindy = false;
-    console.log(responseData);
+    await displayConsoleOut();
 }
 
 async function openDoors(e, room){
@@ -205,7 +199,7 @@ async function openDoors(e, room){
     const response = await fetch("/dashboard/openDoors", {method:'POST', body: room});
     let responseData = await response.json();
     houseParameters.roomList[responseData.roomName].isEnterable = true;
-    console.log(responseData);
+    await displayConsoleOut();
 }
 async function closeDoors(e, room){
     e.preventDefault();
@@ -213,7 +207,7 @@ async function closeDoors(e, room){
     const response = await fetch("/dashboard/closeDoors", {method:'POST', body: room});
     let responseData = await response.json();
     houseParameters.roomList[responseData.roomName].isEnterable = false;
-    console.log(responseData);
+    await displayConsoleOut();
 }
 
 async function onLights(e, room){
@@ -222,7 +216,7 @@ async function onLights(e, room){
     const response = await fetch("/dashboard/onLights", {method:'POST', body: room});
     let responseData = await response.json();
     houseParameters.roomList[responseData.roomName].isBright = true;
-    console.log(responseData);
+    await displayConsoleOut();
 }
 async function offLights(e, room){
     e.preventDefault();
@@ -230,7 +224,7 @@ async function offLights(e, room){
     const response = await fetch("/dashboard/offLights", {method:'POST', body: room});
     let responseData = await response.json();
     houseParameters.roomList[responseData.roomName].isBright = false;
-    console.log(responseData);
+    await displayConsoleOut();
 }
 
 
@@ -294,6 +288,8 @@ async function loadSHHTab(){
                 let responseData = await response.json();
 
                 Vue.set(shhRoom.rooms, index, responseData);
+                displayConsoleOut();
+
             },
             overrideTemperature: async function(roomName, index, event){
                 let object = {name: roomName, temp: event.target.value}
@@ -303,6 +299,8 @@ async function loadSHHTab(){
                     }});
                 let responseData = await response.json();
                 Vue.set(shhRoom.rooms, index, responseData);
+                await displayConsoleOut();
+
             },
             resetTemperature: async function(roomName, index){
                 let object = {name: roomName}
@@ -312,6 +310,8 @@ async function loadSHHTab(){
                     }});
                 let responseData = await response.json();
                 Vue.set(shhRoom.rooms, index, responseData);
+                await displayConsoleOut();
+
             }
 
         }
@@ -341,6 +341,7 @@ async function addZone(e){
         shhRoom.zones = responseData;
         displayConsoleOut();
     }
+
     
     
 initHouse = (houseData) => {
