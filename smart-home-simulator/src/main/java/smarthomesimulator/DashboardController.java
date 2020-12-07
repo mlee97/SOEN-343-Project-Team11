@@ -74,92 +74,191 @@ public class DashboardController extends SmartHomeController{
         return sim;
     }
 
+    @PostMapping(value={"/removeProfileDashboard"})
+    public Simulator deleteProfile(@Validated @RequestBody String profileName) {
+
+        Simulator sim = simulatorMap.get(0);
+        sim.removeProfile(sim.getProfile(profileName));
+        sim.getcOut().setMessage("The user " + profileName + " has been deleted\n");
+        simulatorMap.put(0,sim);
+
+        return sim;
+    }
+
     @PostMapping(value={"/awayMode"})
     public boolean setAwayMode(){
 
         Simulator sim = simulatorMap.get(0);
+        if(!sim.isAwayMode()) {
+            for (Room room : sim.roomsOfHouse) {
+                closeAllDoors(room.getRoomName());
+                closeAllWindows(room.getRoomName());
+            }
+        }
         sim.setAwayMode(!sim.isAwayMode());
         if(sim.isAwayMode()) {
+            for(Room room : sim.roomsOfHouse){
+                closeAllDoors(room.getRoomName());
+                closeAllWindows(room.getRoomName());
+            }
             sim.getcOut().setMessage("Away mode is active\n");
         }
         else{
-            sim.getcOut().setMessage("Away mode is not active\n");
+            sim.getcOut().setMessage("Away mode has been disabled\n");
         }
         simulatorMap.put(0,sim);
         return sim.isAwayMode();
     }
 
     @PostMapping(value="/openWindows")
-    public Room openAllWindows(@Validated @ModelAttribute("profile") final Profile profile, @Validated @ModelAttribute("simulator") final Simulator simulator,
-                               @Validated @ModelAttribute("shp") final SHP shp, ModelMap model, @RequestBody String roomName){
+    public boolean openAllWindows(@RequestBody String roomName){
+        Simulator sim = simulatorMap.get(0);
         try{
-            if(!simulator.isAwayMode())
-                simulator.getRoom(roomName).setOpenWindows(Simulator.getRoom(roomName).getClosedWindows());
+            if(!sim.isAwayMode()) {
+                sim.getRoom(roomName).setOpenWindows(sim.getRoom(roomName).getClosedWindows());
+                sim.getcOut().setMessage("All windows in "+roomName+" have been opened\n");
+            }
             else
-                simulator.getcOut().setMessage("Away mode is active: windows could not be opened\n");
+                sim.getcOut().setMessage("Away mode is active: windows could not be opened\n");
+            simulatorMap.put(0,sim);
         }catch(Exception E) {
             System.out.println("Null Values");
         }
-        return simulator.getRoom(roomName);
+        return sim.isAwayMode();
     }
 
     @PostMapping(value="/closeWindows")
-    public Room closeAllWindows(@Validated @ModelAttribute("profile") final Profile profile, @Validated @ModelAttribute("simulator") final Simulator simulator,
-                                  @Validated @ModelAttribute("shp") final SHP shp,ModelMap model, @RequestBody String roomName){
+    public Room closeAllWindows(@RequestBody String roomName){
+        Simulator sim = simulatorMap.get(0);
         try{
-            Simulator.getRoom(roomName).setClosedWindows(Simulator.getRoom(roomName).getOpenWindows());
+            sim.getRoom(roomName).setClosedWindows(sim.getRoom(roomName).getOpenWindows());
+            sim.getcOut().setMessage("All windows "+roomName+" have been closed\n");
+            simulatorMap.put(0,sim);
         }catch(Exception E) {
             System.out.println("Null Values");
         }
-        return Simulator.getRoom(roomName);
+        return sim.getRoom(roomName);
+    }
+    
+    @PostMapping(value = "/blockWindows")
+    public Room blockAllWindows(@Validated @ModelAttribute("profile") final Profile profile,
+            @Validated @ModelAttribute("simulator") final Simulator simulator,
+            @Validated @ModelAttribute("shp") final SHP shp, ModelMap model, @RequestBody String roomName) {
+
+        Simulator sim = simulatorMap.get(0);
+        try {
+            Simulator.getRoom(roomName).setBlockedWindows(Simulator.getRoom(roomName).getWindows().size());
+            sim.getcOut().setMessage("All windows have been blocked\n");
+            simulatorMap.put(0, sim);
+        } catch (Exception E) {
+            System.out.println("Null Values");
+        }
+        return sim.getRoom(roomName);
+    }
+
+    @PostMapping(value = "/unblockWindow")
+    public Room unblockAllWindows(@Validated @ModelAttribute("profile") final Profile profile,
+            @Validated @ModelAttribute("simulator") final Simulator simulator,
+            @Validated @ModelAttribute("shp") final SHP shp, ModelMap model, @RequestBody String roomName) {
+        
+        Simulator sim = simulatorMap.get(0);
+        try {
+            Simulator.getRoom(roomName).setUnblockedWindows(Simulator.getRoom(roomName).getWindows().size());
+            sim.getcOut().setMessage("All windows have been unblocked\n");
+            simulatorMap.put(0, sim);
+        } catch (Exception E) {
+            System.out.println("Null Values");
+        }
+        return sim.getRoom(roomName);
     }
 
     @PostMapping(value="/openDoors")
-    public Room openAllDoors(@Validated @ModelAttribute("profile") final Profile profile, @Validated @ModelAttribute("simulator") final Simulator simulator,
-                                 @Validated @ModelAttribute("shp") final SHP shp,ModelMap model, @RequestBody String roomName){
+    public boolean openAllDoors(@RequestBody String roomName){
+        Simulator sim = simulatorMap.get(0);
+
         try{
-            if(!simulator.isAwayMode())
-                Simulator.getRoom(roomName).setOpenDoors(Simulator.getRoom(roomName).getClosedDoors());
+            if(!sim.isAwayMode()){
+                sim.getRoom(roomName).setOpenDoors(sim.getRoom(roomName).getClosedDoors());
+                sim.getcOut().setMessage("All doors in "+roomName+" have been opened\n");
+            }
             else
-                simulator.getcOut().setMessage("Away mode is active: doors could not be opened\n");
+                sim.getcOut().setMessage("Away mode is active: doors could not be opened\n");
+            simulatorMap.put(0,sim);
         }catch(Exception E) {
             System.out.println("Null Values");
         }
-        return simulator.getRoom(roomName);
+        return sim.isAwayMode();
     }
 
     @PostMapping(value="/closeDoors")
-    public Room closeAllDoors(@Validated @ModelAttribute("profile") final Profile profile, @Validated @ModelAttribute("simulator") final Simulator simulator,
-                                  @Validated @ModelAttribute("shp") final SHP shp,ModelMap model, @RequestBody String roomName){
+    public Room closeAllDoors(@RequestBody String roomName){
+        Simulator sim = simulatorMap.get(0);
         try{
-            Simulator.getRoom(roomName).setClosedDoors(Simulator.getRoom(roomName).getOpenDoors());
+            sim.getRoom(roomName).setClosedDoors(sim.getRoom(roomName).getOpenDoors());
+            simulatorMap.put(0,sim);
+            sim.getcOut().setMessage("All windows in "+roomName+" have been closed\n");
         }catch(Exception E) {
             System.out.println("Null Values");
         }
-        return simulator.getRoom(roomName);
+        return sim.getRoom(roomName);
+    }
+
+    @PostMapping(value = "/blockDoors")
+    public Room blockAllDoors(@Validated @ModelAttribute("profile") final Profile profile,
+            @Validated @ModelAttribute("simulator") final Simulator simulator,
+            @Validated @ModelAttribute("shp") final SHP shp, ModelMap model, @RequestBody String roomName) {
+
+        Simulator sim = simulatorMap.get(0);
+        try {
+            Simulator.getRoom(roomName).setBlockedDoors(Simulator.getRoom(roomName).getDoors().size());
+            sim.getcOut().setMessage("All doors have been blocked\n");
+            simulatorMap.put(0, sim);
+        } catch (Exception E) {
+            System.out.println("Null Values");
+        }
+        return sim.getRoom(roomName);
+    }
+
+    @PostMapping(value = "/unblockDoors")
+    public Room unblockAllDoors(@Validated @ModelAttribute("profile") final Profile profile,
+            @Validated @ModelAttribute("simulator") final Simulator simulator,
+            @Validated @ModelAttribute("shp") final SHP shp, ModelMap model, @RequestBody String roomName) {
+
+        Simulator sim = simulatorMap.get(0);
+        try {
+            Simulator.getRoom(roomName).setUnblockedDoors(Simulator.getRoom(roomName).getDoors().size());
+            sim.getcOut().setMessage("All doors have been unblocked\n");
+            simulatorMap.put(0, sim);
+        } catch (Exception E) {
+            System.out.println("Null Values");
+        }
+        return sim.getRoom(roomName);
     }
 
     @PostMapping(value="/onLights")
-    public Room turnOnLights(@Validated @ModelAttribute("profile") final Profile profile, @Validated @ModelAttribute("simulator") final Simulator simulator,
-                                 @Validated @ModelAttribute("shp") final SHP shp, @RequestBody String roomName){
+    public Room turnOnLights(@RequestBody String roomName){
+        Simulator sim = simulatorMap.get(0);
         try{
-            Simulator.getRoom(roomName).setOpenLights(Simulator.getRoom(roomName).getClosedLights());
+            sim.getRoom(roomName).setOpenLights(sim.getRoom(roomName).getClosedLights());
+            simulatorMap.put(0,sim);
+            sim.getcOut().setMessage("All lights in "+roomName+ " have been turned on\n");
         }catch(Exception E) {
             System.out.println("Null Values");
         }
-        return simulator.getRoom(roomName);
+        return sim.getRoom(roomName);
     }
 
     @PostMapping(value="/offLights")
-    public Room turnOffLights(@Validated @ModelAttribute("profile") final Profile profile, @Validated @ModelAttribute("simulator") final Simulator simulator,
-                                  @Validated @ModelAttribute("shp") final SHP shp, @RequestBody String roomName){
+    public Room turnOffLights(@RequestBody String roomName){
+        Simulator sim = simulatorMap.get(0);
         try{
-                simulator.getRoom(roomName).setClosedLights(Simulator.getRoom(roomName).getOpenLights());
-
+            sim.getRoom(roomName).setClosedLights(sim.getRoom(roomName).getOpenLights());
+            sim.getcOut().setMessage("All lights in "+roomName+" have been turned off\n");
+            simulatorMap.put(0,sim);
         }catch(Exception E) {
             System.out.println("Null Values");
         }
-        return simulator.getRoom(roomName);
+        return sim.getRoom(roomName);
     }
 
     @PostMapping(value="/shhChangeZone")
@@ -174,10 +273,16 @@ public class DashboardController extends SmartHomeController{
                 break;
             }
         }
+
+        sim.getcOut().setMessage("The zone " + zone.name + " has been modified." + "\n");
+
+        return getJsonString(sim);
+    }
+
+    private String getJsonString(Simulator sim) throws IOException {
         List<Zone> listZones = sim.getZonesOfHouse();
         final ByteArrayOutputStream o = new ByteArrayOutputStream();
         final ObjectMapper mapper = new ObjectMapper();
-
         mapper.writeValue(o, listZones);
         final byte[] data = o.toByteArray();
         return new String(data);
@@ -198,6 +303,8 @@ public class DashboardController extends SmartHomeController{
         final ByteArrayOutputStream o = new ByteArrayOutputStream();
         final ObjectMapper mapper = new ObjectMapper();
 
+        sim.getcOut().setMessage(zone.name + " has been added as a zone." + "\n");
+
         mapper.writeValue(o, listZones);
         final byte[] data = o.toByteArray();
         return new String(data);
@@ -206,13 +313,7 @@ public class DashboardController extends SmartHomeController{
     @GetMapping(value="/shh")
     public String getSHHZones() throws IOException {
         Simulator sim = simulatorMap.get(0);
-        List<Zone> listZones = sim.getZonesOfHouse();
-        final ByteArrayOutputStream o = new ByteArrayOutputStream();
-        final ObjectMapper mapper = new ObjectMapper();
-
-        mapper.writeValue(o, listZones);
-        final byte[] data = o.toByteArray();
-        return new String(data);
+        return getJsonString(sim);
     }
 
     @PostMapping(value="/shhOverrideRoomTemperature")
@@ -264,6 +365,10 @@ public class DashboardController extends SmartHomeController{
         Simulator sim = simulatorMap.get(0);
         sim.setDefaultSummerTemp(Double.parseDouble(json.get("summerTemp")));
         sim.setDefaultWinterTemp(Double.parseDouble(json.get("winterTemp")));
+
+        sim.getcOut().setMessage("Summer Temperature set to: " + Double.parseDouble(json.get("summerTemp")) + "\n");
+        sim.getcOut().setMessage("Winter Temperature set to: " + Double.parseDouble(json.get("winterTemp"))+ "\n");
+
         simulatorMap.put(0,sim);
         return;
     }

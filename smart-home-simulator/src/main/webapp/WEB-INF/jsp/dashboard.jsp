@@ -18,7 +18,6 @@
                     <span class="slider round"></span>
                 </label>
                 <img src="/img/undefined_profile.png" alt="ProfilePic" class="profilePic d-block m-auto">
-                <button class="btn btn-primary d-block ml-auto mr-auto mt-2 mb-1" id="editBtn" onclick="displayProfiles()">edit</button>
                 <p class="d-block">Date: {{ date }}</p>
                 <p class="d-block"><div id="clock"></div></p>
                 <p class="d-block">House Layout: {{ layout }}</p>
@@ -59,30 +58,43 @@
                                 </div>
                                 <button class="btn btn-outline-dark" type="submit">Submit</button>
                             </form>
-                            <form onsubmit="editProfile(event)">
-                                <h5>Profile: </h5>
-                                <div class="form-group">
-                                    <label for="name">Person's Name: </label>
-                                    <input class="form-control" type="text" id="name" name="name"/>
-                                </div>
+                            <span id="profile-parameters">
+                                <button class="btn btn-primary" id="editBtn" onclick="displayProfiles('show')">Manage Profiles</button>
+                                    <button v-if="showProfiles" class="btn btn-primary" id="editBtn" onclick="displayProfiles('add')">Add Profiles</button>
+                                    <form v-if="addProfilesForm && showProfiles"onsubmit="addProfile(event)">
+                                        <h5>Profile: </h5>
+                                        <div class="form-group">
+                                            <label for="name">Person's Name: </label>
+                                            <input class="form-control" type="text" id="name" name="name"/>
+                                        </div>
 
-                                <div class="form-group">
-                                    <label for="role">Role</label>
-                                    <select class="form-control" id="role" name="role">
-                                        <option value="CHILD">Child</option>
-                                        <option value="GUEST">Guest</option>
-                                        <option value="PARENT">Parent</option>
-                                        <option value="STRANGER">Stranger</option>
-                                    </select>
-                                </div>
+                                        <div class="form-group">
+                                            <label for="role">Role</label>
+                                            <select class="form-control" id="role" name="role">
+                                                <option value="CHILD">Child</option>
+                                                <option value="GUEST">Guest</option>
+                                                <option value="PARENT">Parent</option>
+                                                <option value="STRANGER">Stranger</option>
+                                            </select>
+                                        </div>
 
-                                <div class="form-group">
-                                    <label for="location">Location:</label>
-                                    <input class="form-control" id="location" name="location"/>
-                                </div>
-
-                                <button class="btn btn-outline-dark" type="submit">Submit</button>
-                            </form>
+                                        <div class="form-group">
+                                            <label for="location">Location:</label>
+                                            <input class="form-control" id="location" name="location"/>
+                                        </div>
+                                        <button class="btn btn-outline-dark" type="submit">Submit</button>
+                                    </form>
+                                    <button v-if="showProfiles" class="btn btn-primary" id="editBtn" onclick="displayProfiles('delete')">Delete Profiles</button>
+                                    <div v-if="deleteProfilesForm && showProfiles" class="profileDisplay">
+                                        Profiles:
+                                        <span v-if="profile" v-for="profile in profileList">
+                                            Name:{{profile.name}} 
+                                            Role:{{profile.role}} 
+                                            Location:{{profile.location}}
+                                            <button class="btn btn-danger" @click="deleteProfile(profile)">X</button>
+                                        </span>
+                                    </div>
+                            </span>
                             <div>
                                 <form:form method = "GET" action = "/printProfiles">
                                     <div class="form-group">
@@ -111,6 +123,8 @@
                                         <td>
                                             <button type="button" class="btn btn-dark" onclick="openWindow(event, '${room.getRoomName()}')">Open</button>
                                             <button type="button" class="btn btn-outline-dark" onclick="closeWindow(event, '${room.getRoomName()}')">Close</button>
+                                            <button type="button" class="btn btn-danger" onclick="blockWindow(event, '${room.getRoomName()}')">Block</button>
+                                            <button type="button" class="btn btn-secondary" onclick="unblockWindow(event, '${room.getRoomName()}')">Unblock</button>
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -129,6 +143,8 @@
                                                 <td >
                                                     <button type="button" class="btn btn-dark" onclick="openDoors(event, '${room.getRoomName()}')">Open</button>
                                                     <button type="button" class="btn btn-outline-dark" onclick="closeDoors(event, '${room.getRoomName()}')">Close</button>
+                                                    <button type="button" class="btn btn-danger" onclick="blockDoors(event,'${room.getRoomName()}')">Block</button>
+                                                    <button type="button" class="btn btn-secondary" onclick="unblockDoors(event, '${room.getRoomName()}')">Unblock</button>
                                                 </td> </tr>
                                         </c:forEach>
                                     </form:form>
@@ -313,33 +329,27 @@
             <div class="col-7 justify-content-center ">
                 <div style="text-align:center">
                     <div class="houseLayout border rounded p-1" id="house-layout">
-                        <div class="roomDisplay w-100 h-100 overflow-hidden">
-                            <span v-for="room in roomList">
-                                <button class="rooms">
-                                    <span v-if="room.hasDoors">
-                                        <img v-if="room.isEnterable == true" src="img/doorOpen.jpg" class="doors"/>
-                                        <img v-if="room.isEnterable == false" src="img/doorClosed.jpg" class="doors"/>
-                                    </span>
-                                    <span v-if="room.hasWindows">
-                                        <img v-if="room.isWindy == true" src="img/windowsOpen.jpg" class="windows"/>
-                                        <img v-if="room.isWindy == false" src="img/windowsClosed.jpg" class="windows"/>
-                                    </span>
-                                   <span v-if="room.hasLights">
-                                        <img v-if="room.isBright == true" src="img/lightsOn.png" class="lights"/>
-                                        <img v-if="room.isBright == false" src="img/lightsOff.png" class="lights"/>
-                                    </span>
-                                    <span v-if="room.hasSomebody">
-                                        <img src="img/person.jpg" class="profile"/>
-                                    </span>
-                                    {{room.name}}
-                                </button>
-                            </span>
-                            <div v-if="showProfiles" class="profileDisplay">
-                                Profiles:
-                                <span v-for="profile in profileList">
-                                    Name:{{profile.name}} 
-                                    Role:{{profile.role}} 
-                                    Location:{{profile.location}}
+                        <div id="simulatorSwitchedOnOrOffStopChangingThis">
+                            <div class="roomDisplay w-100 h-100 overflow-hidden">
+                                <span v-for="room in roomList">
+                                    <button class="rooms">
+                                        <span v-if="room.hasDoors">
+                                            <img v-if="room.isEnterable == true" src="img/doorOpen.jpg" class="doors"/>
+                                            <img v-if="room.isEnterable == false" src="img/doorClosed.jpg" class="doors"/>
+                                        </span>
+                                        <span v-if="room.hasWindows">
+                                            <img v-if="room.isWindy == true" src="img/windowsOpen.jpg" class="windows"/>
+                                            <img v-if="room.isWindy == false" src="img/windowsClosed.jpg" class="windows"/>
+                                        </span>
+                                        <span v-if="room.hasLights">
+                                            <img v-if="room.isBright == true" src="img/lightsOn.png" class="lights"/>
+                                            <img v-if="room.isBright == false" src="img/lightsOff.png" class="lights"/>
+                                        </span>
+                                        <span v-if="room.hasSomebody">
+                                            <img src="img/person.jpg" class="profileList"/>
+                                        </span>
+                                        {{room.name}}
+                                    </button>
                                 </span>
                             </div>
                         </div>

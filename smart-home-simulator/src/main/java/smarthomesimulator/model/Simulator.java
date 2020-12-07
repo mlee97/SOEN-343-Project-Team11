@@ -24,6 +24,7 @@ public class Simulator implements Observer{
     private double tempIn;
     private String fileName;
     private static int roomNumber = 0;
+    private static int profileNumber = 0;
     private boolean awayMode;
     @JsonProperty()
     private ConsoleOutput cOut;
@@ -52,6 +53,9 @@ public class Simulator implements Observer{
 
     public static int getRoomNumber() {
         return roomNumber;
+    }
+    public static int getProfileNumber() {
+        return profileNumber;
     }
 
     public static List<Zone> getZonesOfHouse(){
@@ -142,6 +146,17 @@ public class Simulator implements Observer{
     	
     	return roomsOfHouse.get(roomNumber);
     }
+
+    public static Profile getProfile( String name) {
+        for(int i=0; i<profilesOfHouse.size();i++) {
+            if(name.equals(profilesOfHouse.get(i).getName())) {
+                profileNumber = i;
+                break;
+            }
+        }
+        return profilesOfHouse.get(profileNumber);
+    }
+
     public boolean isAwayMode() {
         return awayMode;
     }
@@ -152,6 +167,9 @@ public class Simulator implements Observer{
 
     public void addProfile(Profile profile) {
         profilesOfHouse.add(profile);
+    }
+    public void removeProfile(Profile profile) {
+        profilesOfHouse.remove(profile);
     }
 
     public double getDefaultSummerTemp() {
